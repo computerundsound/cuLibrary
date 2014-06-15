@@ -1,8 +1,8 @@
-# Small Library - little helper for Programmer #
+# Small Library - little helper for php-developer #
 
-Some go function for developers.
+Some god classes for developers.
 
-Easy of using!
+Easy using!
 
 
 [Computer-Und-Sound](http://www.Computer-Und-Sound.de)
