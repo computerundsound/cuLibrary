@@ -1,0 +1,19 @@
+{
+    "name": "cusp/culibrary",
+    "description": "small helper library",
+    "type": "library",
+    "homepage": "http://www.cusp.de",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Jörg Wrase",
+            "email": "info@cusp.de",
+            "homepage": "http://www.cusp.de",
+            "role": "Developer"
+        }
+
+    ],
+    "autoload": {
+        "classmap": ["./"]
+    }
+}
