@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Date: 12.02.14
+ * Time: 17:26
+ *
+ * Created by PhpStorm
+ *
+ * Filename: CuCRUD.class.php
+ */
+class CuCRUD {
+
+	private $_tab;
+
+	public $idName;
+	public $id;
+	public $data_set;
+
+	private $_dbObj;
+
+
+	/**
+	 * @param $tab_name
+	 */
+	public function __construct($tab_name) {
+		$this->_tab = $tab_name;
+		$this->_dbObj = new CuDBi();
+
+	}
+
+
+	/**
+	 * @param array $id field_name_in_DB => value
+	 */
+	public function loadFromDB(array $id) {
+
+		$this->idName = key($id);
+		$this->id = $id[$this->idName];
+		$idName = $this->idName;
+		$id = $this->id;
+		$data_sets_array = $this->_dbObj->selectAsArray($this->_tab, $idName . '="' . $id . '"');
+		$this->data_set = $data_sets_array[0];
+	}
+
+
+	public function loadFromPost() {
+
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function insertInDB() {
+		$dataArray = $this->data_set;
+		if (isset($this->idName)) {
+			unset($dataArray[$this->idName]);
+		}
+
+		$ret = $this->_dbObj->insert($this->_tab, $dataArray);
+
+		return $ret;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function updateInDB() {
+		$dataArray = $this->data_set;
+		unset($dataArray[$this->idName]);
+		$where = $this->idName . '=' . $this->id;
+		$ret = $this->_dbObj->update($this->_tab, $dataArray, $where);
+
+		return $ret;
+	}
+
+
+	/**
+	 * @param      $field_name
+	 * @param null $forWhat
+	 *
+	 * @return string
+	 */
+	public function getValue($field_name, $forWhat = null) {
+		$val = $this->data_set[$field_name];
+
+		switch ($forWhat) {
+			case'HTML':
+				$val = CuString::stringFromDB2HTML($val);
+				break;
+			case'FROM':
+				$val = CuString::stringFromDB2Form($val);
+				break;
+			default:
+				/* No Changes */
+				break;
+		}
+
+		return $val;
+	}
+
+
+	/*****************************************************************************************
+	 *
+	 *        Getters & Setters
+	 *
+	 *****************************************************************************************/
+
+	/*****************************************************************************************
+	 *
+	 *          Non Public
+	 *
+	 *****************************************************************************************/
+
+}
