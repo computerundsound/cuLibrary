@@ -12,83 +12,105 @@
 /**
  * Class CuConstantsContainer
  */
-class CuConstantsContainer {
+class CuConstantsContainer
+{
 
 	private $app_root_HTTP;
 	private $app_root_Server;
 	private $app_root_FQHTTP;
 
 
-	private $from_app_root_to_this_file;
+	public function __construct()
+	{
 
-	public function __construct() {
-
-		$this->buildAppRootServer();
 		$this->buildAppRootHTTP();
+		$this->buildAppRootServer();
 		$this->buildAppRootFQHTTP();
 
 	}
 
 
-	private function buildAppRootServer() {
-		$path = dirname(__FILE__) . '/../../../../../';
-		$path = realpath($path);
+	private function buildAppRootServer()
+	{
+		$path = $_SERVER['DOCUMENT_ROOT'] . $this->app_root_HTTP;
 		$this->app_root_Server = self::makeGoodPathServer($path);
 
 	}
 
-	private function buildAppRootHTTP() {
-		$path = dirname(__FILE__) . '/../../../../../';
-		$path = realpath($path);
-		$this->app_root_HTTP= self::makeGoodPathServer($path);
+
+	private function buildAppRootHTTP()
+	{
+		$doc_root = $_SERVER['DOCUMENT_ROOT'];
+		$dirname = dirname(__FILE__);
+
+		$app_root = substr($dirname, strlen($doc_root));
+
+		$app_root = str_replace('\\', '/', $app_root);
+		$app_root = str_replace('inc/_close/_composer/vendor/computerundsound/culibrary', '', $app_root);
+		$this->app_root_HTTP = self::makeGoodPathServer($app_root);
 	}
 
-	private function buildAppRootFQHTTP() {
 
-		$methode = $_SERVER['REQUEST_METHOD'];
-		$methode = substr($methode, 0, 5);
+	private function buildAppRootFQHTTP()
+	{
+
+		$methode = $_SERVER['SERVER_PROTOCOL'];
+		$methode = substr($methode, 0, 4);
 		$methode = strtoupper($methode);
 
-		if ($methode === 'HTTPS') {
+		if($methode === 'HTTPS')
+		{
 			$protocol = 'https://';
-		} else {
+		}
+		else
+		{
 			$protocol = 'http://';
 		}
 
 		$url = $protocol . $_SERVER['SERVER_NAME'];
-		$this->app_root_FQHTTP= strtolower($url);
+
+		$app_root = $this->app_root_HTTP;
+
+		$this->app_root_FQHTTP = $url . $app_root;
 	}
 
-	public static function makeGoodPathServer($path) {
+
+	public static function makeGoodPathServer($path)
+	{
 
 		return $path;
 	}
 
-	public static function makeGoodPathHTTP($path) {
+
+	public static function makeGoodPathHTTP($path)
+	{
 		return $path;
 	}
-
-
 
 
 	/**
 	 * @return mixed
 	 */
-	public function getAppRootHTTP() {
+	public function getAppRootHTTP()
+	{
 		return $this->app_root_HTTP;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootFQHTTP() {
-		return $this->app_root_FQHTTP;
-	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getAppRootServer() {
+	public function getAppRootFQHTTP()
+	{
+		return $this->app_root_FQHTTP;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootServer()
+	{
 		return $this->app_root_Server;
 	}
 }
