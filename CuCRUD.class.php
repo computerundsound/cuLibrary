@@ -9,7 +9,8 @@
  *
  * Filename: CuCRUD.class.php
  */
-class CuCRUD {
+class CuCRUD
+{
 
 	private $_tab;
 
@@ -23,7 +24,8 @@ class CuCRUD {
 	/**
 	 * @param $tab_name
 	 */
-	public function __construct($tab_name) {
+	public function __construct($tab_name)
+	{
 		$this->_tab = $tab_name;
 		$this->_dbObj = new CuDBi();
 
@@ -33,7 +35,8 @@ class CuCRUD {
 	/**
 	 * @param array $id field_name_in_DB => value
 	 */
-	public function loadFromDB(array $id) {
+	public function loadFromDB(array $id)
+	{
 
 		$this->idName = key($id);
 		$this->id = $id[$this->idName];
@@ -44,17 +47,14 @@ class CuCRUD {
 	}
 
 
-	public function loadFromPost() {
-
-	}
-
-
 	/**
 	 * @return array
 	 */
-	public function insertInDB() {
+	public function insertInDB()
+	{
 		$dataArray = $this->data_set;
-		if (isset($this->idName)) {
+		if(isset($this->idName))
+		{
 			unset($dataArray[$this->idName]);
 		}
 
@@ -67,7 +67,8 @@ class CuCRUD {
 	/**
 	 * @return array
 	 */
-	public function updateInDB() {
+	public function updateInDB()
+	{
 		$dataArray = $this->data_set;
 		unset($dataArray[$this->idName]);
 		$where = $this->idName . '=' . $this->id;
@@ -83,16 +84,20 @@ class CuCRUD {
 	 *
 	 * @return string
 	 */
-	public function getValue($field_name, $forWhat = null) {
+	public function getValue($field_name, $forWhat = null)
+	{
 		$val = $this->data_set[$field_name];
 
-		switch ($forWhat) {
+		switch($forWhat)
+		{
 			case'HTML':
 				$val = CuString::stringFromDB2HTML($val);
 				break;
+
 			case'FROM':
 				$val = CuString::stringFromDB2Form($val);
 				break;
+
 			default:
 				/* No Changes */
 				break;
@@ -100,18 +105,5 @@ class CuCRUD {
 
 		return $val;
 	}
-
-
-	/*****************************************************************************************
-	 *
-	 *        Getters & Setters
-	 *
-	 *****************************************************************************************/
-
-	/*****************************************************************************************
-	 *
-	 *          Non Public
-	 *
-	 *****************************************************************************************/
 
 }

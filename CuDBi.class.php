@@ -12,7 +12,8 @@
 /**
  * Class CuDBi
  */
-class CuDBi {
+class CuDBi
+{
 
 	/**
 	 * @var string
@@ -52,23 +53,29 @@ class CuDBi {
 		$server_name = DB_SERVERNAME,
 		$username = DB_USERNAME,
 		$password = DB_PASSWORD,
-		$dbName = DB_NAME) {
-
+		$dbName = DB_NAME
+	)
+	{
 
 		$this->_server_name = $server_name;
 		$this->_username = $username;
 		$this->_password = $password;
 		$this->_dbName = $dbName;
 
-		try {
-			if (!$dbConObj = new mysqli($this->_server_name, $this->_username, $this->_password, $this->_dbName)) {
+		try
+		{
+			if(!$dbConObj = new mysqli($this->_server_name, $this->_username, $this->_password, $this->_dbName))
+			{
 				$dbError = $dbConObj->connect_errno;
 				throw new Exception('Database not found - please check config-File');
 			}
-		} catch (Exception $e) {
+		}
+		catch(Exception $e)
+		{
 			$message = $e->getMessage();
 
-			if (isset($dbError)) {
+			if(isset($dbError))
+			{
 				$message .= 'DB-Error-Code: ' . $dbError;
 			}
 			die($message);
@@ -81,7 +88,8 @@ class CuDBi {
 	/**
 	 * @param $tabName
 	 */
-	public function truncateTAB($tabName) {
+	public function truncateTAB($tabName)
+	{
 		$q = 'TRUNCATE ' . $tabName;
 		$this->$_dbiConObj->query($q);
 	}
@@ -92,7 +100,8 @@ class CuDBi {
 	 *
 	 * @return array
 	 */
-	public function query($query) {
+	public function query($query)
+	{
 		$ret = array();
 		$result = $this->_dbiConObj->query($query);
 		$id = $this->_dbiConObj->insert_id;
@@ -108,9 +117,11 @@ class CuDBi {
 	 * @param $tab_name
 	 * @param $where
 	 */
-	public function del($tab_name, $where) {
+	public function del($tab_name, $where)
+	{
 		$where = trim($where);
-		if ($where !== '') {
+		if($where !== '')
+		{
 			$where = 'WHERE ' . $where;
 			$query = 'DELETE FROM ' . $tab_name . ' ' . $where;
 			$this->query($query);
@@ -124,9 +135,11 @@ class CuDBi {
 	 *
 	 * @return array array(result => bool, insert_id => int) / result is true or false
 	 */
-	public function insert($tab_name, array $dataArray) {
+	public function insert($tab_name, array $dataArray)
+	{
 		$insert_string = '';
-		foreach ($dataArray as $key => $val) {
+		foreach($dataArray as $key => $val)
+		{
 			$val = $this->real_escape($val);
 			$insert_string .= ' ' . $key . '= "' . $val . '", ';
 		}
@@ -146,11 +159,13 @@ class CuDBi {
 	 *
 	 * @return array
 	 */
-	public function update($tab_name, array $data, $where) {
+	public function update($tab_name, array $data, $where)
+	{
 		$updateStr = '';
 		$where = ' WHERE ' . $where;
 
-		foreach ($data as $key => $val) {
+		foreach($data as $key => $val)
+		{
 			$val = $this->real_escape($val);
 			$updateStr .= ' ' . $key . ' = "' . $val . '", ';
 		}
@@ -172,29 +187,35 @@ class CuDBi {
 	 *
 	 * @return array
 	 */
-	public function selectAsArray($tab_name, $where = '', $order = '', $limit = '') {
+	public function selectAsArray($tab_name, $where = '', $order = '', $limit = '')
+	{
 		$dbObj = $this->_dbiConObj;
 		$data_array = array();
 		$where = trim($where);
 		$order = trim($order);
 		$limit = trim($limit);
-		if ($where === false) {
+		if($where === false)
+		{
 			$where = '';
 		}
-		if (!empty($where)) {
+		if(!empty($where))
+		{
 			$where = ' WHERE ' . $where;
 		}
-		if (!empty($order)) {
+		if(!empty($order))
+		{
 			$order = ' ORDER BY ' . $order;
 		}
-		if (!empty($limit)) {
+		if(!empty($limit))
+		{
 			$limit = ' LIMIT ' . $limit;
 		}
 
 		$q = 'SELECT * FROM ' . $tab_name . $where . $order . $limit;
 		$result = $dbObj->query($q);
 
-		while ($data = $result->fetch_assoc()) {
+		while($data = $result->fetch_assoc())
+		{
 			$data_array[] = $data;
 		}
 
@@ -207,7 +228,8 @@ class CuDBi {
 	 *
 	 * @return int
 	 */
-	public function get_quantity_of_data_sets($tab_name) {
+	public function get_quantity_of_data_sets($tab_name)
+	{
 		$dbObj = $this->_dbiConObj;
 		$q = 'SELECT * FROM ' . $tab_name;
 		$result = $dbObj->query($q);
@@ -222,17 +244,20 @@ class CuDBi {
 	 *
 	 * @return array
 	 */
-	public function get_col_names_from_table($tab_name) {
+	public function get_col_names_from_table($tab_name)
+	{
 		$db = $this->_dbiConObj;
 		$sql = 'DESCRIBE ' . $tab_name;
 		$result = $db->query($sql);
 		$field_name = array();
 		$data_array = array();
-		while ($data = $result->fetch_assoc()) {
+		while($data = $result->fetch_assoc())
+		{
 			$data_array[] = $data;
 		};
 
-		foreach ($data_array as $val) {
+		foreach($data_array as $val)
+		{
 			array_push($field_name, $val['Field']);
 		}
 
@@ -246,8 +271,10 @@ class CuDBi {
 	 *
 	 * @return string
 	 */
-	public function real_escape($string) {
-		if ($string) {
+	public function real_escape($string)
+	{
+		if($string)
+		{
 			$string = $this->_dbiConObj->real_escape_string($string);
 		}
 
@@ -255,7 +282,8 @@ class CuDBi {
 	}
 
 
-	public function closeConnection() {
+	public function closeConnection()
+	{
 		$this->_dbiConObj->close();
 	}
 
@@ -265,16 +293,20 @@ class CuDBi {
 	 *
 	 * @return array
 	 */
-	public function makeArrayFromResult(mysqli_result $result) {
+	public function makeArrayFromResult(mysqli_result $result)
+	{
 		$data_sets_array = array();
-		while (($data_array = $result->fetch_assoc()) != false) {
+		while(($data_array = $result->fetch_assoc()) != false)
+		{
 			$data_sets_array[] = $data_array;
 		}
 
 		return $data_sets_array;
 	}
 
-	public function delete($table, $where) {
+
+	public function delete($table, $where)
+	{
 		$sql = 'DELETE FROM ' . $table . ' ' . $where;
 
 		$this->_dbiConObj->query($sql);
@@ -289,7 +321,8 @@ class CuDBi {
 	/**
 	 * @return mysqli (db)
 	 */
-	public function getMysqlLink() {
+	public function getMysqlLink()
+	{
 		return $this->mysql_link;
 	}
 

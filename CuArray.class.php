@@ -12,6 +12,13 @@
 class CuArray {
 
 
+	/**
+	 * @param     $arrayToSort
+	 * @param     $keyToSort
+	 * @param int $parameter
+	 *
+	 * @return mixed
+	 */
 	public static function sortArray($arrayToSort, $keyToSort, $parameter = SORT_ASC) {
 
 		foreach ($arrayToSort as $nr => $array) {
