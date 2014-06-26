@@ -2,6 +2,8 @@
 
 Some static classes for developers.
 
+Need PHP 5.4
+
 Easy using!
 
 
