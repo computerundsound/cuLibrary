@@ -1,6 +1,6 @@
 # Small Library - little helper for php-developer #
 
-Some god classes for developers.
+Some static classes for developers.
 
 Easy using!
 
