@@ -210,7 +210,7 @@ class CuDBi {
 	}
 
 	public function select_one_data_set($tab_name, $id, $id_name){
-		$where = " WHERE $id_name='$id' ";
+		$where = " $id_name='$id' ";
 		$datasets_array = $this->selectAsArray($tab_name, $where);
 
 		if (isset($datasets_array[0])) {
