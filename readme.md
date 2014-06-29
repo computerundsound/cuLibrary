@@ -6,6 +6,6 @@ Needs PHP 5.4
 
 Easy using!
 
-Testnumber: 0002
+Controlnumber: 0002
 
 [Computer-Und-Sound](http://www.Computer-Und-Sound.de)
