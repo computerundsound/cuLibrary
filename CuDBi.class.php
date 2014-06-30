@@ -271,7 +271,7 @@ class CuDBi {
 
 	}
 
-	public function closeConnection() {
+	public function close_connection() {
 		$this->_dbiConObj->close();
 	}
 
