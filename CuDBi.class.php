@@ -90,13 +90,18 @@ class CuDBi {
 	 * @param $tab_name
 	 * @param $where
 	 */
-	public function del($tab_name, $where) {
+	public function delete($tab_name, $where) {
 		$where = trim($where);
 		if ($where !== '') {
 			$where = 'WHERE ' . $where;
 			$query = 'DELETE FROM ' . $tab_name . ' ' . $where;
 			$this->query($query);
 		}
+	}
+
+	public function delete_one_data_set($tabname, $id, $id_name){
+		$where = " $id_name='$id' ";
+		$this->delete($tabname, $where);
 	}
 
 	/**
@@ -172,6 +177,13 @@ class CuDBi {
 
 	}
 
+	public function update_one_data_set($tab_name, array $data, $id, $id_name) {
+		$where = "$id_name = '$id' ";
+		$ret = $this->update($tab_name, $data, $where);
+
+		return $ret;
+	}
+
 	/**
 	 * @param string $tab_name
 	 * @param string $where
@@ -209,7 +221,7 @@ class CuDBi {
 		return $data_array;
 	}
 
-	public function select_one_data_set($tab_name, $id, $id_name){
+	public function select_one_data_set($tab_name, $id, $id_name) {
 		$where = " $id_name='$id' ";
 		$datasets_array = $this->selectAsArray($tab_name, $where);
 
@@ -278,13 +290,6 @@ class CuDBi {
 		return $data_sets_array;
 	}
 
-
-	public function delete($table, $where) {
-		$sql = 'DELETE FROM ' . $table . ' ' . $where;
-
-		$this->_dbiConObj->query($sql);
-
-	}
 
 	/**
 	 * @return mysqli (db)
