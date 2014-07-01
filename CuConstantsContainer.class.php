@@ -18,15 +18,74 @@ class CuConstantsContainer
 	private $app_root_HTTP;
 	private $app_root_Server;
 	private $app_root_FQHTTP;
+	private $file_path_HTTP;
 
 
 	public function __construct()
 	{
-
 		$this->buildAppRootHTTP();
 		$this->buildAppRootServer();
 		$this->buildAppRootFQHTTP();
+		$this->buildFilePathHTTP();
+	}
 
+
+	public static function makeGoodPathServer($path)
+	{
+		$path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
+		$path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+
+		return $path;
+	}
+
+
+	public static function makeGoodPathHTTP($path)
+	{
+		$path = str_replace('\\', '/', $path);
+		return $path;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function get_file_path_HTTP()
+	{
+		return $this->file_path_HTTP;
+	}
+
+
+	public function buildFilePathHTTP()
+	{
+		$root_path = $this->buildAppRootHTTP();
+		$file_path = $root_path . $_SERVER['PHP_SELF'];
+		$this->file_path_HTTP = $file_path;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootHTTP()
+	{
+		return $this->app_root_HTTP;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootFQHTTP()
+	{
+		return $this->app_root_FQHTTP;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootServer()
+	{
+		return $this->app_root_Server;
 	}
 
 
@@ -34,7 +93,6 @@ class CuConstantsContainer
 	{
 		$path = $_SERVER['DOCUMENT_ROOT'] . $this->app_root_HTTP;
 		$this->app_root_Server = self::makeGoodPathServer($path);
-
 	}
 
 
@@ -72,45 +130,5 @@ class CuConstantsContainer
 		$app_root = $this->app_root_HTTP;
 
 		$this->app_root_FQHTTP = $url . $app_root;
-	}
-
-
-	public static function makeGoodPathServer($path)
-	{
-
-		return $path;
-	}
-
-
-	public static function makeGoodPathHTTP($path)
-	{
-		return $path;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootHTTP()
-	{
-		return $this->app_root_HTTP;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootFQHTTP()
-	{
-		return $this->app_root_FQHTTP;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootServer()
-	{
-		return $this->app_root_Server;
 	}
 }
