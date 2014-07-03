@@ -214,8 +214,12 @@ class CuDBi {
 		$q = 'SELECT * FROM ' . $tab_name . $where . $order . $limit;
 		$result = $dbObj->query($q);
 
-		while ($data = $result->fetch_assoc()) {
-			$data_array[] = $data;
+		if($result !== false)
+		{
+			while($data = $result->fetch_assoc())
+			{
+				$data_array[] = $data;
+			}
 		}
 
 		return $data_array;
