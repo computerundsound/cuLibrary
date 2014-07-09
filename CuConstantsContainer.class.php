@@ -54,7 +54,7 @@ class CuConstantsContainer
 	}
 
 
-	public function buildFilePathHTTP()
+	private function buildFilePathHTTP()
 	{
 		$root_path = $this->buildAppRootHTTP();
 		$file_path = $root_path . $_SERVER['PHP_SELF'];
