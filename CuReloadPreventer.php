@@ -20,28 +20,27 @@ class CuReloadPreventer
 {
 
 	private $token_new;
-	private $token_old;
+	private $token_from_request;
+	private $token_from_session;
 	private $token_request;
-	private $test_token = false;
+	private $test_token = null;
 
-	private static $vari_name = 'ReloadPreventer_tooken';
-
+	private static $vari_name = 'cu_reload_preventer';
 
 	public function __construct()
 	{
 		if(session_id() === false)
 		{
 			throw new Exception('You must have a SESSION');
+
 		}
 
+		$this->load_token_from_request();
+		$this->load_token_from_session();
 		$this->generate_tooken_new();
-		$this->test_token();
-		$this->save_new_token();
 
-		if($this->test_token === false)
-		{
-			$this->kill_request();
-		}
+		$this->check_tooken();
+		$this->save_new_token();
 
 	}
 
@@ -52,23 +51,25 @@ class CuReloadPreventer
 	}
 
 
-	private function get_old_token()
+	private function load_token_from_session()
 	{
-		$this->token_old = $_SESSION['ReloadPreventer_tooken'];
+		$this->token_from_session = $_SESSION[self::$vari_name];
 	}
 
 
-	private function get_request_token()
+	private function load_token_from_request()
 	{
-		$this->token_request = CuNet::get_post(self::$vari_name);
+		$this->token_from_request = CuNet::get_post(self::$vari_name);
 	}
 
 
 	private function check_tooken()
 	{
-		if($this->token_old === $this->token_new)
+		if($this->token_from_session === $this->token_from_request)
 		{
 			$this->test_token = true;
+		} else {
+			$this->test_token = false;
 		}
 	}
 
@@ -79,9 +80,12 @@ class CuReloadPreventer
 	}
 
 
-	private function kill_request()
+	public function kill_request()
 	{
 		$_REQUEST = null;
+		$_POST = null;
+		$_GET = null;
+		$_FILES = null;
 	}
 
 
@@ -101,6 +105,15 @@ class CuReloadPreventer
 	public static function get_vari_name()
 	{
 		return self::$vari_name;
+	}
+
+
+	/**
+	 * @return null
+	 */
+	public function get_test_token()
+	{
+		return $this->test_token;
 	}
 
 }
