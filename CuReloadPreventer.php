@@ -22,8 +22,7 @@ class CuReloadPreventer
 	private $token_new;
 	private $token_from_request;
 	private $token_from_session;
-	private $token_request;
-	private $test_token = null;
+	private $test_token_result = null;
 
 	private static $vari_name = 'cu_reload_preventer';
 
@@ -34,14 +33,11 @@ class CuReloadPreventer
 			throw new Exception('You must have a SESSION');
 
 		}
-
 		$this->load_token_from_request();
 		$this->load_token_from_session();
 		$this->generate_tooken_new();
-
 		$this->check_tooken();
 		$this->save_new_token();
-
 	}
 
 
@@ -67,9 +63,17 @@ class CuReloadPreventer
 	{
 		if($this->token_from_session === $this->token_from_request)
 		{
-			$this->test_token = true;
+			$this->test_token_result = true;
 		} else {
-			$this->test_token = false;
+			$this->test_token_result = false;
+		}
+	}
+
+	public function test_and_kill_request() {
+
+		if($this->test_token_result === false)
+		{
+			$this->kill_request();
 		}
 	}
 
@@ -113,7 +117,7 @@ class CuReloadPreventer
 	 */
 	public function get_test_token()
 	{
-		return $this->test_token;
+		return $this->test_token_result;
 	}
 
 }
