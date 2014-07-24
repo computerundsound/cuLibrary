@@ -24,15 +24,18 @@ class CuReloadPreventer
 	private $token_from_session;
 	private $test_token_result = null;
 
+	private $switch_off;
+
 	private static $vari_name = 'cu_reload_preventer';
 
-	public function __construct()
+	public function __construct($switch_off = false)
 	{
 		if(session_id() === false)
 		{
 			throw new Exception('You must have a SESSION');
 
 		}
+		$this->switch_off = $switch_off;
 		$this->load_token_from_request();
 		$this->load_token_from_session();
 		$this->generate_tooken_new();
@@ -86,10 +89,12 @@ class CuReloadPreventer
 
 	public function kill_request()
 	{
-		$_REQUEST = null;
-		$_POST = null;
-		$_GET = null;
-		$_FILES = null;
+		if($this->switch_off === false) {
+			$_REQUEST = null;
+			$_POST = null;
+			$_GET = null;
+			$_FILES = null;
+		}
 	}
 
 
