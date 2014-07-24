@@ -21,7 +21,7 @@ class CuReloadPreventer
 
 	private $token_new;
 	private $token_from_request;
-	private $token_from_session;
+		private $token_from_session;
 	private $test_token_result = null;
 
 	private $switch_off;
