@@ -32,14 +32,20 @@ class CuDBi {
 	 */
 	private $_password = '';
 
+
 	/**
-	 * @var
+	 * @var mysqli
 	 */
 	private $_dbiConObj;
 	/**
 	 * @var
 	 */
 	private $mysql_link;
+
+	/**
+	 * @var
+	 */
+	private $result;
 
 
 	/**
@@ -94,11 +100,17 @@ class CuDBi {
 		$where = trim($where);
 		if ($where !== '') {
 			$where = 'WHERE ' . $where;
-			$query = 'DELETE FROM ' . $tab_name . ' ' . $where;
+			$query = "DELETE FROM $tab_name $where;";
 			$this->query($query);
 		}
 	}
 
+
+	/**
+	 * @param $tabname
+	 * @param $id
+	 * @param $id_name
+	 */
 	public function delete_one_data_set($tabname, $id, $id_name){
 		$where = " $id_name='$id' ";
 		$this->delete($tabname, $where);
@@ -134,7 +146,7 @@ class CuDBi {
 		}
 
 		$insert_string = substr($insert_string, 0, -2);
-		$q = 'INSERT INTO ' . $tab_name . ' SET ' . $insert_string;
+		$q = "INSERT INTO $tab_name SET $insert_string;";
 		$ret = $this->query($q);
 
 		return $ret;
@@ -177,6 +189,15 @@ class CuDBi {
 
 	}
 
+
+	/**
+	 * @param       $tab_name
+	 * @param array $data
+	 * @param       $id
+	 * @param       $id_name
+	 *
+	 * @return array
+	 */
 	public function update_one_data_set($tab_name, array $data, $id, $id_name) {
 		$where = "$id_name = '$id' ";
 		$ret = $this->update($tab_name, $data, $where);
@@ -211,7 +232,7 @@ class CuDBi {
 			$limit = ' LIMIT ' . $limit;
 		}
 
-		$q = 'SELECT * FROM ' . $tab_name . $where . $order . $limit;
+		$q = "SELECT * FROM $tab_name $where $order $limit;";
 		$result = $dbObj->query($q);
 
 		if($result !== false)
@@ -222,9 +243,19 @@ class CuDBi {
 			}
 		}
 
+		$this->result = $result;
+
 		return $data_array;
 	}
 
+
+	/**
+	 * @param $tab_name
+	 * @param $id
+	 * @param $id_name
+	 *
+	 * @return bool
+	 */
 	public function select_one_data_set($tab_name, $id, $id_name) {
 		$where = " $id_name='$id' ";
 		$datasets_array = $this->selectAsArray($tab_name, $where);
@@ -245,7 +276,7 @@ class CuDBi {
 	 */
 	public function get_quantity_of_data_sets($tab_name) {
 		$dbObj = $this->_dbiConObj;
-		$q = 'SELECT * FROM ' . $tab_name;
+		$q = "SELECT * FROM $tab_name;";
 		$result = $dbObj->query($q);
 		$data_sets_counts = $result->num_rows;
 
@@ -275,6 +306,10 @@ class CuDBi {
 
 	}
 
+
+	/**
+	 *
+	 */
 	public function close_connection() {
 		$this->_dbiConObj->close();
 	}
@@ -296,11 +331,26 @@ class CuDBi {
 
 
 	/**
+	 * @param $tabname
+	 * @param $fieldname
+	 *
+	 * @return object
+	 */
+	public function get_field_infos($tabname, $fieldname){
+		$result = $this->_dbiConObj->query("SELECT $fieldname FROM $tabname;");
+		$infos = $result->fetch_field_direct(0);
+
+		return $infos;
+	}
+
+
+	/**
 	 * @return mysqli (db)
 	 */
 	public function getMysqlLink() {
 		return $this->mysql_link;
 	}
+
 
 }
 
