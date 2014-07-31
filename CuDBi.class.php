@@ -115,7 +115,6 @@ class CuDBi
 		}
 	}
 
-
 	/**
 	 * @param $tabname
 	 * @param $id
