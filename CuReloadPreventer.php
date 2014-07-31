@@ -21,12 +21,13 @@ class CuReloadPreventer
 
 	private $token_new;
 	private $token_from_request;
-		private $token_from_session;
+	private $token_from_session;
 	private $test_token_result = null;
 
 	private $switch_off;
 
 	private static $vari_name = 'cu_reload_preventer';
+
 
 	public function __construct($switch_off = false)
 	{
@@ -67,12 +68,16 @@ class CuReloadPreventer
 		if($this->token_from_session === $this->token_from_request)
 		{
 			$this->test_token_result = true;
-		} else {
+		}
+		else
+		{
 			$this->test_token_result = false;
 		}
 	}
 
-	public function test_and_kill_request() {
+
+	public function test_and_kill_request()
+	{
 
 		if($this->test_token_result === false)
 		{
@@ -89,7 +94,8 @@ class CuReloadPreventer
 
 	public function kill_request()
 	{
-		if($this->switch_off === false) {
+		if($this->switch_off === false)
+		{
 			$_REQUEST = null;
 			$_POST = null;
 			$_GET = null;
