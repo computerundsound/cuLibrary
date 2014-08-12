@@ -112,7 +112,11 @@ class CuConstantsContainer
 	private function buildAppRootFQHTTP()
 	{
 
-		$methode = $_SERVER['SERVER_PROTOCOL'];
+		if(isset($_SERVER['SERVER_PROTOCOL'])) {
+			$methode = $_SERVER['SERVER_PROTOCOL'];
+		} else {
+			$methode = '';
+		}
 		$methode = substr($methode, 0, 4);
 		$methode = strtoupper($methode);
 
