@@ -18,16 +18,17 @@ class CuCRUD
 	public $id;
 	public $data_set;
 
-	private $_dbObj;
+	private $_dbObj_coo;
 
 
 	/**
 	 * @param $tab_name
+	 * @param CuDBi $dbi_coo
 	 */
-	public function __construct($tab_name)
+	public function __construct($tab_name, CuDBi $dbi_coo)
 	{
 		$this->_tab = $tab_name;
-		$this->_dbObj = new CuDBi();
+		$this->_dbObj_coo = $dbi_coo;
 
 	}
 
@@ -42,7 +43,7 @@ class CuCRUD
 		$this->id = $id[$this->idName];
 		$idName = $this->idName;
 		$id = $this->id;
-		$data_sets_array = $this->_dbObj->selectAsArray($this->_tab, $idName . '="' . $id . '"');
+		$data_sets_array = $this->_dbObj_coo->selectAsArray($this->_tab, $idName . '="' . $id . '"');
 		$this->data_set = $data_sets_array[0];
 	}
 
@@ -58,7 +59,7 @@ class CuCRUD
 			unset($dataArray[$this->idName]);
 		}
 
-		$ret = $this->_dbObj->insert($this->_tab, $dataArray);
+		$ret = $this->_dbObj_coo->insert($this->_tab, $dataArray);
 
 		return $ret;
 	}
@@ -72,7 +73,7 @@ class CuCRUD
 		$dataArray = $this->data_set;
 		unset($dataArray[$this->idName]);
 		$where = $this->idName . '=' . $this->id;
-		$ret = $this->_dbObj->update($this->_tab, $dataArray, $where);
+		$ret = $this->_dbObj_coo->update($this->_tab, $dataArray, $where);
 
 		return $ret;
 	}
