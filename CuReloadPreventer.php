@@ -53,9 +53,10 @@ class CuReloadPreventer
 
 	private function load_token_from_session()
 	{
-		if(isset($_SERVER[self::$vari_name])){
+		if(isset($_SESSION[self::$vari_name])){
 			$this->token_from_session = $_SESSION[self::$vari_name];
 		} else {
+
 			$this->token_from_session = false;
 		}
 	}
