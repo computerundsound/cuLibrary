@@ -280,14 +280,14 @@ class CuDBi
 
 	/**
 	 * @param $tab_name
-	 * @param $id
-	 * @param $id_name
+	 * @param $fieldvalue
+	 * @param $fieldname
 	 *
 	 * @return array
 	 */
-	public function select_one_data_set($tab_name, $id, $id_name)
+	public function select_one_data_set($tab_name, $fieldvalue, $fieldname)
 	{
-		$where = " $id_name='$id' ";
+		$where = " $fieldname='$fieldvalue' ";
 		$datasets_array = $this->selectAsArray($tab_name, $where);
 
 		if(isset($datasets_array[0]))
