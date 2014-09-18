@@ -75,11 +75,10 @@ class CuNet {
 
 		$pg_vari = self::get_post($vari_name);
 
-		if ($pg_vari) {
+		if ($pg_vari !== false) {
 			$vari = $pg_vari;
 			$_SESSION[$vari_name] = $vari;
 		}
-
 
 		return $vari;
 	}
