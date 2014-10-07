@@ -9,7 +9,7 @@
  *
  * Filename: CuNet.class.php
  */
-class CuNet {
+class CuHTMLElements {
 	
 	/**
 	 * @return bool | array (ip, host, client, referer, server, site, query)
