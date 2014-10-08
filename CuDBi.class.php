@@ -47,10 +47,11 @@ class CuDBi
 
 
 	/**
-	 * @param string $server_name
-	 * @param string $username
-	 * @param string $password
-	 * @param string $dbName
+	 * @param string      $server_name
+	 * @param string      $username
+	 * @param string      $password
+	 * @param string      $dbName
+	 * @param CuDBiResult $cu_dbi_result
 	 */
 	public function __construct(/** @noinspection PhpUndefinedConstantInspection */
 		$server_name = DB_SERVERNAME,
@@ -130,11 +131,10 @@ class CuDBi
 	/**
 	 * @param $query
 	 *
-	 * return CuDBiResult
+	 * @return CuDBiResult
 	 */
 	public function query($query)
 	{
-		$ret = array();
 		$result = $this->dbiConObj->query($query);
 		$id = $this->dbiConObj->insert_id;
 
@@ -145,12 +145,11 @@ class CuDBi
 		return $this->cu_dbi_result;
 	}
 
-
 	/**
-	 * @param string $tab_name
-	 * @param array  $dataArray
+	 * @param       $tab_name
+	 * @param array $dataArray
 	 *
-	 * return CuDBiResult
+	 * @return CuDBiResult
 	 */
 	public function insert($tab_name, array $dataArray)
 	{
@@ -190,7 +189,7 @@ class CuDBi
 	 * @param array $data
 	 * @param       $where
 	 *
-	 * return CuDBiResult
+	 * @return CuDBiResult
 	 */
 	public function update($tab_name, array $data, $where)
 	{
@@ -218,7 +217,7 @@ class CuDBi
 	 * @param       $id
 	 * @param       $id_name
 	 *
-	 * return CuDBiResult
+	 * @return CuDBiResult
 	 */
 	public function update_one_data_set($tab_name, array $data, $id, $id_name)
 	{
@@ -271,8 +270,6 @@ class CuDBi
 				$data_array[] = $data;
 			}
 		}
-
-		$this->result = $result;
 
 		return $data_array;
 	}
