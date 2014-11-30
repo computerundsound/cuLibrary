@@ -111,7 +111,9 @@ class CuDBi
 		if($where !== '')
 		{
 			$where = 'WHERE ' . $where;
-			$query = "DELETE FROM $tab_name $where;";
+			$query = "DELETE FROM %s %s;";
+			$query = sprintf($query, $tab_name, $where);
+
 			$this->query($query);
 		}
 	}
@@ -157,11 +159,12 @@ class CuDBi
 		foreach($dataArray as $key => $val)
 		{
 			$val = $this->real_escape($val);
-			$insert_string .= ' ' . $key . '= "' . $val . '", ';
+			$insert_string .= ' ' . $key . '= "' . $this->dbiConObj->real_escape_string($val) . '", ';
 		}
 
 		$insert_string = substr($insert_string, 0, -2);
-		$q = "INSERT INTO $tab_name SET $insert_string;";
+		$q = "INSERT INTO %s SET %s;";
+		$q = sprintf($q, $tab_name, $insert_string);
 		$ret = $this->query($q);
 
 		return $ret;
@@ -260,7 +263,8 @@ class CuDBi
 			$limit = ' LIMIT ' . $limit;
 		}
 
-		$q = "SELECT * FROM $tab_name $where $order $limit;";
+		$q = "SELECT * FROM %s %s %s %s;";
+		$q = sprintf($q, $tab_name, $where, $order, $limit);
 		$result = $dbObj->query($q);
 
 		if($result !== false)
@@ -308,7 +312,8 @@ class CuDBi
 	public function get_quantity_of_data_sets($tab_name)
 	{
 		$dbObj = $this->dbiConObj;
-		$q = "SELECT * FROM $tab_name;";
+		$q = "SELECT * FROM %s;";
+		$q = sprintf($q, $tab_name);
 		$result = $dbObj->query($q);
 		$data_sets_counts = $result->num_rows;
 
@@ -377,7 +382,9 @@ class CuDBi
 	 */
 	public function get_field_infos($tabname, $fieldname)
 	{
-		$result = $this->dbiConObj->query("SELECT $fieldname FROM $tabname;");
+		$query = "SELECT %s FROM %s;";
+		$query = sprintf($query, $fieldname, $tabname);
+		$result = $this->dbiConObj->query($query);
 		$infos = $result->fetch_field_direct(0);
 
 		return $infos;

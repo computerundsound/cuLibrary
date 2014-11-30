@@ -56,8 +56,8 @@ class CuConstantsContainer
 
 	private function buildFilePathHTTP()
 	{
-		$root_path = $this->buildAppRootHTTP();
-		$file_path = $root_path . $_SERVER['PHP_SELF'];
+		$this->buildAppRootHTTP();
+		$file_path = $this->app_root_FQHTTP . $_SERVER['PHP_SELF'];
 		$this->file_path_HTTP = $file_path;
 	}
 
@@ -106,6 +106,7 @@ class CuConstantsContainer
 		$app_root = str_replace('\\', '/', $app_root);
 		$app_root = str_replace('inc/_close/_composer/vendor/computerundsound/culibrary', '', $app_root);
 		$this->app_root_HTTP = self::makeGoodPathServer($app_root);
+
 	}
 
 
