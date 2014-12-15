@@ -23,12 +23,12 @@ class CuArray
 	public static function sortArray($arrayToSort, $keyToSort, $parameter = SORT_ASC)
 	{
 
-		foreach($arrayToSort as $nr => $array)
+		foreach ($arrayToSort as $nr => $array)
 		{
-			foreach($array as $key => $val)
+			foreach ($array as $key => $val)
 			{
 				$str = $array[$key];
-				if(is_array($str))
+				if (is_array($str))
 				{
 					${$key}[$nr] = $array[$key];
 				}
@@ -46,6 +46,11 @@ class CuArray
 	}
 
 
+	/**
+	 * @param      $my_array
+	 * @param      $value
+	 * @param bool $key
+	 */
 	public static function set_pointer_from_value_or_key(&$my_array, $value, $key = false)
 	{
 
@@ -53,14 +58,14 @@ class CuArray
 
 		reset($my_array);
 
-		for($key_nr = 0; $key_nr < count($my_array); $key_nr++)
+		for ($key_nr = 0; $key_nr < count($my_array); $key_nr++)
 		{
-			$array_current_key = key($my_array);
+			$array_current_key   = key($my_array);
 			$array_current_value = $my_array[$array_current_key];
 
-			if($key === false)
+			if ($key === false)
 			{
-				if($array_current_value === $value)
+				if ($array_current_value === $value)
 				{
 					break;
 				}
@@ -71,7 +76,7 @@ class CuArray
 			}
 			else
 			{
-				if($array_current_key === $key)
+				if ($array_current_key === $key)
 				{
 					break;
 				}
@@ -83,15 +88,23 @@ class CuArray
 		}
 	}
 
-	public static function set_all_values_if_null(&$my_array, $new_value = '-') {
+	/**
+	 * @param        $my_array
+	 * @param string $new_value
+	 */
+	public static function set_all_values_if_null(&$my_array, $new_value = '-')
+	{
 
-		foreach($my_array as $key => &$value) {
+		foreach ($my_array as $key => &$value)
+		{
 
-			if(is_array($value)) {
+			if (is_array($value))
+			{
 				self::set_all_values_if_null($value, $new_value);
 			}
 
-			if(empty($value)) {
+			if (empty($value))
+			{
 				$value = $new_value;
 			}
 		}

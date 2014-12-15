@@ -22,12 +22,12 @@ class CuCRUD
 
 
 	/**
-	 * @param $tab_name
+	 * @param       $tab_name
 	 * @param CuDBi $dbi_coo
 	 */
 	public function __construct($tab_name, CuDBi $dbi_coo)
 	{
-		$this->_tab = $tab_name;
+		$this->_tab       = $tab_name;
 		$this->_dbObj_coo = $dbi_coo;
 
 	}
@@ -39,12 +39,12 @@ class CuCRUD
 	public function loadFromDB(array $id)
 	{
 
-		$this->idName = key($id);
-		$this->id = $id[$this->idName];
-		$idName = $this->idName;
-		$id = $this->id;
+		$this->idName    = key($id);
+		$this->id        = $id[$this->idName];
+		$idName          = $this->idName;
+		$id              = $this->id;
 		$data_sets_array = $this->_dbObj_coo->selectAsArray($this->_tab, $idName . '="' . $id . '"');
-		$this->data_set = $data_sets_array[0];
+		$this->data_set  = $data_sets_array[0];
 	}
 
 
@@ -54,7 +54,7 @@ class CuCRUD
 	public function insertInDB()
 	{
 		$dataArray = $this->data_set;
-		if(isset($this->idName))
+		if (isset($this->idName))
 		{
 			unset($dataArray[$this->idName]);
 		}
@@ -73,7 +73,7 @@ class CuCRUD
 		$dataArray = $this->data_set;
 		unset($dataArray[$this->idName]);
 		$where = $this->idName . '=' . $this->id;
-		$ret = $this->_dbObj_coo->update($this->_tab, $dataArray, $where);
+		$ret   = $this->_dbObj_coo->update($this->_tab, $dataArray, $where);
 
 		return $ret;
 	}
@@ -89,7 +89,7 @@ class CuCRUD
 	{
 		$val = $this->data_set[$field_name];
 
-		switch($forWhat)
+		switch ($forWhat)
 		{
 			case'HTML':
 				$val = CuString::stringFromDB2HTML($val);

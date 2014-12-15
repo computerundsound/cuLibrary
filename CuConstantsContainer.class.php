@@ -21,6 +21,9 @@ class CuConstantsContainer
 	private $file_path_HTTP;
 
 
+	/**
+	 *
+	 */
 	public function __construct()
 	{
 		$this->buildAppRootHTTP();
@@ -30,6 +33,11 @@ class CuConstantsContainer
 	}
 
 
+	/**
+	 * @param $path
+	 *
+	 * @return mixed
+	 */
 	public static function makeGoodPathServer($path)
 	{
 		$path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
@@ -39,9 +47,15 @@ class CuConstantsContainer
 	}
 
 
+	/**
+	 * @param $path
+	 *
+	 * @return mixed
+	 */
 	public static function makeGoodPathHTTP($path)
 	{
 		$path = str_replace('\\', '/', $path);
+
 		return $path;
 	}
 
@@ -54,10 +68,13 @@ class CuConstantsContainer
 	}
 
 
+	/**
+	 *
+	 */
 	private function buildFilePathHTTP()
 	{
 		$this->buildAppRootHTTP();
-		$file_path = $this->app_root_FQHTTP . $_SERVER['PHP_SELF'];
+		$file_path            = $this->app_root_FQHTTP . $_SERVER['PHP_SELF'];
 		$this->file_path_HTTP = $file_path;
 	}
 
@@ -89,39 +106,51 @@ class CuConstantsContainer
 	}
 
 
+	/**
+	 *
+	 */
 	private function buildAppRootServer()
 	{
-		$path = $_SERVER['DOCUMENT_ROOT'] . $this->app_root_HTTP;
+		$path                  = $_SERVER['DOCUMENT_ROOT'] . $this->app_root_HTTP;
 		$this->app_root_Server = self::makeGoodPathServer($path);
 	}
 
 
+	/**
+	 *
+	 */
 	private function buildAppRootHTTP()
 	{
 		$doc_root = $_SERVER['DOCUMENT_ROOT'];
-		$dirname = dirname(__FILE__);
+		$dirname  = dirname(__FILE__);
 
 		$app_root = substr($dirname, strlen($doc_root));
 
-		$app_root = str_replace('\\', '/', $app_root);
-		$app_root = str_replace('inc/_close/_composer/vendor/computerundsound/culibrary', '', $app_root);
+		$app_root            = str_replace('\\', '/', $app_root);
+		$app_root            = str_replace('inc/_close/_composer/vendor/computerundsound/culibrary', '', $app_root);
 		$this->app_root_HTTP = self::makeGoodPathServer($app_root);
 
 	}
 
 
+	/**
+	 *
+	 */
 	private function buildAppRootFQHTTP()
 	{
 
-		if(isset($_SERVER['SERVER_PROTOCOL'])) {
+		if (isset($_SERVER['SERVER_PROTOCOL']))
+		{
 			$methode = $_SERVER['SERVER_PROTOCOL'];
-		} else {
+		}
+		else
+		{
 			$methode = '';
 		}
 		$methode = substr($methode, 0, 4);
 		$methode = strtoupper($methode);
 
-		if($methode === 'HTTPS')
+		if ($methode === 'HTTPS')
 		{
 			$protocol = 'https://';
 		}

@@ -13,7 +13,8 @@
  * Class CuReloadPreventer
  *
  *
- * Es wird ein Token in die Session geschrieben. Beim Aufruf der Seite muss der alte Token mitgeliefert werden - sonst werden keine Postdata gesendet
+ * Es wird ein Token in die Session geschrieben. Beim Aufruf der Seite muss der alte Token mitgeliefert werden - sonst
+ * werden keine Postdata gesendet
  *
  */
 class CuReloadPreventer
@@ -29,9 +30,14 @@ class CuReloadPreventer
 	private static $vari_name = 'cu_reload_preventer';
 
 
+	/**
+	 * @param bool $switch_off
+	 *
+	 * @throws Exception
+	 */
 	public function __construct($switch_off = false)
 	{
-		if(session_id() === false)
+		if (session_id() === false)
 		{
 			throw new Exception('You must have a SESSION');
 
@@ -53,9 +59,12 @@ class CuReloadPreventer
 
 	private function load_token_from_session()
 	{
-		if(isset($_SESSION[self::$vari_name])){
+		if (isset($_SESSION[self::$vari_name]))
+		{
 			$this->token_from_session = $_SESSION[self::$vari_name];
-		} else {
+		}
+		else
+		{
 
 			$this->token_from_session = false;
 		}
@@ -70,7 +79,7 @@ class CuReloadPreventer
 
 	private function check_tooken()
 	{
-		if($this->token_from_session === $this->token_from_request)
+		if ($this->token_from_session === $this->token_from_request)
 		{
 			$this->test_token_result = true;
 		}
@@ -84,7 +93,7 @@ class CuReloadPreventer
 	public function test_and_kill_request()
 	{
 
-		if($this->test_token_result === false)
+		if ($this->test_token_result === false)
 		{
 			$this->kill_request();
 		}
@@ -99,12 +108,12 @@ class CuReloadPreventer
 
 	public function kill_request()
 	{
-		if($this->switch_off === false)
+		if ($this->switch_off === false)
 		{
 			$_REQUEST = null;
-			$_POST = null;
-			$_GET = null;
-			$_FILES = null;
+			$_POST    = null;
+			$_GET     = null;
+			$_FILES   = null;
 		}
 	}
 

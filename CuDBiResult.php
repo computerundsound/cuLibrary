@@ -3,7 +3,7 @@
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Date: 31.07.14
  * Time: 14:48
- * 
+ *
  * Created by IntelliJ IDEA
  *
  * Filename: CuDBiResult.php
@@ -13,7 +13,8 @@
 /**
  * Class CuDBiResult
  */
-class CuDBiResult {
+class CuDBiResult
+{
 
 	private $result;
 	private $last_insert_id;
@@ -72,7 +73,6 @@ class CuDBiResult {
 	{
 		$this->result = $result;
 	}
-
 
 
 }
