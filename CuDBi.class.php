@@ -109,8 +109,7 @@ class CuDBi
 		$where = trim($where);
 		if ($where !== '')
 		{
-			$where = 'WHERE ' . $where;
-			$query = "DELETE FROM `%s` `%s`;";
+			$query = "DELETE FROM `%s` WHERE %s";
 			$query = sprintf($query, $tab_name, $where);
 
 			$this->query($query);

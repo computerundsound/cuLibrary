@@ -15,32 +15,101 @@
 class DateTimeCu extends DateTime
 {
 
-	/** @var DateTime | null */
-	protected $dateTime = null;
+	/** @var bool */
+	protected $dateTimeIsNotNull = false;
 
 	/**
-	 * @param string $dateString
+	 * @param string       $dateString
+	 * @param DateTimeZone $dateTimeZone
 	 */
-	public function __construct($dateString = null)
+	public function __construct($dateString = null, DateTimeZone $dateTimeZone = null)
+	{
+		$this->initIntern($dateString, $dateTimeZone);
+	}
+
+	public function setNowIfNotSet()
+	{
+		parent::__construct();
+		$this->dateTimeIsNotNull = true;
+	}
+
+	/**
+	 * @param null         $dateString
+	 * @param DateTimeZone $dateTimeZone
+	 */
+	public function init($dateString = null, DateTimeZone $dateTimeZone = null)
+	{
+		$this->initIntern($dateString, $dateTimeZone);
+	}
+
+
+	/**
+	 * @param string       $dateString
+	 * @param DateTimeZone $datetimezone
+	 */
+	protected function initIntern($dateString, DateTimeZone $datetimezone = null)
+	{
+		$this->reset();
+		if (($dateString = $this->testValideDateString($dateString)) !== false)
+		{
+			parent::__construct($dateString, $datetimezone);
+			$this->dateTimeIsNotNull = true;
+		}
+	}
+
+
+	/**
+	 * @param $dateString
+	 *
+	 * @return bool
+	 */
+	private function testValideDateString($dateString)
+	{
+		$ret = false;
+
+		$dateString = trim($dateString);
+
+		if (strtotime($dateString) > 0)
+		{
+			$ret = $dateString;
+		}
+
+
+		return $ret;
+	}
+
+	/**
+	 *
+	 */
+	public
+	function reset()
+	{
+		parent::__construct();
+		$this->dateTimeIsNotNull = false;
+	}
+
+	/**
+	 * Returns date formatted according to given format.
+	 *
+	 * @param string $format
+	 *
+	 * @return string
+	 * @link http://php.net/manual/en/datetime.format.php
+	 */
+	public
+	function format($format)
 	{
 
-		if (empty($dateString) === false)
-		{
-			parent::__construct();
-		}
-		else
-		{
-			if (strtotime($dateString) !== false)
-			{
-				parent::__construct($dateString);
-			}
-		}
-	}
+		$retStr = '';
 
-	protected function setNowIfNotSet(){
-		if($this->dateTime === null) {
-			$this->dateTime = new DateTime();
-		}
-	}
+		$format = trim($format);
 
+		if ($this->dateTimeIsNotNull)
+		{
+			$retStr = parent::format($format);
+		}
+
+		return $retStr;
+
+	}
 }
