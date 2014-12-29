@@ -19,6 +19,7 @@ class CuDBiResult
 	private $result;
 	private $last_insert_id;
 	private $message;
+	private $query;
 
 
 	/**
@@ -72,6 +73,22 @@ class CuDBiResult
 	public function set_result($result)
 	{
 		$this->result = $result;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getQuery()
+	{
+		return $this->query;
+	}
+
+	/**
+	 * @param mixed $query
+	 */
+	public function setQuery($query)
+	{
+		$this->query = $query;
 	}
 
 

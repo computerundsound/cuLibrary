@@ -141,6 +141,7 @@ class CuDBi
 		$this->cu_dbi_result->set_result($result);
 		$this->cu_dbi_result->set_last_insert_id($id);
 		$this->cu_dbi_result->set_message('');
+		$this->cu_dbi_result->setQuery($query);
 
 		return $this->cu_dbi_result;
 	}
