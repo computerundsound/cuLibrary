@@ -103,17 +103,22 @@ class CuDBi
 	/**
 	 * @param $tab_name
 	 * @param $where
+	 *
+	 * @return CuDBiResult|null
 	 */
 	public function delete($tab_name, $where)
 	{
+		$result = null;
 		$where = trim($where);
 		if ($where !== '')
 		{
 			$query = "DELETE FROM `%s` WHERE %s";
 			$query = sprintf($query, $tab_name, $where);
 
-			$this->query($query);
+			$result = $this->query($query);
 		}
+
+		return $result;
 	}
 
 	/**
