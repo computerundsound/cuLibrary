@@ -128,7 +128,7 @@ class CuConstantsContainer
 
 		$app_root            = str_replace('\\', '/', $app_root);
 		$app_root            = str_replace('inc/_close/_composer/vendor/computerundsound/culibrary', '', $app_root);
-		$this->app_root_HTTP = self::makeGoodPathServer($app_root);
+		$this->app_root_HTTP = $app_root;
 
 	}
 
