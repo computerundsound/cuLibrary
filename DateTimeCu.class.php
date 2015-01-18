@@ -22,9 +22,9 @@ class DateTimeCu extends DateTime
 	 * @param string       $dateString
 	 * @param DateTimeZone $dateTimeZone
 	 */
-	public function __construct($dateString = null, DateTimeZone $dateTimeZone = null)
+	public function __construct()
 	{
-		$this->initIntern($dateString, $dateTimeZone);
+		$this->initIntern('');
 	}
 
 	public function setNowIfNotSet()
@@ -47,7 +47,7 @@ class DateTimeCu extends DateTime
 	 * @param string       $dateString
 	 * @param DateTimeZone $datetimezone
 	 */
-	protected function initIntern($dateString, DateTimeZone $datetimezone = null)
+	public function initIntern($dateString, DateTimeZone $datetimezone = null)
 	{
 		$this->reset();
 		if (($dateString = $this->testValideDateString($dateString)) !== false)
@@ -81,8 +81,7 @@ class DateTimeCu extends DateTime
 	/**
 	 *
 	 */
-	public
-	function reset()
+	public function reset()
 	{
 		parent::__construct();
 		$this->dateTimeIsNotNull = false;
@@ -96,8 +95,7 @@ class DateTimeCu extends DateTime
 	 * @return string
 	 * @link http://php.net/manual/en/datetime.format.php
 	 */
-	public
-	function format($format)
+	public function format($format)
 	{
 
 		$retStr = '';
