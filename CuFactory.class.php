@@ -14,7 +14,7 @@
 class CuFactory
 {
 
-	public function create($className)
+	public static function create($className)
 	{
 		$classInstance = new stdClass();
 
@@ -33,10 +33,10 @@ class CuFactory
 
 					if ($parameter)
 					{
-						$typeHint = $this->isTypeHintParameter($parameter);
+						$typeHint = self::isTypeHintParameter($parameter);
 
 						if($typeHint !== false) {
-							$parameterArray[] = $this->create($typeHint);
+							$parameterArray[] = self::create($typeHint);
 						}
 					}
 				}
@@ -56,7 +56,7 @@ class CuFactory
 	 *
 	 * @return bool
 	 */
-	protected function isTypeHintParameter(ReflectionParameter $parameter)
+	protected static function isTypeHintParameter(ReflectionParameter $parameter)
 	{
 		$ret = false;
 
@@ -79,7 +79,7 @@ class CuFactory
 	 *
 	 * @return bool
 	 */
-	protected function classNameHasTypeHints($className)
+	protected static function classNameHasTypeHints($className)
 	{
 		$ret = false;
 
@@ -97,7 +97,7 @@ class CuFactory
 				{
 					if ($parameter)
 					{
-						$typeHint = $this->isTypeHintParameter($parameter);
+						$typeHint = self::isTypeHintParameter($parameter);
 
 						if ($typeHint !== false)
 						{
