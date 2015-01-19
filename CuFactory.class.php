@@ -14,13 +14,27 @@
 class CuFactory
 {
 
+
+	/**
+	 * @var array | Syntax: array('ClassName' => array([paramter_01_value], [paramter_02_value], ...);
+	 */
+	protected $classConfigurationArray;
+
+	/**
+	 * @param array $classConfigurationArray
+	 */
+	public function __construct(array $classConfigurationArray)
+	{
+		$this->classConfigurationArray = $classConfigurationArray;
+	}
+
 	/**
 	 * @param  string $className
 	 * @param array   $parameterListArray
 	 *
 	 * @return null|object
 	 */
-	public static function create($className, $parameterListArray = array())
+	public function create($className)
 	{
 		$parameterArray = array();
 
@@ -39,18 +53,22 @@ class CuFactory
 
 					if ($parameter)
 					{
-						$typeHint = self::isTypeHintParameter($parameter);
+						$typeHint = $this->isTypeHintParameter($parameter);
 						$position = $parameter->getPosition();
 
-						if ($typeHint !== false)
+
+						if(isset($this->classConfigurationArray[$className][$position])) {
+							$parameterArray = $this->classConfigurationArray[$position];
+						} else
 						{
-							if (isset($parameterListArray[$position]))
+							if ($typeHint !== false)
 							{
-								$parameterArray[] = $parameterListArray[$position];
-							}
-							else
-							{
-								$parameterArray[] = self::create($typeHint);
+
+								if (isset($this->classConfigurationArray[$typeHint]))
+
+								{
+									$parameterArray[] = $this->create($typeHint);
+								}
 							}
 						}
 					}
@@ -93,7 +111,7 @@ class CuFactory
 	 *
 	 * @return bool
 	 */
-	protected static function classNameHasTypeHints($className)
+	protected function classNameHasTypeHints($className)
 	{
 		$ret = false;
 
@@ -109,7 +127,7 @@ class CuFactory
 				{
 					if ($parameter)
 					{
-						$typeHint = self::isTypeHintParameter($parameter);
+						$typeHint = $this->isTypeHintParameter($parameter);
 
 						if ($typeHint !== false)
 						{
