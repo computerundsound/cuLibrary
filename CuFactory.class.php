@@ -16,8 +16,6 @@ class CuFactory
 
 	public static function create($className)
 	{
-		$classInstance = new stdClass();
-
 		$class = new ReflectionClass($className);
 		if ($class)
 		{
@@ -41,9 +39,9 @@ class CuFactory
 					}
 				}
 
-				$classInstance = $class->newInstanceArgs($parameterArray);
 			}
 
+			$classInstance = $class->newInstanceArgs($parameterArray);
 
 		}
 
