@@ -18,14 +18,19 @@ class CuFactory
 	/**
 	 * @var array | Syntax: array('ClassName' => array([paramter_01_value], [paramter_02_value], ...);
 	 */
-	protected $classConfigurationArray;
+	protected static $classConfigurationArray;
+
+	private function __construct()
+	{
+	}
+
 
 	/**
 	 * @param array $classConfigurationArray
 	 */
-	public function __construct(array $classConfigurationArray)
+	public static function setClassConfiguration(array $classConfigurationArray)
 	{
-		$this->classConfigurationArray = $classConfigurationArray;
+		self::$classConfigurationArray = $classConfigurationArray;
 	}
 
 	/**
@@ -34,7 +39,7 @@ class CuFactory
 	 *
 	 * @return null|object
 	 */
-	public function create($className)
+	public static function create($className)
 	{
 		$parameterArray = array();
 
@@ -53,22 +58,18 @@ class CuFactory
 
 					if ($parameter)
 					{
-						$typeHint = $this->isTypeHintParameter($parameter);
+						$typeHint = self::isTypeHintParameter($parameter);
 						$position = $parameter->getPosition();
 
-
-						if(isset($this->classConfigurationArray[$className][$position])) {
-							$parameterArray = $this->classConfigurationArray[$position];
-						} else
+						if (isset(self::$classConfigurationArray[$className][$position]))
+						{
+							$parameterArray = $classConfiguration[$className][$position];
+						}
+						else
 						{
 							if ($typeHint !== false)
 							{
-
-								if (isset($this->classConfigurationArray[$typeHint]))
-
-								{
-									$parameterArray[] = $this->create($typeHint);
-								}
+								$parameterArray[] = self::create($typeHint);
 							}
 						}
 					}
@@ -111,7 +112,7 @@ class CuFactory
 	 *
 	 * @return bool
 	 */
-	protected function classNameHasTypeHints($className)
+	protected static function classNameHasTypeHints($className)
 	{
 		$ret = false;
 
@@ -127,7 +128,7 @@ class CuFactory
 				{
 					if ($parameter)
 					{
-						$typeHint = $this->isTypeHintParameter($parameter);
+						$typeHint = self::isTypeHintParameter($parameter);
 
 						if ($typeHint !== false)
 						{
