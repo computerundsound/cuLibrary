@@ -63,7 +63,7 @@ class CuFactory
 
 						if (isset(self::$classConfigurationArray[$className][$position]))
 						{
-							$parameterArray = $classConfiguration[$className][$position];
+							$parameterArray[] = self::$classConfigurationArray[$className][$position];
 						}
 						else
 						{
