@@ -14,12 +14,20 @@
 class CuFactory
 {
 
-	public static function create($className)
+	/**
+	 * @param  string $className
+	 * @param array   $parameterListArray
+	 *
+	 * @return null|object
+	 */
+	public static function create($className, $parameterListArray = array())
 	{
-		$class = new ReflectionClass($className);
+		$parameterArray = array();
+
+		$classInstance = null;
+		$class         = new ReflectionClass($className);
 		if ($class)
 		{
-			$parameterArray = array();
 
 			$constructor = $class->getConstructor();
 			if ($constructor)
@@ -32,13 +40,21 @@ class CuFactory
 					if ($parameter)
 					{
 						$typeHint = self::isTypeHintParameter($parameter);
+						$position = $parameter->getPosition();
 
-						if($typeHint !== false) {
-							$parameterArray[] = self::create($typeHint);
+						if ($typeHint !== false)
+						{
+							if (isset($parameterListArray[$position]))
+							{
+								$parameterArray[] = $parameterListArray[$position];
+							}
+							else
+							{
+								$parameterArray[] = self::create($typeHint);
+							}
 						}
 					}
 				}
-
 			}
 
 			$classInstance = $class->newInstanceArgs($parameterArray);
@@ -84,8 +100,6 @@ class CuFactory
 		$class = new ReflectionClass($className);
 		if ($class)
 		{
-			$parameterArray = array();
-
 			$constructor = $class->getConstructor();
 			if ($constructor)
 			{
