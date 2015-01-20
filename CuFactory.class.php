@@ -16,7 +16,7 @@ class CuFactory
 
 
 	/**
-	 * @var array | Syntax: array('ClassName' => array([paramter_01_value], [paramter_02_value], ...);
+	 * @var array // Syntax: array('ClassName' => array([paramter_01_value], [paramter_02_value], ...);
 	 */
 	protected static $classConfigurationArray;
 
@@ -35,8 +35,6 @@ class CuFactory
 
 	/**
 	 * @param  string $className
-	 * @param array   $parameterListArray
-	 *
 	 * @return null|object
 	 */
 	public static function create($className)
