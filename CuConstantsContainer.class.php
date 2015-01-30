@@ -15,17 +15,47 @@
 class CuConstantsContainer
 {
 
+	/**
+	 * @var
+	 */
 	private $app_root_HTTP;
+	/**
+	 * @var
+	 */
 	private $app_root_Server;
+	/**
+	 * @var
+	 */
 	private $app_root_FQHTTP;
+	/**
+	 * @var
+	 */
 	private $file_path_HTTP;
 
+	/**
+	 * @var string
+	 */
+	private $server_serverName = '';
+	/**
+	 * @var string
+	 */
+	private $server_documtent_root = '';
+	/**
+	 * @var string
+	 */
+	private $server_phpSelf = '';
+	/**
+	 * @var string
+	 */
+	private $server_protocol = '';
 
 	/**
 	 *
 	 */
 	public function __construct()
 	{
+		$this->buildServerValues();
+
 		$this->buildAppRootHTTP();
 		$this->buildAppRootServer();
 		$this->buildAppRootFQHTTP();
@@ -36,10 +66,11 @@ class CuConstantsContainer
 	/**
 	 * @param $path
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public static function makeGoodPathServer($path)
 	{
+		$path = (string)$path;
 		$path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
 		$path = str_replace('/', DIRECTORY_SEPARATOR, $path);
 
@@ -54,6 +85,7 @@ class CuConstantsContainer
 	 */
 	public static function makeGoodPathHTTP($path)
 	{
+		$path = (string)$path;
 		$path = str_replace('\\', '/', $path);
 
 		return $path;
@@ -74,7 +106,7 @@ class CuConstantsContainer
 	private function buildFilePathHTTP()
 	{
 		$this->buildAppRootHTTP();
-		$file_path            = $this->app_root_FQHTTP . $_SERVER['PHP_SELF'];
+		$file_path            = $this->app_root_FQHTTP . $this->server_phpSelf;
 		$this->file_path_HTTP = $file_path;
 	}
 
@@ -111,7 +143,7 @@ class CuConstantsContainer
 	 */
 	private function buildAppRootServer()
 	{
-		$path                  = $_SERVER['DOCUMENT_ROOT'] . $this->app_root_HTTP;
+		$path                  = $this->server_documtent_root . $this->app_root_HTTP;
 		$this->app_root_Server = self::makeGoodPathServer($path);
 	}
 
@@ -121,7 +153,7 @@ class CuConstantsContainer
 	 */
 	private function buildAppRootHTTP()
 	{
-		$doc_root = $_SERVER['DOCUMENT_ROOT'];
+		$doc_root = $this->server_documtent_root;
 		$dirname  = dirname(__FILE__);
 
 		$app_root = substr($dirname, strlen($doc_root));
@@ -139,14 +171,8 @@ class CuConstantsContainer
 	private function buildAppRootFQHTTP()
 	{
 
-		if (isset($_SERVER['SERVER_PROTOCOL']))
-		{
-			$methode = $_SERVER['SERVER_PROTOCOL'];
-		}
-		else
-		{
-			$methode = '';
-		}
+
+		$methode = $this->server_protocol;
 		$methode = substr($methode, 0, 4);
 		$methode = strtoupper($methode);
 
@@ -159,10 +185,18 @@ class CuConstantsContainer
 			$protocol = 'http://';
 		}
 
-		$url = $protocol . $_SERVER['SERVER_NAME'];
+		$url = $protocol . $this->server_serverName;
 
 		$app_root = $this->app_root_HTTP;
 
 		$this->app_root_FQHTTP = $url . $app_root;
+	}
+
+	private function buildServerValues()
+	{
+		$this->server_serverName     = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+		$this->server_documtent_root = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
+		$this->server_phpSelf        = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
+		$this->server_protocol       = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
 	}
 }
