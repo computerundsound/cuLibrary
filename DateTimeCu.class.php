@@ -19,8 +19,8 @@ class DateTimeCu extends DateTime
 	protected $dateTimeIsNotNull = false;
 
 	/**
-	 * @param string       $dateString
-	 * @param DateTimeZone $dateTimeZone
+	 * @internal param string $dateString
+	 * @internal param DateTimeZone $dateTimeZone
 	 */
 	public function __construct()
 	{
@@ -47,7 +47,7 @@ class DateTimeCu extends DateTime
 	 * @param string       $dateString
 	 * @param DateTimeZone $datetimezone
 	 */
-	public function initIntern($dateString, DateTimeZone $datetimezone = null)
+	protected function initIntern($dateString, DateTimeZone $datetimezone = null)
 	{
 		$this->reset();
 		if (($dateString = $this->testValideDateString($dateString)) !== false)
