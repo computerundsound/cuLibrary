@@ -41,7 +41,7 @@ class CuDBiResult
 
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
 	public function get_message()
 	{
@@ -50,16 +50,17 @@ class CuDBiResult
 
 
 	/**
-	 * @param mixed $message
+	 * @param string $message
 	 */
 	public function set_message($message)
 	{
+		$message = (string)$message;
 		$this->message = $message;
 	}
 
 
 	/**
-	 * @return mixed
+	 * @return mysqli_result
 	 */
 	public function get_result()
 	{
@@ -68,7 +69,7 @@ class CuDBiResult
 
 
 	/**
-	 * @param mixed $result
+	 * @param mysqli_result $result
 	 */
 	public function set_result($result)
 	{
@@ -76,7 +77,7 @@ class CuDBiResult
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
 	public function getQuery()
 	{
@@ -84,10 +85,11 @@ class CuDBiResult
 	}
 
 	/**
-	 * @param mixed $query
+	 * @param string $query
 	 */
 	public function setQuery($query)
 	{
+		$query = (string)$query;
 		$this->query = $query;
 	}
 
