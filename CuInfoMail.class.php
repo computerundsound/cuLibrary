@@ -1,0 +1,300 @@
+<?php
+
+/**
+ * Copyright by Jörg Wrase - Computer-Und-Sound.de
+ * Date: 08.08.12
+ * Time: 23:38
+ *
+ * Created by JetBrains PhpStorm
+ *
+ * Filename: CuInfoMail.class.php
+ */
+class CuInfoMail
+{
+
+	private $_subject;
+	private $_mailtext;
+	private $_adresseTo;
+	private $_addresseFrom;
+	private $_nameFrom;
+
+	private $_aktuelleZusatzzeile = 0;
+
+	private $_userdaten = array();
+
+	public function __construct($addressTo, $addressFrom, $nameFrom)
+	{
+
+		$this->_adresseTo = $addressTo;
+		$this->_addresseFrom = $addressFrom;
+		$this->_nameFrom = $nameFrom;
+
+		$this->_userdaten = $this->getClientData();
+
+		$this->buildSubject();
+		$this->buildMessage();
+
+
+	}
+
+	private function buildSubject()
+	{
+		$subject = "Aufruf der Seite " . htmlspecialchars($_SERVER['PHP_SELF'],
+														  ENT_COMPAT,
+														  'utf-8') . " - " . $this->_userdaten['server'] . $this->_userdaten['site'] . ' - ' . date('Y-m-d H:i:s');
+		$this->_subject = $subject;
+	}
+
+	private function buildMessage()
+	{
+		$template = self::getMailTemplate();
+		$userdaten = $this->_userdaten;
+
+		$mailmessage = $template;
+
+		$timeStr = date("d.m.Y") . " --- " . date("H:i.s") . " Uhr";
+
+		$mailmessage = str_replace("###Server###", $userdaten['server'], $mailmessage);
+		$mailmessage = str_replace("###Seite###", $userdaten['site'], $mailmessage);
+		$mailmessage = str_replace("###Time###", $timeStr, $mailmessage);
+		$mailmessage = str_replace("###IP###", $userdaten['ip'], $mailmessage);
+		$mailmessage = str_replace("###Host###", $userdaten['host'], $mailmessage);
+		$mailmessage = str_replace("###Client###", $userdaten['client'], $mailmessage);
+		$mailmessage = str_replace("###Referer###", $userdaten['referer'], $mailmessage);
+		$mailmessage = str_replace("###Query###", $userdaten['query'], $mailmessage);
+		$requests = $userdaten['requests'];
+		$mailmessage = str_replace("###Requests###", $requests, $mailmessage);
+
+
+		$this->_mailtext = $mailmessage;
+	}
+
+	public function sendEmail()
+	{
+
+		$empfaenger = $this->_adresseTo;
+		$betreff = $this->_subject;
+
+		$header = 'MIME-Version: 1.0' . "\r\n";
+		$header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+
+		$header .= 'To: ' . $this->_adresseTo . "\r\n";
+		$header .= 'From: ' . $this->_nameFrom . '<' . $this->_addresseFrom . '>' . "\r\n";
+
+		$this->_subject;
+		$this->_mailtext;
+
+		mail($this->_adresseTo, $this->_subject, $this->_mailtext, $header);
+
+	}
+
+	public static function getMailTemplate()
+	{
+		$mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Titel des Dokuments</title>
+
+    <style type="text/css">
+
+        .bodyClass {
+            padding: 0;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            background-color: #FAFAFA;
+            text-align: left;
+        }
+
+        .h1 {
+            font-size: 14px;
+        }
+
+        .h2 {
+            font-size: 12px;
+        }
+
+        .myTable {
+            margin-top: 10px;
+        }
+
+        .thead {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .td, .th {
+            font-size: 11px;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 5px;
+            text-align: right;
+        }
+
+        .th {
+            text-align: left;
+            width: 100px;
+        }
+
+        .zeileGrau {
+            background-color: #F0F0F0;
+        }
+
+        .zeileHell {
+            background-color: #FFFFFF;
+        }
+
+        a.mylink:link, a.mylink:visited, a.mylink:hover {
+            color: maroon;
+            text-decoration: none;
+        }
+
+    </style>
+
+
+</head>
+
+<body class="bodyClass">
+
+
+<table class="myTable" cellpadding="0" cellspacing="0" width="500px" align="center">
+    <tr>
+        <td><h1 class="h1">Auruf der Seite <a class="mylink" href="http://###Server######Seite###">###Server######Seite###</a></h1></td>
+            </tr>
+    <tr>
+        <td class="td" style="text-align: left">
+            <h2 class="h2">Userdaten:</h2>
+            <table cellpadding="0" cellspacing="0" width="500px" align="left">
+                <tr>
+                    <th class="th thead"></th>
+                    <td class="td thead"></td>
+                </tr>
+                <tr>
+                    <th class="th zeileGrau">Server</th>
+                    <td class="td zeileGrau">###Server###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileHell">Seite</th>
+                    <td class="td zeileHell">###Seite###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileGrau">Time</th>
+                    <td class="td zeileGrau">###Time###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileHell">IP</th>
+                    <td class="td zeileHell">###IP###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileGrau">Host</th>
+                    <td class="td zeileGrau">###Host###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileHell">Client</th>
+                    <td class="td zeileHell">###Client###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileHell">Referer</th>
+                    <td class="td zeileHell">###Referer###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileHell">Query</th>
+                    <td class="td zeileHell">###Query###</td>
+                </tr>
+                <tr>
+                    <th class="th zeileHell">Requests</th>
+                    <td class="td zeileHell">###Requests###</td>
+                </tr>
+
+                <!--###ZUSATZ###-->
+
+            </table>
+
+        </td>
+    </tr>
+
+</table>
+
+
+
+</body>
+</html>';
+
+		return $mailTemplate;
+	}
+
+
+	public function addZeile($name, $wert)
+	{
+
+		if ($this->_aktuelleZusatzzeile % 2 == 0)
+		{
+
+			$className = "zeileHell";
+		}
+		else
+		{
+
+			$className = "zeileGrau";
+		}
+
+		$this->_aktuelleZusatzzeile++;
+
+		$zeile = '
+        <tr>
+            <th class="th ' . $className . '">' . $name . '</th>
+            <td class="td ' . $className . '">' . $wert . '</td>
+        </tr>
+        <!--###ZUSATZ###-->';
+
+		$message = $this->_mailtext;
+
+		$message = str_replace("<!--###ZUSATZ###-->", $zeile, $message);
+
+		$this->_mailtext = $message;
+
+	}
+
+	/**
+	 * @return array;
+	 */
+	protected function getClientData()
+	{
+
+		$userdaten = array();
+
+		$userdaten['server'] = $this->getServerValue('SERVER_NAME');
+		$userdaten['site'] = $this->getServerValue('PHP_SELF');
+		$userdaten['ip'] = $this->getServerValue('REMOTE_ADDR');
+		$userdaten['host'] = $userdaten['ip'] === '' ? '' : gethostbyaddr($userdaten['ip']);
+		$userdaten['client'] = $this->getServerValue('HTTP_USER_AGENT');
+		$userdaten['referer'] = $this->getServerValue('HTTP_REFERER');
+		$userdaten['query'] = $this->getServerValue('QUERY_STRING');
+		$userdaten['requests'] = isset($_REQUEST) ? $_REQUEST : array();
+		$userdaten['requests'] = serialize($userdaten['requests']);
+
+		return $userdaten;
+
+	}
+
+	/**
+	 * @param $name
+	 * @return int
+	 */
+	protected function getServerValue($name)
+	{
+
+		$name = trim((string)$name);
+
+		$value = 0;
+
+		if (isset($_SERVER[$name]))
+		{
+			$value = $_SERVER[$name];
+		}
+
+		return $value;
+
+	}
+}
