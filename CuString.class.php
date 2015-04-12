@@ -9,16 +9,14 @@
  *
  * Filename: CuString.class.php
  */
-class CuString
-{
+class CuString {
 
 	/**
 	 *
 	 */
-	public function __construct()
-	{
-
+	public function __construct() {
 	}
+
 
 	/**
 	 * @param $sessionVariable
@@ -26,43 +24,38 @@ class CuString
 	 *
 	 * @return bool
 	 */
-	public static function getCheckstrFromSession($sessionVariable, $expected_value)
-	{
+	public static function getCheckStrFromSession($sessionVariable, $expected_value) {
 		$session_value = $_SESSION[$sessionVariable];
-		if ($expected_value == $session_value)
-		{
+		if($expected_value === $session_value) {
 			echo(' checked="checked" ');
 
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
+
 
 	/**
 	 * @param $str
 	 *
 	 * @return string
 	 */
-	public static function stringFromFormToDB($str)
-	{
+	public static function stringFromFormToDB($str) {
 		$str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
 
 		return $str;
 	}
 
+
 	/**
 	 * @param $str
 	 *
 	 * @return string
 	 */
-	public static function stringFromDB2HTML($str)
-	{
+	public static function stringFromDB2HTML($str) {
 
-		if (!$str || $str == null || empty($str) || is_array($str))
-		{
+		if(!$str || $str === null || $str === '' || is_array($str)) {
 			return $str;
 		}
 
@@ -72,25 +65,25 @@ class CuString
 		return $str;
 	}
 
+
 	/**
 	 * @param $str
 	 *
 	 * @return string
 	 */
-	public static function stringFromDB2Form($str)
-	{
+	public static function stringFromDB2Form($str) {
 		$str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
 
 		return $str;
 	}
 
+
 	/**
 	 * @param $str
 	 *
 	 * @return string
 	 */
-	public static function stringFromDBtoXML($str)
-	{
+	public static function stringFromDBtoXML($str) {
 
 		$str = urlencode($str);
 
@@ -103,20 +96,15 @@ class CuString
 	 *
 	 * @return string
 	 */
-	public static function makeGoodIP($ip)
-	{
+	public static function makeGoodIP($ip) {
 		$newIP = '';
 
 		$ip_array = explode('.', $ip);
 
-
-		if (is_array($ip_array))
-		{
-			foreach ($ip_array as $val)
-			{
+		if(is_array($ip_array)) {
+			foreach($ip_array as $val) {
 
 				$newIP .= str_pad($val, 3, '0', STR_PAD_LEFT) . '.';
-
 			}
 		}
 		$newIP = substr($newIP, 0, strlen($newIP) - 1);
@@ -124,30 +112,26 @@ class CuString
 		return $newIP;
 	}
 
+
 	/**
 	 * @param $ip
 	 *
 	 * @return string
 	 */
-	public static function make_good_ip_to_trace($ip)
-	{
+	public static function make_good_ip_to_trace($ip) {
 
 		$newIP = '';
 
 		$ip_array = explode('.', $ip);
 
-		if (is_array($ip_array))
-		{
-			foreach ($ip_array as $val)
-			{
+		if(is_array($ip_array)) {
+			foreach($ip_array as $val) {
 
-				if ($val[0] === '0')
-				{
+				if($val[0] === '0') {
 					$val = $val[1] . $val[2];
 				}
 
-				if ($val[0] === '0')
-				{
+				if($val[0] === '0') {
 					$val = $val[1] . $val[2];
 				}
 
@@ -166,25 +150,24 @@ class CuString
 	 *
 	 * @return string
 	 */
-	public static function makeHTMLString($str)
-	{
+	public static function makeHTMLString($str) {
 		$str = trim($str);
 		$str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
 
 		return nl2br($str);
 	}
 
+
 	/**
 	 * @param $val
 	 *
 	 * @return mixed
 	 */
-	public static function brEncodedToHTML($val)
-	{
-		$pattern = "/&lt;br&gt;/";
-		$val     = preg_replace($pattern, '<br>', $val);
+	public static function brEncodedToHTML($val) {
+		$pattern = '/&lt;br&gt;/';
+		$val = preg_replace($pattern, '<br>', $val);
 
-//        $val = str_replace("&lt;br&gt;","<br>",$val);
+		//        $val = str_replace("&lt;br&gt;","<br>",$val);
 		return $val;
 	}
 
@@ -195,32 +178,29 @@ class CuString
 	 *
 	 * @return string
 	 */
-	public static function killLastSign($str, $counts = 1)
-	{
+	public static function killLastSign($str, $counts = 1) {
 
 		$str = substr($str, 0, strlen($str) - $counts);
 
 		return $str;
-
 	}
 
-	/**
-	 * @param $str
-	 */
-	public static function cuEcho($str)
-	{
-		echo("<br />$str<br />");
-	}
 
 	/**
 	 * @param $variName
 	 * @param $vari_value
 	 */
-	public static function cuEchoVari($variName, $vari_value)
-	{
+	public static function cuEchoVari($variName, $vari_value) {
 
 		CuString::cuEcho($variName . ' => ' . $vari_value);
+	}
 
+
+	/**
+	 * @param $str
+	 */
+	public static function cuEcho($str) {
+		echo("<br />$str<br />");
 	}
 
 
@@ -229,8 +209,7 @@ class CuString
 	 *
 	 * @return string
 	 */
-	public static function make_price_from_db($price)
-	{
+	public static function make_price_from_db($price) {
 
 		$price_element = explode('.', $price);
 
@@ -238,10 +217,9 @@ class CuString
 
 		$cent = str_pad($cent, '0', STR_PAD_LEFT);
 
-		$new_price = "," . $price_element[0] . $cent;
+		$new_price = ',' . $price_element[0] . $cent;
 
 		return $new_price;
-
 	}
 
 
@@ -251,10 +229,10 @@ class CuString
 	 *
 	 * @return mixed|string
 	 */
-	public static function debug_var_dump_formatted($vari, $makeEcho = true)
-	{
+	public static function debug_var_dump_formatted($vari, $makeEcho = true) {
 		ob_start();
 
+		/** @noinspection ForgottenDebugOutputInspection */
 		print_r($vari);
 
 		$output = ob_get_clean();
@@ -262,12 +240,10 @@ class CuString
 		$output = str_replace(' ', '&nbsp;', $output);
 		$output = nl2br($output);
 
-		if ($makeEcho)
-		{
+		if($makeEcho) {
 			echo $output . '<br>';
 		}
 
 		return $output;
-
 	}
 }

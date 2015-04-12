@@ -9,15 +9,12 @@
  *
  * Filename: CuCRUD.class.php
  */
-class CuCRUD
-{
-
-	private $_tab;
+class CuCRUD {
 
 	public $idName;
 	public $id;
 	public $data_set;
-
+	private $_tab;
 	private $_dbObj_coo;
 
 
@@ -25,37 +22,32 @@ class CuCRUD
 	 * @param       $tab_name
 	 * @param CuDBi $dbi_coo
 	 */
-	public function __construct($tab_name, CuDBi $dbi_coo)
-	{
-		$this->_tab       = $tab_name;
+	public function __construct($tab_name, CuDBi $dbi_coo) {
+		$this->_tab = $tab_name;
 		$this->_dbObj_coo = $dbi_coo;
-
 	}
 
 
 	/**
 	 * @param array $id field_name_in_DB => value
 	 */
-	public function loadFromDB(array $id)
-	{
+	public function loadFromDB(array $id) {
 
-		$this->idName    = key($id);
-		$this->id        = $id[$this->idName];
-		$idName          = $this->idName;
-		$id              = $this->id;
+		$this->idName = key($id);
+		$this->id = $id[$this->idName];
+		$idName = $this->idName;
+		$id = $this->id;
 		$data_sets_array = $this->_dbObj_coo->selectAsArray($this->_tab, $idName . '="' . $id . '"');
-		$this->data_set  = $data_sets_array[0];
+		$this->data_set = $data_sets_array[0];
 	}
 
 
 	/**
 	 * @return array
 	 */
-	public function insertInDB()
-	{
+	public function insertInDB() {
 		$dataArray = $this->data_set;
-		if (isset($this->idName))
-		{
+		if(null !== $this->idName) {
 			unset($dataArray[$this->idName]);
 		}
 
@@ -68,12 +60,11 @@ class CuCRUD
 	/**
 	 * @return array
 	 */
-	public function updateInDB()
-	{
+	public function updateInDB() {
 		$dataArray = $this->data_set;
 		unset($dataArray[$this->idName]);
 		$where = $this->idName . '=' . $this->id;
-		$ret   = $this->_dbObj_coo->update($this->_tab, $dataArray, $where);
+		$ret = $this->_dbObj_coo->update($this->_tab, $dataArray, $where);
 
 		return $ret;
 	}
@@ -85,12 +76,10 @@ class CuCRUD
 	 *
 	 * @return string
 	 */
-	public function getValue($field_name, $forWhat = null)
-	{
+	public function getValue($field_name, $forWhat = null) {
 		$val = $this->data_set[$field_name];
 
-		switch ($forWhat)
-		{
+		switch($forWhat) {
 			case'HTML':
 				$val = CuString::stringFromDB2HTML($val);
 				break;
@@ -106,5 +95,4 @@ class CuCRUD
 
 		return $val;
 	}
-
 }

@@ -12,8 +12,7 @@
 /**
  * Class CuConstantsContainer
  */
-class CuConstantsContainer
-{
+class CuConstantsContainer {
 
 	/**
 	 * @var
@@ -39,7 +38,7 @@ class CuConstantsContainer
 	/**
 	 * @var string
 	 */
-	private $server_documtent_root = '';
+	private $server_document_root = '';
 	/**
 	 * @var string
 	 */
@@ -49,11 +48,11 @@ class CuConstantsContainer
 	 */
 	private $server_protocol = '';
 
+
 	/**
 	 *
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->buildServerValues();
 
 		$this->buildAppRootHTTP();
@@ -63,87 +62,35 @@ class CuConstantsContainer
 	}
 
 
-	/**
-	 * @param $path
-	 *
-	 * @return string
-	 */
-	public static function makeGoodPathServer($path)
-	{
-		$path = (string)$path;
-		$path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
-		$path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-
-		return $path;
-	}
-
-
-	/**
-	 * @param $path
-	 *
-	 * @return mixed
-	 */
-	public static function makeGoodPathHTTP($path)
-	{
-		$path = (string)$path;
-		$path = str_replace('\\', '/', $path);
-
-		return $path;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function get_file_path_HTTP()
-	{
-		return $this->file_path_HTTP;
+	private function buildServerValues() {
+		$this->server_serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+		$this->server_document_root = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
+		$this->server_phpSelf = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
+		$this->server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
 	}
 
 
 	/**
 	 *
 	 */
-	private function buildFilePathHTTP()
-	{
-		$this->buildAppRootHTTP();
-		$file_path            = $this->app_root_FQHTTP . $this->server_phpSelf;
-		$this->file_path_HTTP = $file_path;
-	}
+	private function buildAppRootHTTP() {
+		$doc_root = $this->server_document_root;
+		$dirname = __DIR__;
 
+		$app_root = substr($dirname, strlen($doc_root));
 
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootHTTP()
-	{
-		return $this->app_root_HTTP;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootFQHTTP()
-	{
-		return $this->app_root_FQHTTP;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getAppRootServer()
-	{
-		return $this->app_root_Server;
+		$app_root = str_replace(['\\', 'inc/_close/_composer/vendor/computerundsound/culibrary',],
+		                        ['/', '',],
+		                        $app_root);
+		$this->app_root_HTTP = $app_root;
 	}
 
 
 	/**
 	 *
 	 */
-	private function buildAppRootServer()
-	{
-		$path                  = $this->server_documtent_root . $this->app_root_HTTP;
+	private function buildAppRootServer() {
+		$path = $this->server_document_root . $this->app_root_HTTP;
 		$this->app_root_Server = self::makeGoodPathServer($path);
 	}
 
@@ -151,38 +98,15 @@ class CuConstantsContainer
 	/**
 	 *
 	 */
-	private function buildAppRootHTTP()
-	{
-		$doc_root = $this->server_documtent_root;
-		$dirname  = dirname(__FILE__);
-
-		$app_root = substr($dirname, strlen($doc_root));
-
-		$app_root            = str_replace('\\', '/', $app_root);
-		$app_root            = str_replace('inc/_close/_composer/vendor/computerundsound/culibrary', '', $app_root);
-		$this->app_root_HTTP = $app_root;
-
-	}
-
-
-	/**
-	 *
-	 */
-	private function buildAppRootFQHTTP()
-	{
-
+	private function buildAppRootFQHTTP() {
 
 		$methode = $this->server_protocol;
 		$methode = substr($methode, 0, 4);
 		$methode = strtoupper($methode);
 
-		if ($methode === 'HTTPS')
-		{
+		$protocol = 'http://';
+		if($methode === 'HTTPS') {
 			$protocol = 'https://';
-		}
-		else
-		{
-			$protocol = 'http://';
 		}
 
 		$url = $protocol . $this->server_serverName;
@@ -192,11 +116,71 @@ class CuConstantsContainer
 		$this->app_root_FQHTTP = $url . $app_root;
 	}
 
-	private function buildServerValues()
-	{
-		$this->server_serverName     = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-		$this->server_documtent_root = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
-		$this->server_phpSelf        = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
-		$this->server_protocol       = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
+
+	/**
+	 *
+	 */
+	private function buildFilePathHTTP() {
+		$this->buildAppRootHTTP();
+		$file_path = $this->app_root_FQHTTP . $this->server_phpSelf;
+		$this->file_path_HTTP = $file_path;
+	}
+
+
+	/**
+	 * @param $path
+	 *
+	 * @return string
+	 */
+	public static function makeGoodPathServer($path) {
+		$path = (string)$path;
+		$path = str_replace(['\\', '/',], DIRECTORY_SEPARATOR, $path);
+
+		return $path;
+	}
+
+
+	/**
+	 * @param $path
+	 *
+	 * @return mixed
+	 */
+	public static function makeGoodPathHTTP($path) {
+		$path = (string)$path;
+		$path = str_replace('\\', '/', $path);
+
+		return $path;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function get_file_path_HTTP() {
+		return $this->file_path_HTTP;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootHTTP() {
+		return $this->app_root_HTTP;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootFQHTTP() {
+		return $this->app_root_FQHTTP;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getAppRootServer() {
+		return $this->app_root_Server;
 	}
 }

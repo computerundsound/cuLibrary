@@ -9,115 +9,113 @@
  *
  * Filename: CuInfoMail.class.php
  */
-class CuInfoMail
-{
+class CuInfoMail {
 
-    private $_subject;
-    private $_mailtext;
-    private $_adresseTo;
-    private $_addresseFrom;
-    private $_nameFrom;
+	private $_subject;
+	private $_mailtext;
+	private $_adresseTo;
+	private $_addressFrom;
+	private $_nameFrom;
 
-    private $_aktuelleZusatzzeile = 0;
+	private $_aktuelleZusatzZeile = 0;
 
-    private $_userDaten = array();
-
-    public function __construct($addressTo, $addressFrom, $nameFrom)
-    {
-
-        $this->_adresseTo = $addressTo;
-        $this->_addresseFrom = $addressFrom;
-        $this->_nameFrom = $nameFrom;
-
-        $this->_userDaten = $this->getClientData();
-
-        $this->buildSubject();
-        $this->buildMessage();
+	private $_userDaten = array();
 
 
-    }
+	public function __construct($addressTo, $addressFrom, $nameFrom) {
 
-    /**
-     * @return array;
-     */
-    protected function getClientData()
-    {
+		$this->_adresseTo = $addressTo;
+		$this->_addressFrom = $addressFrom;
+		$this->_nameFrom = $nameFrom;
 
-        $userdaten = array();
+		$this->_userDaten = $this->getClientData();
 
-        $userdaten['server'] = $this->getServerValue('SERVER_NAME');
-        $userdaten['site'] = $this->getServerValue('PHP_SELF');
-        $userdaten['ip'] = $this->getServerValue('REMOTE_ADDR');
-        $userdaten['host'] = $userdaten['ip'] === '' ? '' : gethostbyaddr($userdaten['ip']);
-        $userdaten['client'] = $this->getServerValue('HTTP_USER_AGENT');
-        $userdaten['referer'] = $this->getServerValue('HTTP_REFERER');
-        $userdaten['query'] = $this->getServerValue('QUERY_STRING');
-        $userdaten['requests'] = isset($_REQUEST) ? $_REQUEST : array();
-        $userdaten['requests'] = serialize($userdaten['requests']);
+		$this->buildSubject();
+		$this->buildMessage();
+	}
 
-        return $userdaten;
 
-    }
+	/**
+	 * @return array;
+	 */
+	protected function getClientData() {
 
-    /**
-     * @param $name
-     * @return int
-     */
-    protected function getServerValue($name)
-    {
+		$userDaten = array();
 
-        $name = trim((string)$name);
+		$userDaten['server'] = $this->getServerValue('SERVER_NAME');
+		$userDaten['site'] = $this->getServerValue('PHP_SELF');
+		$userDaten['ip'] = $this->getServerValue('REMOTE_ADDR');
+		$userDaten['host'] = $userDaten['ip'] === '' ? '' : gethostbyaddr($userDaten['ip']);
+		$userDaten['client'] = $this->getServerValue('HTTP_USER_AGENT');
+		$userDaten['referer'] = $this->getServerValue('HTTP_REFERER');
+		$userDaten['query'] = $this->getServerValue('QUERY_STRING');
+		$userDaten['requests'] = isset($_REQUEST) ? $_REQUEST : array();
+		$userDaten['requests'] = serialize($userDaten['requests']);
 
-        $value = 0;
+		return $userDaten;
+	}
 
-        if (isset($_SERVER[$name])) {
-            $value = $_SERVER[$name];
-        }
 
-        return $value;
+	private function buildSubject() {
+		$subject = 'Aufruf der Seite ' . htmlspecialchars($_SERVER['PHP_SELF'],
+		                                                  ENT_COMPAT,
+		                                                  'utf-8') . ' - ' . $this->_userDaten['server']
+		           . $this->_userDaten['site'] . ' - ' . date('Y-m-d H:i:s');
+		$this->_subject = $subject;
+	}
 
-    }
 
-    private function buildSubject()
-    {
-        $subject = 'Aufruf der Seite ' . htmlspecialchars($_SERVER['PHP_SELF'],
-                ENT_COMPAT,
-                'utf-8') . ' - ' . $this->_userDaten['server'] . $this->_userDaten['site'] . ' - ' . date('Y-m-d H:i:s');
-        $this->_subject = $subject;
-    }
+	private function buildMessage() {
+		$template = self::getMailTemplate();
+		$userDaten = $this->_userDaten;
 
-    private function buildMessage()
-    {
-        $template = self::getMailTemplate();
-        $userDaten = $this->_userDaten;
+		$mailMessage = $template;
 
-        $mailMessage = $template;
+		$timeStr = date('d.m.Y') . ' --- ' . date('H:i.s') . ' Uhr';
 
-        $timeStr = date('d.m.Y') . ' --- ' . date('H:i.s') . ' Uhr';
+		$requests = $userDaten['requests'];
 
-        $requests = $userDaten['requests'];
+		$replaceArray = [
 
-        $replaceArray = [
+			'###Server###'    => $userDaten['server'],
+			'###Seite###'     => $userDaten['site'],
+			'###Time###'      => $timeStr,
+			'###IP###'        => $userDaten['ip'],
+			'###Host###'      => $userDaten['host'],
+			'###Client###'    => $userDaten['client'],
+			'###Referer###'   => $userDaten['referer'],
+			'###Query###'     => $userDaten['query'],
+			'###rRequests###' => $requests,
+		];
 
-            '###Server###' => $userDaten['server'],
-            '###Seite###' => $userDaten['site'],
-            '###Time###' => $timeStr,
-            '###IP###' => $userDaten['ip'],
-            '###Host###' => $userDaten['host'],
-            '###Client###' => $userDaten['client'],
-            '###Referer###' => $userDaten['referer'],
-            '###Query###' => $userDaten['query'],
-            '###rRequests###' => $requests,
-        ];
+		$mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
 
-        $mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
+		$this->_mailtext = $mailMessage;
+	}
 
-        $this->_mailtext = $mailMessage;
-    }
 
-    public static function getMailTemplate()
-    {
-        $mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	/**
+	 * @param $name
+	 *
+	 * @return int
+	 */
+	protected function getServerValue($name) {
+
+		$name = trim((string)$name);
+
+		$value = 0;
+
+		if(isset($_SERVER[$name])) {
+			$value = $_SERVER[$name];
+		}
+
+		return $value;
+	}
+
+
+	public static function getMailTemplate() {
+		/** @noinspection SpellCheckingInspection */
+		$mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -248,53 +246,45 @@ class CuInfoMail
 </body>
 </html>';
 
-        return $mailTemplate;
-    }
+		return $mailTemplate;
+	}
 
-    public function sendEmail()
-    {
 
-        $empfaenger = $this->_adresseTo;
-        $betreff = $this->_subject;
+	public function sendEmail() {
 
-        $header = 'MIME-Version: 1.0' . "\r\n";
-        $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+		$header = 'MIME-Version: 1.0' . "\r\n";
+		$header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
-        $header .= 'To: ' . $this->_adresseTo . "\r\n";
-        $header .= 'From: ' . $this->_nameFrom . '<' . $this->_addresseFrom . '>' . "\r\n";
+		$header .= 'To: ' . $this->_adresseTo . "\r\n";
+		$header .= 'From: ' . $this->_nameFrom . '<' . $this->_addressFrom . '>' . "\r\n";
 
-        $this->_subject;
-        $this->_mailtext;
+		$this->_subject;
+		$this->_mailtext;
 
-        mail($this->_adresseTo, $this->_subject, $this->_mailtext, $header);
+		mail($this->_adresseTo, $this->_subject, $this->_mailtext, $header);
+	}
 
-    }
 
-    public function addZeile($name, $wert)
-    {
+	public function addZeile($name, $wert) {
 
-        if ($this->_aktuelleZusatzzeile % 2 == 0) {
+		$className = 'zeileGrau';
+		if($this->_aktuelleZusatzZeile % 2 === 0) {
+			$className = 'zeileHell';
+		}
 
-            $className = "zeileHell";
-        } else {
+		$this->_aktuelleZusatzZeile++;
 
-            $className = "zeileGrau";
-        }
-
-        $this->_aktuelleZusatzzeile++;
-
-        $zeile = '
+		$zeile = '
         <tr>
             <th class="th ' . $className . '">' . $name . '</th>
             <td class="td ' . $className . '">' . $wert . '</td>
         </tr>
         <!--###ZUSATZ###-->';
 
-        $message = $this->_mailtext;
+		$message = $this->_mailtext;
 
-        $message = str_replace("<!--###ZUSATZ###-->", $zeile, $message);
+		$message = str_replace('<!--###ZUSATZ###-->', $zeile, $message);
 
-        $this->_mailtext = $message;
-
-    }
+		$this->_mailtext = $message;
+	}
 }

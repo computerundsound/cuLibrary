@@ -11,62 +11,49 @@
 /**
  * Class CuFactory
  */
-class CuFactory
-{
+class CuFactory {
 
 
 	/**
-	 * @var array // Syntax: array('ClassName' => array([paramter_01_value], [paramter_02_value], ...);
+	 * @var array // Syntax: array('ClassName' => array([parameter_01_value], [parameter_02_value], ...);
 	 */
 	protected static $classConfigurationArray;
-
-	private function __construct()
-	{
-	}
 
 
 	/**
 	 * @param array $classConfigurationArray
 	 */
-	public static function setClassConfiguration(array $classConfigurationArray)
-	{
+	public static function setClassConfiguration(array $classConfigurationArray) {
 		self::$classConfigurationArray = $classConfigurationArray;
 	}
 
+
 	/**
 	 * @param  string $className
+	 *
 	 * @return null|object
 	 */
-	public static function create($className)
-	{
+	public static function create($className) {
 		$parameterArray = array();
 
 		$classInstance = null;
-		$class         = new ReflectionClass($className);
-		if ($class)
-		{
+		$class = new ReflectionClass($className);
+		if($class) {
 
 			$constructor = $class->getConstructor();
-			if ($constructor)
-			{
+			if($constructor) {
 				$parameterAll = $constructor->getParameters();
 
-				foreach ($parameterAll as $parameter)
-				{
+				foreach($parameterAll as $parameter) {
 
-					if ($parameter)
-					{
+					if($parameter) {
 						$typeHint = self::isTypeHintParameter($parameter);
 						$position = $parameter->getPosition();
 
-						if (isset(self::$classConfigurationArray[$className][$position]))
-						{
+						if(isset(self::$classConfigurationArray[$className][$position])) {
 							$parameterArray[] = self::$classConfigurationArray[$className][$position];
-						}
-						else
-						{
-							if ($typeHint !== false)
-							{
+						} else {
+							if($typeHint !== false) {
 								$parameterArray[] = self::create($typeHint);
 							}
 						}
@@ -75,29 +62,25 @@ class CuFactory
 			}
 
 			$classInstance = $class->newInstanceArgs($parameterArray);
-
 		}
 
 		return $classInstance;
-
 	}
+
 
 	/**
 	 * @param ReflectionParameter $parameter
 	 *
 	 * @return bool
 	 */
-	protected static function isTypeHintParameter(ReflectionParameter $parameter)
-	{
+	protected static function isTypeHintParameter(ReflectionParameter $parameter) {
 		$ret = false;
 
 		$typeHintClass = $parameter->getClass();
 
-		if (is_object($typeHintClass))
-		{
+		if(is_object($typeHintClass)) {
 			$typeHint = $typeHintClass->name;
-			if ($typeHint)
-			{
+			if($typeHint) {
 				$ret = $typeHint;
 			}
 		}
@@ -105,31 +88,26 @@ class CuFactory
 		return $ret;
 	}
 
+
 	/**
 	 * @param $className
 	 *
 	 * @return bool
 	 */
-	protected static function classNameHasTypeHints($className)
-	{
+	protected static function classNameHasTypeHints($className) {
 		$ret = false;
 
 		$class = new ReflectionClass($className);
-		if ($class)
-		{
+		if($class) {
 			$constructor = $class->getConstructor();
-			if ($constructor)
-			{
+			if($constructor) {
 				$parameterAll = $constructor->getParameters();
 
-				foreach ($parameterAll as $parameter)
-				{
-					if ($parameter)
-					{
+				foreach($parameterAll as $parameter) {
+					if($parameter) {
 						$typeHint = self::isTypeHintParameter($parameter);
 
-						if ($typeHint !== false)
-						{
+						if($typeHint !== false) {
 							$ret = true;
 						}
 					}

@@ -12,8 +12,7 @@
 /**
  * Class DateTimeCu
  */
-class DateTimeCu extends DateTime
-{
+class DateTimeCu extends DateTime {
 
 	/** @var bool */
 	protected $dateTimeIsNotNull = false;
@@ -22,70 +21,66 @@ class DateTimeCu extends DateTime
 	 * @internal param string $dateString
 	 * @internal param DateTimeZone $dateTimeZone
 	 */
-	public function __construct()
-	{
+	/** @noinspection MissingParentConstructorCallInspection */
+	public function __construct() {
 		$this->initIntern('');
-	}
-
-	public function setNowIfNotSet()
-	{
-		parent::__construct();
-		$this->dateTimeIsNotNull = true;
-	}
-
-	/**
-	 * @param null         $dateString
-	 * @param DateTimeZone $dateTimeZone
-	 */
-	public function init($dateString = null, DateTimeZone $dateTimeZone = null)
-	{
-		$this->initIntern($dateString, $dateTimeZone);
 	}
 
 
 	/**
 	 * @param string       $dateString
-	 * @param DateTimeZone $datetimezone
+	 * @param DateTimeZone $dateTimeZone
 	 */
-	protected function initIntern($dateString, DateTimeZone $datetimezone = null)
-	{
+	protected function initIntern($dateString, DateTimeZone $dateTimeZone = null) {
 		$this->reset();
-		if (($dateString = $this->testValideDateString($dateString)) !== false)
-		{
-			parent::__construct($dateString, $datetimezone);
+		if(($dateString = $this->testValideDateString($dateString)) !== false) {
+			parent::__construct($dateString, $dateTimeZone);
 			$this->dateTimeIsNotNull = true;
 		}
 	}
 
 
 	/**
+	 *
+	 */
+	public function reset() {
+		parent::__construct();
+		$this->dateTimeIsNotNull = false;
+	}
+
+
+	/**
 	 * @param $dateString
 	 *
-	 * @return bool
+	 * @return string
 	 */
-	private function testValideDateString($dateString)
-	{
-		$ret = false;
+	private function testValideDateString($dateString) {
+		$ret = '';
 
 		$dateString = trim($dateString);
 
-		if (strtotime($dateString) > 0)
-		{
+		if(strtotime($dateString) > 0) {
 			$ret = $dateString;
 		}
-
 
 		return $ret;
 	}
 
-	/**
-	 *
-	 */
-	public function reset()
-	{
+
+	public function setNowIfNotSet() {
 		parent::__construct();
-		$this->dateTimeIsNotNull = false;
+		$this->dateTimeIsNotNull = true;
 	}
+
+
+	/**
+	 * @param null         $dateString
+	 * @param DateTimeZone $dateTimeZone
+	 */
+	public function init($dateString = null, DateTimeZone $dateTimeZone = null) {
+		$this->initIntern($dateString, $dateTimeZone);
+	}
+
 
 	/**
 	 * Returns date formatted according to given format.
@@ -95,19 +90,16 @@ class DateTimeCu extends DateTime
 	 * @return string
 	 * @link http://php.net/manual/en/datetime.format.php
 	 */
-	public function format($format)
-	{
+	public function format($format) {
 
 		$retStr = '';
 
 		$format = trim($format);
 
-		if ($this->dateTimeIsNotNull)
-		{
+		if($this->dateTimeIsNotNull) {
 			$retStr = parent::format($format);
 		}
 
 		return $retStr;
-
 	}
 }

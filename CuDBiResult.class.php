@@ -13,8 +13,7 @@
 /**
  * Class CuDBiResult
  */
-class CuDBiResult
-{
+class CuDBiResult {
 
 	private $result;
 	private $last_insert_id;
@@ -25,8 +24,7 @@ class CuDBiResult
 	/**
 	 * @return mixed
 	 */
-	public function get_last_insert_id()
-	{
+	public function get_last_insert_id() {
 		return $this->last_insert_id;
 	}
 
@@ -34,8 +32,7 @@ class CuDBiResult
 	/**
 	 * @param mixed $last_insert_id
 	 */
-	public function set_last_insert_id($last_insert_id)
-	{
+	public function set_last_insert_id($last_insert_id) {
 		$this->last_insert_id = $last_insert_id;
 	}
 
@@ -43,8 +40,7 @@ class CuDBiResult
 	/**
 	 * @return string
 	 */
-	public function get_message()
-	{
+	public function get_message() {
 		return $this->message;
 	}
 
@@ -52,8 +48,7 @@ class CuDBiResult
 	/**
 	 * @param string $message
 	 */
-	public function set_message($message)
-	{
+	public function set_message($message) {
 		$message = (string)$message;
 		$this->message = $message;
 	}
@@ -62,8 +57,7 @@ class CuDBiResult
 	/**
 	 * @return mysqli_result
 	 */
-	public function get_result()
-	{
+	public function get_result() {
 		return $this->result;
 	}
 
@@ -71,27 +65,24 @@ class CuDBiResult
 	/**
 	 * @param mysqli_result $result
 	 */
-	public function set_result($result)
-	{
+	public function set_result($result) {
 		$this->result = $result;
 	}
+
 
 	/**
 	 * @return string
 	 */
-	public function getQuery()
-	{
+	public function getQuery() {
 		return $this->query;
 	}
+
 
 	/**
 	 * @param string $query
 	 */
-	public function setQuery($query)
-	{
+	public function setQuery($query) {
 		$query = (string)$query;
 		$this->query = $query;
 	}
-
-
 }
