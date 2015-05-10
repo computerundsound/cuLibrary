@@ -9,6 +9,8 @@
  * Filename: CuConstantsContainer.class.php
  */
 
+namespace curlibrary;
+
 /**
  * Class CuConstantsContainer
  */

@@ -9,6 +9,14 @@
  *
  * Filename: CuInfoMail.class.php
  */
+
+namespace curlibrary;
+
+/**
+ * Class CuInfoMail
+ *
+ * @package curlibrary
+ */
 class CuInfoMail {
 
 	private $_subject;

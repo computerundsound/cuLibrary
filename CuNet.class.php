@@ -9,6 +9,14 @@
  *
  * Filename: CuNet.class.php
  */
+
+namespace curlibrary;
+
+/**
+ * Class CuNet
+ *
+ * @package curlibrary
+ */
 class CuNet {
 
 	/**
@@ -17,7 +25,7 @@ class CuNet {
 	public static function getClientData() {
 		$user_data_array = array();
 
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip                      = $_SERVER['REMOTE_ADDR'];
 		$user_data_array['host'] = gethostbyaddr($ip);
 
 		$user_data_array['ip'] = $ip;
@@ -74,7 +82,7 @@ class CuNet {
 		$pg_vari = self::get_post($vari_name);
 
 		if($pg_vari !== false) {
-			$vari = $pg_vari;
+			$vari                 = $pg_vari;
 			$_SESSION[$vari_name] = $vari;
 		}
 

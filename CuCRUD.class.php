@@ -9,6 +9,14 @@
  *
  * Filename: CuCRUD.class.php
  */
+
+namespace curlibrary;
+
+/**
+ * Class CuCRUD
+ *
+ * @package curlibrary
+ */
 class CuCRUD {
 
 	public $idName;

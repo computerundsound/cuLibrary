@@ -8,6 +8,8 @@
  *
  */
 
+namespace curlibrary;
+
 /**
  * Class CuFactory
  */
