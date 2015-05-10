@@ -9,6 +9,14 @@
  *
  * Filename: CuString.class.php
  */
+
+namespace curlibrary;
+
+/**
+ * Class CuString
+ *
+ * @package curlibrary
+ */
 class CuString {
 
 	/**

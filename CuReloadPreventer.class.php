@@ -9,6 +9,8 @@
  * Filename: CuReloadPreventer.php
  */
 
+namespace curlibrary;
+
 /**
  * Class CuReloadPreventer
  *

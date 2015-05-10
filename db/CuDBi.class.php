@@ -9,6 +9,8 @@
  * Filename: CuDBi.class.php
  */
 
+namespace culibrary\db;
+
 /**
  * Class CuDBi
  */

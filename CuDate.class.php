@@ -9,6 +9,14 @@
  *
  * Filename: CuDate.class.php
  */
+
+namespace curlibrary;
+
+/**
+ * Class CuDate
+ *
+ * @package curlibrary
+ */
 class CuDate {
 
 

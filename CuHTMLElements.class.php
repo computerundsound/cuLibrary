@@ -9,6 +9,14 @@
  *
  * Filename: CuNet.class.php
  */
+
+namespace curlibrary;
+
+/**
+ * Class CuHTMLElements
+ *
+ * @package curlibrary
+ */
 class CuHTMLElements {
 
 	/**

@@ -9,10 +9,12 @@
  * Filename: DateTimeCu.php
  */
 
+namespace curlibrary;
+
 /**
  * Class DateTimeCu
  */
-class DateTimeCu extends DateTime {
+class DateTimeCu extends \DateTime {
 
 	/** @var bool */
 	protected $dateTimeIsNotNull = false;
@@ -21,17 +23,17 @@ class DateTimeCu extends DateTime {
 	 * @internal param string $dateString
 	 * @internal param DateTimeZone $dateTimeZone
 	 */
-	/** @noinspection MissingParentConstructorCallInspection */
+	/** @noinspection MagicMethodsValidityInspection */
 	public function __construct() {
 		$this->initIntern('');
 	}
 
 
 	/**
-	 * @param string       $dateString
-	 * @param DateTimeZone $dateTimeZone
+	 * @param string        $dateString
+	 * @param \DateTimeZone $dateTimeZone
 	 */
-	protected function initIntern($dateString, DateTimeZone $dateTimeZone = null) {
+	protected function initIntern($dateString, \DateTimeZone $dateTimeZone = null) {
 		$this->reset();
 		if(($dateString = $this->testValideDateString($dateString)) !== false) {
 			parent::__construct($dateString, $dateTimeZone);
@@ -74,10 +76,10 @@ class DateTimeCu extends DateTime {
 
 
 	/**
-	 * @param null         $dateString
-	 * @param DateTimeZone $dateTimeZone
+	 * @param null          $dateString
+	 * @param \DateTimeZone $dateTimeZone
 	 */
-	public function init($dateString = null, DateTimeZone $dateTimeZone = null) {
+	public function init($dateString = null, \DateTimeZone $dateTimeZone = null) {
 		$this->initIntern($dateString, $dateTimeZone);
 	}
 

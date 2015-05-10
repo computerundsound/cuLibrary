@@ -9,6 +9,9 @@
  *
  * Filename: CuArray.class.php
  */
+
+namespace curlibrary;
+
 class CuArray {
 
 
