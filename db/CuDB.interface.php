@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Copyright by J�rg Wrase - www.Computer-Und-Sound.de
  * Date: 10.05.2015
  * Time: 04:04
  * 
@@ -14,16 +14,6 @@ namespace culibrary\db;
  * Interface CuDB
  */
 interface CuDB {
-
-	/**
-	 * @param $server
-	 * @param $username
-	 * @param $password
-	 * @param $dbName
-	 *
-	 * @return mixed
-	 */
-	//	public function getInstance($server, $username, $password, $dbName);
 
 	/**
 	 * @param $tableName
@@ -89,11 +79,12 @@ interface CuDB {
 
 	/**
 	 * @param $tableName
-	 * @param $where
+	 * @param $fieldName
+	 * @param $fieldValue
 	 *
 	 * @return array
 	 */
-	public function selectOneDataSet($tableName, $where);
+	public function selectOneDataSet($tableName, $fieldName, $fieldValue);
 
 
 	/**
