@@ -30,42 +30,11 @@ class DateTimeCu extends \DateTime {
 
 
 	/**
-	 * @param string        $dateString
-	 * @param \DateTimeZone $dateTimeZone
-	 */
-	protected function initIntern($dateString, \DateTimeZone $dateTimeZone = null) {
-		$this->reset();
-		if(($dateString = $this->testValideDateString($dateString)) !== false) {
-			parent::__construct($dateString, $dateTimeZone);
-			$this->dateTimeIsNotNull = true;
-		}
-	}
-
-
-	/**
 	 *
 	 */
 	public function reset() {
 		parent::__construct();
 		$this->dateTimeIsNotNull = false;
-	}
-
-
-	/**
-	 * @param $dateString
-	 *
-	 * @return string
-	 */
-	private function testValideDateString($dateString) {
-		$ret = '';
-
-		$dateString = trim($dateString);
-
-		if(strtotime($dateString) > 0) {
-			$ret = $dateString;
-		}
-
-		return $ret;
 	}
 
 
@@ -103,5 +72,36 @@ class DateTimeCu extends \DateTime {
 		}
 
 		return $retStr;
+	}
+
+
+	/**
+	 * @param string        $dateString
+	 * @param \DateTimeZone $dateTimeZone
+	 */
+	protected function initIntern($dateString, \DateTimeZone $dateTimeZone = null) {
+		$this->reset();
+		if(($dateString = $this->testValideDateString($dateString)) !== false) {
+			parent::__construct($dateString, $dateTimeZone);
+			$this->dateTimeIsNotNull = true;
+		}
+	}
+
+
+	/**
+	 * @param $dateString
+	 *
+	 * @return string
+	 */
+	private function testValideDateString($dateString) {
+		$ret = '';
+
+		$dateString = trim($dateString);
+
+		if(strtotime($dateString) > 0) {
+			$ret = $dateString;
+		}
+
+		return $ret;
 	}
 }

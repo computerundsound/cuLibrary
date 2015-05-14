@@ -10,6 +10,7 @@
  */
 
 namespace culibrary\db\mysqli;
+
 use culibrary\db\CuDBResult;
 
 /**

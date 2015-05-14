@@ -1,3 +1,7 @@
+<?php
+/** @var \curlibrary\CuMiniTemplateEngine $this */
+$this;
+?>
 <!DOCTYPE html>
 <html lang="de">
 	<head>
@@ -21,10 +25,7 @@
 
 					<h1><?php $this->showValue('Title') ?></h1>
 
-					<p>Überall dieselbe alte Leier. Das Layout ist fertig, der Text lässt auf sich warten. Damit das
-					   Layout nun nicht nackt im Raume steht und sich klein und leer vorkommt, springe ich ein: der
-					   Blindtext. Genau zu diesem Zwecke erschaffen, immer im Schatten meines großen Bruders »Lorem
-					   Ipsum«, freue ich mich jedes Mal, wenn Sie ein paar Zeilen lesen.</p>
+					<p><?php $this->showValue('message');?></p>
 
 					<p>&nbsp;</p>
 

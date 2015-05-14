@@ -5,48 +5,86 @@
  * @copyright 2011
  */
 
-namespace culibrary;
+namespace culibrary\db\pdo;
 
 use culibrary\DB\CuDB;
-use culibrary\db\CuDBResult;
 use PDO;
 
 /**
  * @author    Jörg Wrase
  * @copyright 2011
  */
-class CuDBpdo extends PDO implements CuDB {
 
+/** @noinspection SingletonFactoryPatternViolationInspection */
+class CuDBpdo extends PDO implements CuDB {
 
 	/**
 	 * @var CuDBResult
 	 */
-	private $cuDBResultTemplate;
+	protected static $instance;
+	/** @var  CuDBpdoResult */
+	protected static $cuDBpdoResult;
 
 
 	/**
-	 * @param CuDBResult  $cuDBResultTemplate
-	 * @param             $server
-	 * @param             $dbName
-	 * @param             $username
-	 * @param             $password
-	 * @param array       $options
+	 * @param string $host
+	 * @param string $username
+	 * @param string $password
+	 * @param string $dbName
+	 *
+	 * @noinspection PhpHierarchyChecksInspection
 	 */
-	public function __construct(CuDBResult $cuDBResultTemplate,
-	                            $server,
-	                            $dbName,
-	                            $username,
-	                            $password,
-	                            array $options = null) {
+	public function __construct($host, $username, $password, $dbName) {
+		if(self::$instance === null) {
+			$dsn = 'mysql:host=' . $host . ';dbname=' . $dbName;
+			parent::__construct($dsn, $username, $password);
+		}
+	}
 
-		$dsn = 'mysql:host=' . $server . ';dbname=' . $dbName;
 
-		if($options === null) {
-			$options = [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'];
+	/**
+	 * @param CuDBpdoResult $cuDBpdoResult
+	 * @param string        $serverName
+	 * @param string        $username
+	 * @param string        $password
+	 * @param string        $dbName
+	 *
+	 * @return \culibrary\db\pdo\CuDBpdo
+	 */
+	public static function getInstance(CuDBpdoResult $cuDBpdoResult,
+	                                   $serverName = DB_SERVERNAME,
+	                                   $username = DB_USERNAME,
+	                                   $password = DB_PASSWORD,
+	                                   $dbName = DB_NAME) {
+
+		self::$cuDBpdoResult = $cuDBpdoResult;
+
+		if(self::$instance === null) {
+			self::$instance = new static($serverName, $username, $password, $dbName);
 		}
 
-		parent::__construct($dsn, $username, $password, $options);
-		$this->cuDBResultTemplate = $cuDBResultTemplate;
+		return self::$instance;
+	}
+
+
+	/**
+	 * @param $tableName
+	 * @param $where
+	 *
+	 * @return CuDBResult
+	 */
+	public function cuDelete($tableName, $where) {
+		$where = trim($where);
+
+		$query = "DELETE FROM $tableName WHERE $where";
+		$stmt  = $this->prepare($query);
+
+		$stmt->execute();
+
+		self::$cuDBpdoResult->setQuery($query);
+		self::$cuDBpdoResult->setPdoStatement($stmt);
+
+		return self::$cuDBpdoResult;
 	}
 
 
@@ -58,6 +96,13 @@ class CuDBpdo extends PDO implements CuDB {
 		$this->query($q);
 	}
 
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
 
 	/**
 	 * @param $tableName
@@ -72,27 +117,15 @@ class CuDBpdo extends PDO implements CuDB {
 
 	/**
 	 * @param $tableName
-	 * @param $where
-	 *
-	 * @return CuDBResult
-	 */
-	public function cuDelete($tableName, $where) {
-		$where  = trim($where);
-		$query  = "DELETE FROM `$tableName` WHERE $where";
-		$result = $this->query($query);
-
-		return $result;
-	}
-
-
-	/**
-	 * @param $tableName
-	 * @param $where
+	 * @param $fieldName
+	 * @param $fieldValue
 	 *
 	 * @return array
+	 *
 	 */
-	public function selectOneDataSet($tableName, $where) {
+	public function selectOneDataSet($tableName, $fieldName, $fieldValue) {
 
+		$where         = "`$fieldName` = '$fieldValue'";
 		$dataSetsArray = $this->selectAsArray($tableName, $where);
 
 		$dataSetArray = [];
@@ -127,11 +160,11 @@ class CuDBpdo extends PDO implements CuDB {
 			$limit = ' LIMIT ' . $limit;
 		}
 
-		$q = "SELECT * FROM `$tableName` $where $order $limit";
+		$query = "SELECT * FROM `$tableName` $where $order $limit";
+		$stmt = $this->prepare($query);
+		$stmt->execute();
 
-		$cuResult    = $this->cuQuery($q);
-		$result      = $cuResult->getPdoStatement();
-		$resultArray = $result->fetchAll(PDO::FETCH_ASSOC);
+		$resultArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		return $resultArray;
 	}
@@ -161,15 +194,13 @@ class CuDBpdo extends PDO implements CuDB {
 		$statement = $this->query($query);
 		$id        = (int)$this->lastInsertId();
 
-		$cuDbResult = clone $this->cuDBResultTemplate;
-
 		if($statement) {
-			$cuDbResult->setPdoStatement($statement);
+			self::$cuDBpdoResult->setPdoStatement($statement);
 		}
 
-		$cuDbResult->setLastInsertId($id);
+		self::$cuDBpdoResult->setLastInsertId($id);
 
-		return $cuDbResult;
+		return self::$cuDBpdoResult;
 	}
 
 
@@ -191,18 +222,21 @@ class CuDBpdo extends PDO implements CuDB {
 
 
 	/**
-	 * @param       $tab_name
+	 * @param       $tableName
 	 * @param array $dataArray
 	 * @param       $where
 	 *
 	 * @return \PDOStatement
 	 */
-	public function cuUpdate($tab_name, array $dataArray, $where) {
-		$where     = ' WHERE ' . $where;
-		$updateStr = "UPDATE $tab_name";
+	public function cuUpdate($tableName, array $dataArray, $where = '') {
+		$query = "UPDATE $tableName SET ";
 
-		$statement = $this->buildQueryStringAndBindParameters($updateStr, $dataArray);
-		$this->exec($statement->queryString . $where);
+		if($where !== ''){
+			$where = " WHERE $where";
+		}
+
+		$statement = $this->buildQueryStringAndBindParameters($query, $dataArray, $where);
+		$statement->execute();
 
 		return $statement;
 	}
@@ -275,12 +309,28 @@ class CuDBpdo extends PDO implements CuDB {
 
 
 	/**
-	 * @param $tableName
+	 * @param        $tableName
+	 * @param string $where
 	 *
 	 * @return int
 	 */
-	public function getQuantityOfDataSets($tableName) {
-		// TODO: Implement getQuantityOfDataSets() method.
+	public function getQuantityOfDataSets($tableName, $where = '') {
+		if($where !== '') {
+			$where = " WHERE $where";
+		}
+		$query  = "SELECT count(*) as countDataSets FROM $tableName;";
+		$stmt = $this->query($query);
+
+		return $stmt->fetchColumn(0);
+
+	}
+
+
+	/**
+	 *
+	 */
+	public function closeConnection() {
+		$this->closeConnection();
 	}
 
 
@@ -290,60 +340,15 @@ class CuDBpdo extends PDO implements CuDB {
 	 * @return array
 	 */
 	public function getColNamesFromTable($tableName) {
-		// TODO: Implement getColNamesFromTable() method.
+		$query        = 'DESCRIBE ' . $tableName;
+
+		$stmt = $this->prepare($query);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_COLUMN);
+
 	}
 
-
-	/**
-	 *
-	 */
-	public function closeConnection() {
-		// TODO: Implement closeConnection() method.
-	}
-
-
-
-
-	//
-	//
-	//	/**
-	//	 * @param $tab_name
-	//	 *
-	//	 * @return int
-	//	 */
-	//	public function get_quantity_of_data_sets($tab_name) {
-	//		$dbObj = $this->dbiConObj;
-	//		$q = "SELECT * FROM `%s`;";
-	//		$q = sprintf($q, $tab_name);
-	//		$result = $dbObj->query($q);
-	//		$data_sets_counts = $result->num_rows;
-	//
-	//		return $data_sets_counts;
-	//	}
-	//
-	//
-	//	/**
-	//	 * @param $tab_name
-	//	 *
-	//	 * @return array
-	//	 */
-	//	public function get_col_names_from_table($tab_name) {
-	//		$db = $this->dbiConObj;
-	//		$sql = 'DESCRIBE ' . $tab_name;
-	//		$result = $db->query($sql);
-	//		$field_name = array();
-	//		$data_array = array();
-	//		while($data = $result->fetch_assoc()) {
-	//			$data_array[] = $data;
-	//		};
-	//
-	//		foreach($data_array as $val) {
-	//			array_push($field_name, $val['Field']);
-	//		}
-	//
-	//		return $field_name;
-	//	}
-	//
 	//
 	//	/**
 	//	 *
@@ -391,7 +396,6 @@ class CuDBpdo extends PDO implements CuDB {
 	//		return $this->mysql_link;
 	//	}
 
-
 	/**
 	 * @param $tableName
 	 * @param $fieldName
@@ -404,18 +408,19 @@ class CuDBpdo extends PDO implements CuDB {
 
 
 	/**
-	 * @param       $queryStartString
-	 * @param array $dataArray
+	 * @param        $queryStartString
+	 * @param array  $dataArray
+	 * @param string $where
 	 *
 	 * @return \PDOStatement
 	 */
-	protected function buildQueryStringAndBindParameters($queryStartString, array $dataArray) {
+	protected function buildQueryStringAndBindParameters($queryStartString, array $dataArray, $where = '') {
 
 		$valueQuery = $this->buildValueQuery($dataArray);
 
 		$query = $queryStartString . $valueQuery;
 
-		$statement = $this->prepare($query);
+		$statement = $this->prepare($query . $where);
 
 		$i = 0;
 		foreach($dataArray as $key => $val) {
@@ -423,8 +428,7 @@ class CuDBpdo extends PDO implements CuDB {
 			$i++;
 			$pdoParameterInfo = $this->getParameterInfo($val);
 
-			//			$statement->bindParam($i, $val, $pdoParameterInfo);
-			$statement->bindParam($i, $val, PDO::PARAM_STR);
+			$statement->bindValue($i, $val, $pdoParameterInfo);
 		}
 
 		return $statement;
@@ -483,6 +487,5 @@ class CuDBpdo extends PDO implements CuDB {
 
 
 	private function __clone() {
-		// TODO: Implement __clone() method.
 	}
 }

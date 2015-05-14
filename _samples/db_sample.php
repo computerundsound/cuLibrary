@@ -8,8 +8,8 @@
  *
  */
 
-use culibrary\db\mysqli\CuDBi;
-use culibrary\db\mysqli\CuDBiResult;
+use culibrary\db\pdo\CuDBpdo;
+use culibrary\db\pdo\CuDBpdoResult;
 use curlibrary\CuFactory;
 
 require_once '../CuFactory.class.php';
@@ -20,24 +20,37 @@ require_once '../db/CuDBResult.interface.php';
 require_once '../db/mysqli/CuDBi.class.php';
 require_once '../db/mysqli/CuDBiResult.class.php';
 
+require_once '../db/pdo/CuDBpdo.class.php';
+require_once '../db/pdo/CuDBpdoResult.class.php';
+
 $username = 'peng';
 $password = 'peng';
 $server   = 'localhost';
 $dbName   = 'test';
 
-/** @var CuDBi $mySqlObj */
-$mySqlObj = CuDBi::getInstance(new CuDBiResult(), $server, $username, $password, $dbName);
+$message = '';
 
-$ret = $mySqlObj->client_info;
+/** @var CuDBpdo $mySqlObj */
+$mySqlObj = CuDBpdo::getInstance(new CuDBpdoResult(), $server, $username, $password, $dbName);
+
+$ret = $mySqlObj->getAttribute(PDO::ATTR_CLIENT_VERSION);
 
 $tableName = 'testtable';
 
 $dataInsertArray = ['vorname' => 'Kimbertimber', 'name' => 'Limberbimber', 'ort' => 'Zauberhausen'];
 
+$mySqlObj->cuDelete($tableName, 'vorname LIKE \'Kimber%\'');
+
 $mySqlObj->cuInsert($tableName, $dataInsertArray);
 
 $dataUpdateArray = ['vorname' => 'Kimbertimber' . time()];
-$mySqlObj->cuUpdate($tableName, $dataUpdateArray, '`vorname` = \'Kimbertimber\' LIMIT 2');
+$mySqlObj->cuUpdate($tableName, $dataUpdateArray, '`vorname` LIKE \'Kimbertimber%\' LIMIT 2');
+
+$message = 'Hier die Message';
+
+$countDataSets = $mySqlObj->getQuantityOfDataSets($tableName);
+
+$message = (string)$countDataSets;
 
 /* ************************** Template ausgabe *************************************************/
 $dataArray = $mySqlObj->selectAsArray($tableName);
@@ -51,5 +64,7 @@ $cuMTE->setTemplateFolder(__DIR__ . '/_templates/');
 
 $cuMTE->assign('Title', 'Hier der Titel');
 $cuMTE->assign('resultArray', $dataArray);
+
+$cuMTE->assign('message', $message);
 
 $cuMTE->display('dbtest');

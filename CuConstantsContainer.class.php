@@ -64,71 +64,6 @@ class CuConstantsContainer {
 	}
 
 
-	private function buildServerValues() {
-		$this->server_serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-		$this->server_document_root = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
-		$this->server_phpSelf = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
-		$this->server_protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
-	}
-
-
-	/**
-	 *
-	 */
-	private function buildAppRootHTTP() {
-		$doc_root = $this->server_document_root;
-		$dirname = __DIR__;
-
-		$app_root = substr($dirname, strlen($doc_root));
-
-		$app_root = str_replace(['\\', 'inc/_close/_composer/vendor/computerundsound/culibrary',],
-		                        ['/', '',],
-		                        $app_root);
-		$this->app_root_HTTP = $app_root;
-	}
-
-
-	/**
-	 *
-	 */
-	private function buildAppRootServer() {
-		$path = $this->server_document_root . $this->app_root_HTTP;
-		$this->app_root_Server = self::makeGoodPathServer($path);
-	}
-
-
-	/**
-	 *
-	 */
-	private function buildAppRootFQHTTP() {
-
-		$methode = $this->server_protocol;
-		$methode = substr($methode, 0, 4);
-		$methode = strtoupper($methode);
-
-		$protocol = 'http://';
-		if($methode === 'HTTPS') {
-			$protocol = 'https://';
-		}
-
-		$url = $protocol . $this->server_serverName;
-
-		$app_root = $this->app_root_HTTP;
-
-		$this->app_root_FQHTTP = $url . $app_root;
-	}
-
-
-	/**
-	 *
-	 */
-	private function buildFilePathHTTP() {
-		$this->buildAppRootHTTP();
-		$file_path = $this->app_root_FQHTTP . $this->server_phpSelf;
-		$this->file_path_HTTP = $file_path;
-	}
-
-
 	/**
 	 * @param $path
 	 *
@@ -184,5 +119,70 @@ class CuConstantsContainer {
 	 */
 	public function getAppRootServer() {
 		return $this->app_root_Server;
+	}
+
+
+	private function buildServerValues() {
+		$this->server_serverName    = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+		$this->server_document_root = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
+		$this->server_phpSelf       = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
+		$this->server_protocol      = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
+	}
+
+
+	/**
+	 *
+	 */
+	private function buildAppRootHTTP() {
+		$doc_root = $this->server_document_root;
+		$dirname  = __DIR__;
+
+		$app_root = substr($dirname, strlen($doc_root));
+
+		$app_root            = str_replace(['\\', 'inc/_close/_composer/vendor/computerundsound/culibrary',],
+		                                   ['/', '',],
+		                                   $app_root);
+		$this->app_root_HTTP = $app_root;
+	}
+
+
+	/**
+	 *
+	 */
+	private function buildAppRootServer() {
+		$path                  = $this->server_document_root . $this->app_root_HTTP;
+		$this->app_root_Server = self::makeGoodPathServer($path);
+	}
+
+
+	/**
+	 *
+	 */
+	private function buildAppRootFQHTTP() {
+
+		$methode = $this->server_protocol;
+		$methode = substr($methode, 0, 4);
+		$methode = strtoupper($methode);
+
+		$protocol = 'http://';
+		if($methode === 'HTTPS') {
+			$protocol = 'https://';
+		}
+
+		$url = $protocol . $this->server_serverName;
+
+		$app_root = $this->app_root_HTTP;
+
+		$this->app_root_FQHTTP = $url . $app_root;
+	}
+
+
+	/**
+	 *
+	 */
+	private function buildFilePathHTTP() {
+		$this->buildAppRootHTTP();
+		$file_path            = $this->app_root_FQHTTP . $this->server_phpSelf;
+		$this->file_path_HTTP = $file_path;
 	}
 }

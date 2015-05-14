@@ -23,7 +23,7 @@ class CuNet {
 	 * @return array | 'client', referer', 'server', 'site', 'query',
 	 */
 	public static function getClientData() {
-		$user_data_array = array();
+		$user_data_array = [];
 
 		$ip                      = $_SERVER['REMOTE_ADDR'];
 		$user_data_array['host'] = gethostbyaddr($ip);
@@ -122,10 +122,10 @@ class CuNet {
 	public static function strip_slashes_deep($value) {
 
 		if(get_magic_quotes_gpc()) {
-			$value = is_array($value) ? array_map(array(
+			$value = is_array($value) ? array_map([
 				                                      __CLASS__,
 				                                      'strip_slashes_deep',
-			                                      ),
+			                                      ],
 			                                      $value) : stripcslashes($value);
 		}
 

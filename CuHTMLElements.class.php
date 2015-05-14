@@ -36,11 +36,11 @@ class CuHTMLElements {
 
 		$user_data_array['ip'] = $ip;
 
-		$user_data_array['client'] = $_SERVER['HTTP_USER_AGENT'];
+		$user_data_array['client']  = $_SERVER['HTTP_USER_AGENT'];
 		$user_data_array['referer'] = $_SERVER['HTTP_REFERER'];
-		$user_data_array['server'] = $_SERVER['SERVER_NAME'];
-		$user_data_array['site'] = $_SERVER['PHP_SELF'];
-		$user_data_array['query'] = $_SERVER['QUERY_STRING'];
+		$user_data_array['server']  = $_SERVER['SERVER_NAME'];
+		$user_data_array['site']    = $_SERVER['PHP_SELF'];
+		$user_data_array['query']   = $_SERVER['QUERY_STRING'];
 
 		return $user_data_array;
 	}
@@ -79,7 +79,7 @@ class CuHTMLElements {
 		$pg_vari = self::get_post($vari_name);
 
 		if($pg_vari) {
-			$vari = $pg_vari;
+			$vari                 = $pg_vari;
 			$_SESSION[$vari_name] = $vari;
 		}
 
@@ -119,10 +119,10 @@ class CuHTMLElements {
 	public static function strip_slashes_deep($value) {
 
 		if(get_magic_quotes_gpc()) {
-			$value = is_array($value) ? array_map(array(
+			$value = is_array($value) ? array_map([
 				                                      __CLASS__,
 				                                      'strip_slashes_deep',
-			                                      ),
+			                                      ],
 			                                      $value) : stripcslashes($value);
 		}
 

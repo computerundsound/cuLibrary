@@ -42,10 +42,11 @@ class CuDate {
 	public static function makeGermanDatumFromMysql($mySQLDatum) {
 		$daten = explode('-', $mySQLDatum);
 
-		foreach($daten as $key => $val) {
+		foreach($daten as $key => &$val) {
 
-			$daten[$key] = str_pad($val, 2, '0', STR_PAD_LEFT);
+			$val = str_pad($val, 2, '0', STR_PAD_LEFT);
 		}
+		unset($val);
 
 		$germanDatum = $daten[2] . '.' . $daten[1] . '.' . $daten[0];
 
@@ -59,7 +60,7 @@ class CuDate {
 	 * @return string
 	 */
 	public static function makeGermanZeitpunktFromTimestamp($timestamp) {
-		$date = self::makeDatumFromTimestamp($timestamp);
+		$date  = self::makeDatumFromTimestamp($timestamp);
 		$clock = self::makeUhrzeitFromTimestamp($timestamp);
 
 		return $date . ' - ' . $clock;
@@ -114,8 +115,8 @@ class CuDate {
 		$daten = explode('.', $myGermanDatum);
 
 		$monat = (float)$daten[1];
-		$day = (float)$daten[0];
-		$jahr = (float)$daten[2];
+		$day   = (float)$daten[0];
+		$jahr  = (float)$daten[2];
 
 		$timestamp = mktime(1, 0, 0, $monat, $day, $jahr);
 
@@ -155,7 +156,7 @@ class CuDate {
 	 * @return bool|string
 	 */
 	public static function mysqlDatumSetzeZusammen($year, $month, $day) {
-		$time = mktime(0, 0, 0, $month, $day, $year);
+		$time    = mktime(0, 0, 0, $month, $day, $year);
 		$newDate = date('Y-m-d', $time);
 
 		return $newDate;
@@ -167,7 +168,7 @@ class CuDate {
 	 */
 	public static function allMonateAufDeutsch() {
 
-		$monate = array(
+		$monate = [
 			'Jan' => 'Januar',
 			'Feb' => 'Februar',
 			'Mär' => 'März',
@@ -180,7 +181,7 @@ class CuDate {
 			'Okt' => 'Oktober',
 			'Nov' => 'November',
 			'Dez' => 'Dezember',
-		);
+		];
 
 		return $monate;
 	}
@@ -191,7 +192,7 @@ class CuDate {
 	 */
 	public static function allWochentageAufDeutsch() {
 
-		$wochentage = array(
+		$wochentage = [
 			'Mo' => 'Montag',
 			'Di' => 'Dienstag',
 			'Mi' => 'Mittwoch',
@@ -199,7 +200,7 @@ class CuDate {
 			'Fr' => 'Freitag',
 			'Sa' => 'Samstag',
 			'So' => 'Sonntag',
-		);
+		];
 
 		return $wochentage;
 	}

@@ -36,10 +36,14 @@ class CuFactory {
 	 * @return null|object
 	 */
 	public static function create($className) {
-		$parameterArray = array();
+		$parameterArray = [];
+
+		if(substr($className, 0, 1) === '\\') {
+			$className = substr($className, 1);
+		}
 
 		$classInstance = null;
-		$class = new \ReflectionClass($className);
+		$class         = new \ReflectionClass($className);
 		if($class) {
 
 			$constructor = $class->getConstructor();

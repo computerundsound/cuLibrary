@@ -9,7 +9,7 @@
  * Filename: CuDBiResult.php
  */
 
-namespace culibrary\db\mysqli;
+namespace culibrary\db\pdo;
 
 use culibrary\db\CuDBResult;
 
@@ -17,6 +17,9 @@ use culibrary\db\CuDBResult;
  * Class CuDBiResult
  */
 class CuDBpdoResult implements CuDBResult {
+
+	/** @var  \PDOStatement */
+	protected $pdoStatement;
 
 	/** @var  \mysqli_result */
 	private $result;
@@ -90,4 +93,22 @@ class CuDBpdoResult implements CuDBResult {
 	public function setQuery($query) {
 		$this->query = (string)$query;
 	}
+
+
+	/**
+	 * @param \PDOStatement $pdoStatement
+	 */
+	public function setPdoStatement(\PDOStatement $pdoStatement) {
+		$this->pdoStatement = $pdoStatement;
+	}
+
+
+	/**
+	 * @return \PDOStatement
+	 */
+	public function getPdoStatement() {
+		return $this->pdoStatement;
+	}
+
+
 }
