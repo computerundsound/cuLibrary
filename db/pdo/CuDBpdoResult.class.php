@@ -10,12 +10,13 @@
  */
 
 namespace culibrary\db\mysqli;
+
 use culibrary\db\CuDBResult;
 
 /**
  * Class CuDBiResult
  */
-class CuDBiResult implements CuDBResult {
+class CuDBpdoResult implements CuDBResult {
 
 	/** @var  \mysqli_result */
 	private $result;
@@ -60,7 +61,7 @@ class CuDBiResult implements CuDBResult {
 
 
 	/**
-	 * @return \mysqli_result | bool
+	 * @return \mysqli_result
 	 */
 	public function getResult() {
 		return $this->result;
@@ -68,9 +69,9 @@ class CuDBiResult implements CuDBResult {
 
 
 	/**
-	 * @param \mysqli_result | bool $result
+	 * @param \mysqli_result $result
 	 */
-	public function setResult($result) {
+	public function setResult(\mysqli_result $result) {
 		$this->result = $result;
 	}
 

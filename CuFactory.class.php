@@ -39,7 +39,7 @@ class CuFactory {
 		$parameterArray = array();
 
 		$classInstance = null;
-		$class = new ReflectionClass($className);
+		$class = new \ReflectionClass($className);
 		if($class) {
 
 			$constructor = $class->getConstructor();
@@ -71,11 +71,11 @@ class CuFactory {
 
 
 	/**
-	 * @param ReflectionParameter $parameter
+	 * @param \ReflectionParameter $parameter
 	 *
 	 * @return bool
 	 */
-	protected static function isTypeHintParameter(ReflectionParameter $parameter) {
+	protected static function isTypeHintParameter(\ReflectionParameter $parameter) {
 		$ret = false;
 
 		$typeHintClass = $parameter->getClass();
@@ -99,7 +99,7 @@ class CuFactory {
 	protected static function classNameHasTypeHints($className) {
 		$ret = false;
 
-		$class = new ReflectionClass($className);
+		$class = new \ReflectionClass($className);
 		if($class) {
 			$constructor = $class->getConstructor();
 			if($constructor) {

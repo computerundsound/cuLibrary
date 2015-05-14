@@ -16,17 +16,15 @@ namespace curlibrary;
  */
 class CuMiniTemplateEngine {
 
-	private $variablesForTemplate = array();
+	private $variablesForTemplate = [];
 
 	private $templateFolder = '';
 
 
 	/**
-	 * cuMiniTemplateEngine constructor.
-	 *
-	 * @param string $templateFolder
+	 * @param $templateFolder
 	 */
-	public function __construct($templateFolder) {
+	public function setTemplateFolder($templateFolder) {
 
 		if(is_dir($templateFolder) === false) {
 			throw new \DomainException("Templatefolder $templateFolder not found");
@@ -76,7 +74,7 @@ class CuMiniTemplateEngine {
 	 * @param      $name
 	 * @param bool $html
 	 */
-	public function showValue($name, $html = false){
+	public function showValue($name, $html = false) {
 		$value = $this->getValue($name);
 
 		if($html) {

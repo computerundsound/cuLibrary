@@ -42,7 +42,7 @@ class CuDBpdo extends PDO implements CuDB {
 		$dsn = 'mysql:host=' . $server . ';dbname=' . $dbName;
 
 		if($options === null) {
-			$options = [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',];
+			$options = [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'];
 		}
 
 		parent::__construct($dsn, $username, $password, $options);
@@ -209,85 +209,6 @@ class CuDBpdo extends PDO implements CuDB {
 
 
 	/**
-	 * @param       $queryStartString
-	 * @param array $dataArray
-	 *
-	 * @return \PDOStatement
-	 */
-	protected function buildQueryStringAndBindParameters($queryStartString, array $dataArray) {
-
-		$valueQuery = $this->buildValueQuery($dataArray);
-
-		$query = $queryStartString . $valueQuery;
-
-		$statement = $this->prepare($query);
-
-		$i = 0;
-		foreach($dataArray as $key => $val) {
-
-			$i++;
-			$pdoParameterInfo = $this->getParameterInfo($val);
-
-			//			$statement->bindParam($i, $val, $pdoParameterInfo);
-			$statement->bindParam($i, $val, PDO::PARAM_STR);
-		}
-
-		return $statement;
-	}
-
-
-	/**
-	 * @param array $dataArray
-	 *
-	 * @return string
-	 */
-	protected function buildValueQuery(array $dataArray) {
-
-		$valueQuery = '';
-
-		foreach($dataArray as $key => $val) {
-			$valueQuery .= "$key = ?,";
-		}
-		$valueQuery = substr($valueQuery, 0, -1);
-
-		return $valueQuery;
-	}
-
-
-	/**
-	 * @param $val
-	 *
-	 * @return int|string
-	 */
-	protected function getParameterInfo($val) {
-		$pdoParameterInfo = gettype($val);
-
-		switch($pdoParameterInfo) {
-			case'boolean':
-				$pdoParameterInfo = PDO::PARAM_BOOL;
-				break;
-			case'integer':
-				$pdoParameterInfo = PDO::PARAM_INT;
-				break;
-			case'double':
-				/* TODO-Jörg Wrase: Wrong! */
-				$pdoParameterInfo = PDO::PARAM_INT;
-				break;
-			case'string':
-				$pdoParameterInfo = PDO::PARAM_STR;
-				break;
-			case 'NULL':
-				$pdoParameterInfo = PDO::PARAM_NULL;
-				break;
-			default:
-				throw new \InvalidArgumentException('Parameter can only be boolean, integer, double or string');
-		}
-
-		return $pdoParameterInfo;
-	}
-
-
-	/**
 	 * @param $tableName
 	 * @param $fieldName
 	 * @param $fieldValue
@@ -350,6 +271,34 @@ class CuDBpdo extends PDO implements CuDB {
 		$statement->execute();
 
 		return $statement;
+	}
+
+
+	/**
+	 * @param $tableName
+	 *
+	 * @return int
+	 */
+	public function getQuantityOfDataSets($tableName) {
+		// TODO: Implement getQuantityOfDataSets() method.
+	}
+
+
+	/**
+	 * @param $tableName
+	 *
+	 * @return array
+	 */
+	public function getColNamesFromTable($tableName) {
+		// TODO: Implement getColNamesFromTable() method.
+	}
+
+
+	/**
+	 *
+	 */
+	public function closeConnection() {
+		// TODO: Implement closeConnection() method.
 	}
 
 
@@ -442,33 +391,6 @@ class CuDBpdo extends PDO implements CuDB {
 	//		return $this->mysql_link;
 	//	}
 
-	/**
-	 * @param $tableName
-	 *
-	 * @return int
-	 */
-	public function getQuantityOfDataSets($tableName) {
-		// TODO: Implement getQuantityOfDataSets() method.
-	}
-
-
-	/**
-	 * @param $tableName
-	 *
-	 * @return array
-	 */
-	public function getColNamesFromTable($tableName) {
-		// TODO: Implement getColNamesFromTable() method.
-	}
-
-
-	/**
-	 *
-	 */
-	public function closeConnection() {
-		// TODO: Implement closeConnection() method.
-	}
-
 
 	/**
 	 * @param $tableName
@@ -478,6 +400,85 @@ class CuDBpdo extends PDO implements CuDB {
 	 */
 	public function getFieldInfos($tableName, $fieldName) {
 		// TODO: Implement getFieldInfos() method.
+	}
+
+
+	/**
+	 * @param       $queryStartString
+	 * @param array $dataArray
+	 *
+	 * @return \PDOStatement
+	 */
+	protected function buildQueryStringAndBindParameters($queryStartString, array $dataArray) {
+
+		$valueQuery = $this->buildValueQuery($dataArray);
+
+		$query = $queryStartString . $valueQuery;
+
+		$statement = $this->prepare($query);
+
+		$i = 0;
+		foreach($dataArray as $key => $val) {
+
+			$i++;
+			$pdoParameterInfo = $this->getParameterInfo($val);
+
+			//			$statement->bindParam($i, $val, $pdoParameterInfo);
+			$statement->bindParam($i, $val, PDO::PARAM_STR);
+		}
+
+		return $statement;
+	}
+
+
+	/**
+	 * @param array $dataArray
+	 *
+	 * @return string
+	 */
+	protected function buildValueQuery(array $dataArray) {
+
+		$valueQuery = '';
+
+		foreach($dataArray as $key => $val) {
+			$valueQuery .= "$key = ?,";
+		}
+		$valueQuery = substr($valueQuery, 0, -1);
+
+		return $valueQuery;
+	}
+
+
+	/**
+	 * @param $val
+	 *
+	 * @return int|string
+	 */
+	protected function getParameterInfo($val) {
+		$pdoParameterInfo = gettype($val);
+
+		switch($pdoParameterInfo) {
+			case'boolean':
+				$pdoParameterInfo = PDO::PARAM_BOOL;
+				break;
+			case'integer':
+				$pdoParameterInfo = PDO::PARAM_INT;
+				break;
+			case'double':
+				/* TODO-Jörg Wrase: Wrong! */
+				$pdoParameterInfo = PDO::PARAM_INT;
+				break;
+			case'string':
+				$pdoParameterInfo = PDO::PARAM_STR;
+				break;
+			case 'NULL':
+				$pdoParameterInfo = PDO::PARAM_NULL;
+				break;
+			default:
+				throw new \InvalidArgumentException('Parameter can only be boolean, integer, double or string');
+		}
+
+		return $pdoParameterInfo;
 	}
 
 
