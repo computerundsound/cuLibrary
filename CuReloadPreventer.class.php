@@ -32,11 +32,11 @@ class CuReloadPreventer {
 	/**
 	 * @param bool $switch_off
 	 *
-	 * @throws Exception
+	 * @throws \curlibrary\RuntimeException
 	 */
 	public function __construct($switch_off = false) {
 		if(session_id() === false) {
-			throw new RuntimeException('You must have a SESSION');
+			throw new \RuntimeException('You must have a SESSION');
 		}
 		$this->switch_off = $switch_off;
 		$this->load_token_from_request();
@@ -44,6 +44,48 @@ class CuReloadPreventer {
 		$this->generate_token_new();
 		$this->check_token();
 		$this->save_new_token();
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function get_vari_name() {
+		return self::$vari_name;
+	}
+
+
+	public function test_and_kill_request() {
+
+		if($this->test_token_result === false) {
+			$this->kill_request();
+		}
+	}
+
+
+	public function kill_request() {
+		if($this->switch_off === false) {
+			$_REQUEST = null;
+			$_POST    = null;
+			$_GET     = null;
+			$_FILES   = null;
+		}
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function get_token_new() {
+		return $this->token_new;
+	}
+
+
+	/**
+	 * @return null
+	 */
+	public function get_test_token() {
+		return $this->test_token_result;
 	}
 
 
@@ -75,47 +117,5 @@ class CuReloadPreventer {
 
 	private function save_new_token() {
 		$_SESSION[self::$vari_name] = $this->token_new;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public static function get_vari_name() {
-		return self::$vari_name;
-	}
-
-
-	public function test_and_kill_request() {
-
-		if($this->test_token_result === false) {
-			$this->kill_request();
-		}
-	}
-
-
-	public function kill_request() {
-		if($this->switch_off === false) {
-			$_REQUEST = null;
-			$_POST = null;
-			$_GET = null;
-			$_FILES = null;
-		}
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function get_token_new() {
-		return $this->token_new;
-	}
-
-
-	/**
-	 * @return null
-	 */
-	public function get_test_token() {
-		return $this->test_token_result;
 	}
 }

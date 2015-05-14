@@ -173,7 +173,7 @@ class CuString {
 	 */
 	public static function brEncodedToHTML($val) {
 		$pattern = '/&lt;br&gt;/';
-		$val = preg_replace($pattern, '<br>', $val);
+		$val     = preg_replace($pattern, '<br>', $val);
 
 		//        $val = str_replace("&lt;br&gt;","<br>",$val);
 		return $val;

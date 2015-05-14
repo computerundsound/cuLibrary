@@ -10,6 +10,7 @@
  */
 
 namespace culibrary\db\mysqli;
+
 use culibrary\db\CuDB;
 use mysqli;
 
@@ -233,8 +234,8 @@ class CuDBi extends mysqli implements CuDB {
 	public function getColNamesFromTable($tableName) {
 		$sql        = 'DESCRIBE ' . $tableName;
 		$result     = $this->query($sql);
-		$field_name = array();
-		$data_array = array();
+		$field_name = [];
+		$data_array = [];
 		while($data = $result->fetch_assoc()) {
 			$data_array[] = $data;
 		};
@@ -306,7 +307,7 @@ class CuDBi extends mysqli implements CuDB {
 	 * @return array
 	 */
 	public function selectAsArray($tableName, $where = '', $order = '', $limit = '') {
-		$data_array = array();
+		$data_array = [];
 		$where      = trim($where);
 		$order      = trim($order);
 		$limit      = trim($limit);

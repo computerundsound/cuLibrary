@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright by Jörg Wrase - Computer-Und-Sound.de
  * Date: 08.08.12
@@ -27,14 +26,19 @@ class CuInfoMail {
 
 	private $_aktuelleZusatzZeile = 0;
 
-	private $_userDaten = array();
+	private $_userDaten = [];
 
 
+	/**
+	 * @param $addressTo
+	 * @param $addressFrom
+	 * @param $nameFrom
+	 */
 	public function __construct($addressTo, $addressFrom, $nameFrom) {
 
-		$this->_adresseTo = $addressTo;
+		$this->_adresseTo   = $addressTo;
 		$this->_addressFrom = $addressFrom;
-		$this->_nameFrom = $nameFrom;
+		$this->_nameFrom    = $nameFrom;
 
 		$this->_userDaten = $this->getClientData();
 
@@ -44,83 +48,8 @@ class CuInfoMail {
 
 
 	/**
-	 * @return array;
+	 * @return string
 	 */
-	protected function getClientData() {
-
-		$userDaten = array();
-
-		$userDaten['server'] = $this->getServerValue('SERVER_NAME');
-		$userDaten['site'] = $this->getServerValue('PHP_SELF');
-		$userDaten['ip'] = $this->getServerValue('REMOTE_ADDR');
-		$userDaten['host'] = $userDaten['ip'] === '' ? '' : gethostbyaddr($userDaten['ip']);
-		$userDaten['client'] = $this->getServerValue('HTTP_USER_AGENT');
-		$userDaten['referer'] = $this->getServerValue('HTTP_REFERER');
-		$userDaten['query'] = $this->getServerValue('QUERY_STRING');
-		$userDaten['requests'] = isset($_REQUEST) ? $_REQUEST : array();
-		$userDaten['requests'] = serialize($userDaten['requests']);
-
-		return $userDaten;
-	}
-
-
-	private function buildSubject() {
-		$subject = 'Aufruf der Seite ' . htmlspecialchars($_SERVER['PHP_SELF'],
-		                                                  ENT_COMPAT,
-		                                                  'utf-8') . ' - ' . $this->_userDaten['server']
-		           . $this->_userDaten['site'] . ' - ' . date('Y-m-d H:i:s');
-		$this->_subject = $subject;
-	}
-
-
-	private function buildMessage() {
-		$template = self::getMailTemplate();
-		$userDaten = $this->_userDaten;
-
-		$mailMessage = $template;
-
-		$timeStr = date('d.m.Y') . ' --- ' . date('H:i.s') . ' Uhr';
-
-		$requests = $userDaten['requests'];
-
-		$replaceArray = [
-
-			'###Server###'    => $userDaten['server'],
-			'###Seite###'     => $userDaten['site'],
-			'###Time###'      => $timeStr,
-			'###IP###'        => $userDaten['ip'],
-			'###Host###'      => $userDaten['host'],
-			'###Client###'    => $userDaten['client'],
-			'###Referer###'   => $userDaten['referer'],
-			'###Query###'     => $userDaten['query'],
-			'###rRequests###' => $requests,
-		];
-
-		$mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
-
-		$this->_mailtext = $mailMessage;
-	}
-
-
-	/**
-	 * @param $name
-	 *
-	 * @return int
-	 */
-	protected function getServerValue($name) {
-
-		$name = trim((string)$name);
-
-		$value = 0;
-
-		if(isset($_SERVER[$name])) {
-			$value = $_SERVER[$name];
-		}
-
-		return $value;
-	}
-
-
 	public static function getMailTemplate() {
 		/** @noinspection SpellCheckingInspection */
 		$mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -196,7 +125,7 @@ class CuInfoMail {
         <td><h1 class="h1">Auruf der Seite <a class="mylink" href="http://###Server######Seite###">###Server######Seite###</a></h1></td>
             </tr>
     <tr>
-        <td class="td" style="text-align: left">
+        <td class="td" style="text-align: left;">
             <h2 class="h2">Userdaten:</h2>
             <table cellpadding="0" cellspacing="0" width="500px" align="left">
                 <tr>
@@ -273,6 +202,10 @@ class CuInfoMail {
 	}
 
 
+	/**
+	 * @param $name
+	 * @param $wert
+	 */
 	public function addZeile($name, $wert) {
 
 		$className = 'zeileGrau';
@@ -294,5 +227,83 @@ class CuInfoMail {
 		$message = str_replace('<!--###ZUSATZ###-->', $zeile, $message);
 
 		$this->_mailtext = $message;
+	}
+
+
+	/**
+	 * @return array;
+	 */
+	protected function getClientData() {
+
+		$userDaten = [];
+
+		$userDaten['server']   = $this->getServerValue('SERVER_NAME');
+		$userDaten['site']     = $this->getServerValue('PHP_SELF');
+		$userDaten['ip']       = $this->getServerValue('REMOTE_ADDR');
+		$userDaten['host']     = $userDaten['ip'] === '' ? '' : gethostbyaddr($userDaten['ip']);
+		$userDaten['client']   = $this->getServerValue('HTTP_USER_AGENT');
+		$userDaten['referer']  = $this->getServerValue('HTTP_REFERER');
+		$userDaten['query']    = $this->getServerValue('QUERY_STRING');
+		$userDaten['requests'] = isset($_REQUEST) ? $_REQUEST : [];
+		$userDaten['requests'] = serialize($userDaten['requests']);
+
+		return $userDaten;
+	}
+
+
+	/**
+	 * @param $name
+	 *
+	 * @return int
+	 */
+	protected function getServerValue($name) {
+
+		$name = trim((string)$name);
+
+		$value = 0;
+
+		if(isset($_SERVER[$name])) {
+			$value = $_SERVER[$name];
+		}
+
+		return $value;
+	}
+
+
+	private function buildSubject() {
+		$subject        = 'Aufruf der Seite ' . htmlspecialchars($_SERVER['PHP_SELF'],
+		                                                         ENT_COMPAT,
+		                                                         'utf-8') . ' - ' . $this->_userDaten['server']
+		                  . $this->_userDaten['site'] . ' - ' . date('Y-m-d H:i:s');
+		$this->_subject = $subject;
+	}
+
+
+	private function buildMessage() {
+		$template  = self::getMailTemplate();
+		$userDaten = $this->_userDaten;
+
+		$mailMessage = $template;
+
+		$timeStr = date('d.m.Y') . ' --- ' . date('H:i.s') . ' Uhr';
+
+		$requests = $userDaten['requests'];
+
+		$replaceArray = [
+
+			'###Server###'    => $userDaten['server'],
+			'###Seite###'     => $userDaten['site'],
+			'###Time###'      => $timeStr,
+			'###IP###'        => $userDaten['ip'],
+			'###Host###'      => $userDaten['host'],
+			'###Client###'    => $userDaten['client'],
+			'###Referer###'   => $userDaten['referer'],
+			'###Query###'     => $userDaten['query'],
+			'###rRequests###' => $requests,
+		];
+
+		$mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
+
+		$this->_mailtext = $mailMessage;
 	}
 }

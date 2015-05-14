@@ -12,6 +12,11 @@
 
 namespace curlibrary;
 
+/**
+ * Class CuArray
+ *
+ * @package curlibrary
+ */
 class CuArray {
 
 
@@ -48,13 +53,11 @@ class CuArray {
 	 */
 	public static function set_pointer_from_value_or_key(&$my_array, $value, $key = false) {
 
-		/* TODO-Jörg Wrase: Das ist noch nicht durch getestet */
-
 		reset($my_array);
 
 		$arrayCount = count($my_array);
 		for($key_nr = 0; $key_nr < $arrayCount; $key_nr++) {
-			$array_current_key = key($my_array);
+			$array_current_key   = key($my_array);
 			$array_current_value = $my_array[$array_current_key];
 
 			if($key === false) {
@@ -90,5 +93,6 @@ class CuArray {
 				$value = $new_value;
 			}
 		}
+		unset($value);
 	}
 }
