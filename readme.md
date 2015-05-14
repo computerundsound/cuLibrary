@@ -1,6 +1,6 @@
 # Small Library - little helper for php-developer #
 
-Some (static) classes for developers.
+Database, Factory (with reflectins, good for dependency injection develop)
 
 Needs PHP 5.4
 
