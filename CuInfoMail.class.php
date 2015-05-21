@@ -9,7 +9,7 @@
  * Filename: CuInfoMail.class.php
  */
 
-namespace curlibrary;
+namespace computerundsound\curlibrary;
 
 /**
  * Class CuInfoMail

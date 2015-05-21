@@ -7,7 +7,7 @@
  * Created by IntelliJ IDEA
  *
  */
-namespace curlibrary;
+namespace computerundsound\curlibrary;
 
 /**
  * Class CuMiniTemplateEngine

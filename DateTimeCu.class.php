@@ -9,7 +9,7 @@
  * Filename: DateTimeCu.php
  */
 
-namespace curlibrary;
+namespace computerundsound\curlibrary;
 
 /**
  * Class DateTimeCu

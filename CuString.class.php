@@ -10,7 +10,7 @@
  * Filename: CuString.class.php
  */
 
-namespace curlibrary;
+namespace computerundsound\curlibrary;
 
 /**
  * Class CuString

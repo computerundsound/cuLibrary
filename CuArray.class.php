@@ -10,7 +10,7 @@
  * Filename: CuArray.class.php
  */
 
-namespace curlibrary;
+namespace computerundsound\curlibrary;
 
 /**
  * Class CuArray
