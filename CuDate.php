@@ -10,7 +10,7 @@
  * Filename: CuDate.class.php
  */
 
-namespace computerundsound\curlibrary;
+namespace computerundsound\culibrary;
 
 /**
  * Class CuDate

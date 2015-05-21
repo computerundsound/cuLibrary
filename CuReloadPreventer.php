@@ -9,7 +9,7 @@
  * Filename: CuReloadPreventer.php
  */
 
-namespace computerundsound\curlibrary;
+namespace computerundsound\culibrary;
 
 /**
  * Class CuReloadPreventer

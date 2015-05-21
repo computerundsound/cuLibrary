@@ -8,7 +8,7 @@
  *
  */
 
-namespace computerundsound\curlibrary;
+namespace computerundsound\culibrary;
 
 /**
  * Class CuFactory

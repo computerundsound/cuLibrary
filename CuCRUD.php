@@ -10,7 +10,7 @@
  * Filename: CuCRUD.class.php
  */
 
-namespace computerundsound\curlibrary;
+namespace computerundsound\culibrary;
 use culibrary\db\mysqli\CuDBi;
 
 /**
