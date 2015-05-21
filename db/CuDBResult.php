@@ -9,7 +9,7 @@
  * Filename: CuDBiResult.php
  */
 
-namespace culibrary\db;
+namespace computerundsound\culibrary\db;
 
 /**
  * Class CuDBResult

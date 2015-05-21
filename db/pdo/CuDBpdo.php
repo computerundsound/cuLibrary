@@ -5,9 +5,10 @@
  * @copyright 2011
  */
 
-namespace culibrary\db\pdo;
+namespace computerundsound\culibrary\db\pdo;
 
-use culibrary\DB\CuDB;
+use computerundsound\culibrary\db\CuDB;
+use computerundsound\culibrary\db\CuDBResult;
 use PDO;
 
 /**
@@ -49,13 +50,13 @@ class CuDBpdo extends PDO implements CuDB {
 	 * @param string        $password
 	 * @param string        $dbName
 	 *
-	 * @return \culibrary\db\pdo\CuDBpdo
+	 * @return CuDBpdo
 	 */
 	public static function getInstance(CuDBpdoResult $cuDBpdoResult,
-	                                   $serverName = DB_SERVERNAME,
-	                                   $username = DB_USERNAME,
-	                                   $password = DB_PASSWORD,
-	                                   $dbName = DB_NAME) {
+	                                   $serverName,
+	                                   $username,
+	                                   $password,
+	                                   $dbName) {
 
 		self::$cuDBpdoResult = $cuDBpdoResult;
 
@@ -318,7 +319,7 @@ class CuDBpdo extends PDO implements CuDB {
 		if($where !== '') {
 			$where = " WHERE $where";
 		}
-		$query  = "SELECT count(*) as countDataSets FROM $tableName;";
+		$query  = "SELECT count(*) as countDataSets FROM $tableName $where;";
 		$stmt = $this->query($query);
 
 		return $stmt->fetchColumn(0);

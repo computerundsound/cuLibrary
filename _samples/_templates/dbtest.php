@@ -1,5 +1,6 @@
 <?php
-/** @var \curlibrary\CuMiniTemplateEngine $this */
+/** @var \computerundsound\culibrary\CuMiniTemplateEngine $this */
+/** @noinspection PhpExpressionResultUnusedInspection */
 $this;
 ?>
 <!DOCTYPE html>
@@ -33,11 +34,13 @@ $this;
 						<?php
 						$dataArray = $this->getValue('resultArray');
 
+						/** @noinspection ForeachSourceInspection */
 						foreach($dataArray as $key => $row):
 
 							?>
 							<tr>
-								<?php foreach($row as $value): ?>
+								<?php /** @noinspection ForeachSourceInspection */
+								foreach($row as $value): ?>
 									<td><?php echo $value; ?></td>
 								<?php endforeach; ?>
 							</tr>

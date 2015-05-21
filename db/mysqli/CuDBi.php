@@ -9,9 +9,10 @@
  * Filename: CuDBi.class.php
  */
 
-namespace culibrary\db\mysqli;
+namespace computerundsound\culibrary\db\mysqli;
 
-use culibrary\db\CuDB;
+use computerundsound\culibrary\db\CuDB;
+use computerundsound\culibrary\db\CuDBResult;
 use mysqli;
 
 /**
@@ -51,10 +52,10 @@ class CuDBi extends mysqli implements CuDB {
 	 * @return mysqli
 	 */
 	public static function getInstance(CuDBiResult $cuDBiResult,
-	                                   $serverName = DB_SERVERNAME,
-	                                   $username = DB_USERNAME,
-	                                   $password = DB_PASSWORD,
-	                                   $dbName = DB_NAME,
+	                                   $serverName,
+	                                   $username,
+	                                   $password,
+	                                   $dbName,
 	                                   $port = null,
 	                                   $socket = null) {
 

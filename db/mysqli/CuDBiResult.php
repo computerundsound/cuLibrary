@@ -9,9 +9,8 @@
  * Filename: CuDBiResult.php
  */
 
-namespace culibrary\db\mysqli;
-
-use culibrary\db\CuDBResult;
+namespace computerundsound\culibrary\db\mysqli;
+use computerundsound\culibrary\db\CuDBResult;
 
 /**
  * Class CuDBiResult

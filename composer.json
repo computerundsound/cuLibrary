@@ -1,19 +1,21 @@
 {
-	"name": "computerundsound/culibrary",
-	"description": "small helper library",
-	"type": "library",
-	"homepage": "http://www.cusp.de",
-	"licence": "MIT",
-	"authors": [
-		{
-			"name": "Jörg Wrase",
-			"email": "info@cusp.de",
-			"homepage": "http://www.cusp.de",
-			"role": "Developer"
-		}
+    "name": "computerundsound/culibrary",
+    "description": "small helper library",
+    "type": "library",
+    "homepage": "http://www.cusp.de",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Jörg Wrase",
+            "email": "info@cusp.de",
+            "homepage": "http://www.cusp.de",
+            "role": "Developer"
+        }
 
-	],
-	"autoload": {
-		"classmap": ["./"]
-	}
+    ],
+    "autoload": {
+        "psr-4": {
+            "computerundsound\\culibrary\\": ""
+        }
+    }
 }

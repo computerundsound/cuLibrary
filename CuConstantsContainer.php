@@ -9,7 +9,7 @@
  * Filename: CuConstantsContainer.class.php
  */
 
-namespace computerundsound\curlibrary;
+namespace computerundsound\culibrary;
 
 /**
  * Class CuConstantsContainer

@@ -8,7 +8,7 @@
  *
  */
 
-namespace culibrary\db;
+namespace computerundsound\culibrary\db;
 
 /**
  * Interface CuDB
