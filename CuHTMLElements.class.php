@@ -10,7 +10,7 @@
  * Filename: CuNet.class.php
  */
 
-namespace curlibrary;
+namespace computerundsound\curlibrary;
 
 /**
  * Class CuHTMLElements
