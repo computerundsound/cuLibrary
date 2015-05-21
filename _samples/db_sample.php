@@ -8,20 +8,21 @@
  *
  */
 
-use culibrary\db\pdo\CuDBpdo;
-use culibrary\db\pdo\CuDBpdoResult;
-use curlibrary\CuFactory;
+use computerundsound\culibrary\CuFactory;
+use computerundsound\culibrary\CuMiniTemplateEngine;
+use computerundsound\culibrary\db\pdo\CuDBpdo;
+use computerundsound\culibrary\db\pdo\CuDBpdoResult;
 
-require_once '../CuFactory.class.php';
+require_once '../CuFactory.php';
 
-require_once '../db/CuDB.interface.php';
-require_once '../db/CuDBResult.interface.php';
+require_once '../db/CuDB.php';
+require_once '../db/CuDBResult.php';
 
-require_once '../db/mysqli/CuDBi.class.php';
-require_once '../db/mysqli/CuDBiResult.class.php';
+require_once '../db/mysqli/CuDBi.php';
+require_once '../db/mysqli/CuDBiResult.php';
 
-require_once '../db/pdo/CuDBpdo.class.php';
-require_once '../db/pdo/CuDBpdoResult.class.php';
+require_once '../db/pdo/CuDBpdo.php';
+require_once '../db/pdo/CuDBpdoResult.php';
 
 $username = 'peng';
 $password = 'peng';
@@ -57,7 +58,7 @@ $dataArray = $mySqlObj->selectAsArray($tableName);
 
 require_once '../CuMiniTemplateEngine.php';
 
-/** @var \curlibrary\CuMiniTemplateEngine $cuMTE */
+/** @var CuMiniTemplateEngine $cuMTE */
 $cuMTE = CuFactory::create('curlibrary\CuMiniTemplateEngine');
 
 $cuMTE->setTemplateFolder(__DIR__ . '/_templates/');

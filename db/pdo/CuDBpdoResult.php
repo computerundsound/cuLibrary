@@ -9,9 +9,8 @@
  * Filename: CuDBiResult.php
  */
 
-namespace culibrary\db\pdo;
-
-use culibrary\db\CuDBResult;
+namespace computerundsound\culibrary\db\pdo;
+use computerundsound\culibrary\db\CuDBResult;
 
 /**
  * Class CuDBiResult

@@ -11,7 +11,7 @@
  */
 
 namespace computerundsound\culibrary;
-use culibrary\db\mysqli\CuDBi;
+use computerundsound\culibrary\db\mysqli\CuDBi;
 
 /**
  * Class CuCRUD

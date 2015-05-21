@@ -32,7 +32,7 @@ class CuReloadPreventer {
 	/**
 	 * @param bool $switch_off
 	 *
-	 * @throws \curlibrary\RuntimeException
+	 * @throws \RuntimeException
 	 */
 	public function __construct($switch_off = false) {
 		if(session_id() === false) {
