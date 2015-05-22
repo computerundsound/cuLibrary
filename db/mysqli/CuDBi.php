@@ -25,15 +25,13 @@ class CuDBi extends mysqli implements CuDB {
 	protected static $cuDBiResult;
 
 
-	/**
+	/** @noinspection PhpHierarchyChecksInspection
 	 * @param string $host
 	 * @param string $username
 	 * @param string $password
 	 * @param string $dbName
 	 * @param int    $port
 	 * @param string $socket
-	 *
-	 * @noinspection PhpHierarchyChecksInspection
 	 */
 	protected function __construct($host, $username, $password, $dbName, $port, $socket) {
 		parent::__construct($host, $username, $password, $dbName, $port, $socket);

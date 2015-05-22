@@ -11,15 +11,23 @@
 namespace computerundsound\culibrary;
 
 /**
- * Class CuFactory
+ * Class CuFactoryUtil
  */
-class CuFactory {
+final class CuFactoryUtil {
 
 
 	/**
 	 * @var array // Syntax: array('ClassName' => array([parameter_01_value], [parameter_02_value], ...);
 	 */
 	protected static $classConfigurationArray;
+
+
+	/**
+	 *
+	 */
+	private function __construct(){
+
+	}
 
 
 	/**

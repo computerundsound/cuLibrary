@@ -8,7 +8,7 @@
  *
  */
 
-use computerundsound\culibrary\CuFactory;
+use computerundsound\culibrary\CuFactoryUtil;
 use computerundsound\culibrary\CuMiniTemplateEngine;
 use computerundsound\culibrary\db\pdo\CuDBpdo;
 use computerundsound\culibrary\db\pdo\CuDBpdoResult;
@@ -59,7 +59,7 @@ $dataArray = $mySqlObj->selectAsArray($tableName);
 require_once '../CuMiniTemplateEngine.php';
 
 /** @var CuMiniTemplateEngine $cuMTE */
-$cuMTE = CuFactory::create('curlibrary\CuMiniTemplateEngine');
+$cuMTE = CuFactoryUtil::create('curlibrary\CuMiniTemplateEngine');
 
 $cuMTE->setTemplateFolder(__DIR__ . '/_templates/');
 
