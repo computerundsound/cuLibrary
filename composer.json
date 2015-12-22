@@ -3,7 +3,7 @@
   "type": "library",
   "description": "small helper library",
   "homepage": "https://github.com/computerundsound/cuLibrary",
-  "licence": "MIT",
+  "license": "MIT",
   "authors": [
     {
       "name": "Jörg Wrase",
