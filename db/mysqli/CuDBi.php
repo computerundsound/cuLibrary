@@ -33,7 +33,7 @@ class CuDBi extends mysqli implements CuDB {
 	 * @param int    $port
 	 * @param string $socket
 	 */
-	protected function __construct($host, $username, $password, $dbName, $port, $socket) {
+	public function __construct($host, $username, $password, $dbName, $port, $socket) {
 		parent::__construct($host, $username, $password, $dbName, $port, $socket);
 	}
 
