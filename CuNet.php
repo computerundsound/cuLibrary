@@ -19,116 +19,118 @@ namespace computerundsound\culibrary;
  */
 class CuNet {
 
-	/**
-	 * @return array | 'client', referer', 'server', 'site', 'query',
-	 */
-	public static function getClientData() {
-		$user_data_array = [];
+    /**
+     * @return array | 'client', referer', 'server', 'site', 'query',
+     */
+    public static function getClientData() {
 
-		$ip                      = $_SERVER['REMOTE_ADDR'];
-		$user_data_array['host'] = gethostbyaddr($ip);
+        $user_data_array = [];
 
-		$user_data_array['ip'] = $ip;
+        $ip                      = $_SERVER['REMOTE_ADDR'];
+        $user_data_array['host'] = gethostbyaddr($ip);
 
-		$userDataKeyValueArray = [
-			'HTTP_USER_AGENT' => 'client',
-			'HTTP_REFERER'    => 'referer',
-			'SERVER_NAME'     => 'server',
-			'PHP_SELF'        => 'site',
-			'QUERY_STRING'    => 'query',
-		];
+        $user_data_array['ip'] = $ip;
 
-		foreach($userDataKeyValueArray as $key => $val) {
-			$user_data_array[$val] = '';
-			if(isset($_SERVER[$key])) {
-				$user_data_array[$val] = $_SERVER[$key];
-			}
-		}
+        $userDataKeyValueArray = [
+            'HTTP_USER_AGENT' => 'client',
+            'HTTP_REFERER'    => 'referer',
+            'SERVER_NAME'     => 'server',
+            'PHP_SELF'        => 'site',
+            'QUERY_STRING'    => 'query',
+        ];
 
-		return $user_data_array;
-	}
+        foreach ($userDataKeyValueArray as $key => $val) {
+            $user_data_array[$val] = '';
+            if (isset($_SERVER[$key])) {
+                $user_data_array[$val] = $_SERVER[$key];
+            }
+        }
 
-
-	/**
-	 * @param $vari_name
-	 * @param $standard_value
-	 *
-	 * @return bool|string
-	 */
-	public static function get_post_session_standard_value($vari_name, $standard_value) {
-
-		if(!self::get_post_session($vari_name)) {
-			$_SESSION[$vari_name] = $standard_value;
-
-			return $standard_value;
-		} else {
-			return self::get_post_session($vari_name);
-		}
-	}
+        return $user_data_array;
+    }
 
 
-	/**
-	 * @param $vari_name
-	 *
-	 * @return bool|string
-	 */
-	public static function get_post_session($vari_name) {
-		$vari = false;
+    /**
+     * @param $variableName
+     * @param $standard_value
+     *
+     * @return bool|string
+     */
+    public static function get_post_session_standard_value($variableName, $standard_value) {
 
-		if(isset($_SESSION[$vari_name])) {
-			$vari = $_SESSION[$vari_name];
-		}
-
-		$pg_vari = self::get_post($vari_name);
-
-		if($pg_vari !== false) {
-			$vari                 = $pg_vari;
-			$_SESSION[$vari_name] = $vari;
-		}
-
-		return $vari;
-	}
+        if (self::get_post_session($variableName) !== null) {
+            $_SESSION[$variableName] = $standard_value;
+            return $standard_value;
+        } else {
+            return self::get_post_session($variableName);
+        }
+    }
 
 
-	/**
-	 * @param $vari_name
-	 *
-	 * @return string
-	 */
-	public static function get_post($vari_name) {
-		$vari = false;
+    /**
+     * @param $variableName
+     *
+     * @return mixed
+     */
+    public static function get_post_session($variableName) {
 
-		if(isset($_GET[$vari_name])) {
-			$vari = $_GET[$vari_name];
-		}
+        $value = null;
 
-		if(isset($_POST[$vari_name])) {
-			$vari = $_POST[$vari_name];
-		}
+        if (isset($_SESSION[$variableName])) {
+            $value = $_SESSION[$variableName];
+        }
 
-		$vari = self::strip_slashes_deep($vari);
+        $postGetValue = self::get_post($variableName);
 
-		return $vari;
-	}
+        if ($postGetValue !== null) {
+            $value                   = $postGetValue;
+            $_SESSION[$variableName] = $value;
+        }
+
+        return $value;
+    }
 
 
-	/**
-	 *
-	 * @param $value
-	 *
-	 * @return array|string
-	 * will only do something when get_magic_quotes_gpc === true
-	 */
-	public static function strip_slashes_deep($value) {
+    /**
+     * @param $variableName
+     *
+     * @return mixed
+     */
+    public static function get_post($variableName) {
 
-		if(get_magic_quotes_gpc()) {
-			$value = is_array($value) ? array_map([
-				                                      __CLASS__,
-				                                      'strip_slashes_deep',
-			                                      ],
-			                                      $value) : stripcslashes($value);
-		}
+        $value = null;
 
-		return $value;
-	}
+        if (isset($_GET[$variableName])) {
+            $value = $_GET[$variableName];
+        }
+
+        if (isset($_POST[$variableName])) {
+            $value = $_POST[$variableName];
+        }
+
+        $value = self::strip_slashes_deep($value);
+
+        return $value;
+    }
+
+
+    /**
+     *
+     * @param $value
+     *
+     * @return array|string
+     * will only do something when get_magic_quotes_gpc === true
+     */
+    public static function strip_slashes_deep($value) {
+
+        if (get_magic_quotes_gpc()) {
+            $value = is_array($value) ? array_map([
+                                                      __CLASS__,
+                                                      'strip_slashes_deep',
+                                                  ],
+                                                  $value) : stripcslashes($value);
+        }
+
+        return $value;
+    }
 }
