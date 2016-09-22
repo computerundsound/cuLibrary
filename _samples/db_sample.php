@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright by J�rg Wrase - www.Computer-Und-Sound.de
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Date: 10.05.2015
  * Time: 23:24
  * 
