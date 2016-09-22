@@ -119,11 +119,11 @@ class CuHTMLElements {
 	public static function strip_slashes_deep($value) {
 
 		if(get_magic_quotes_gpc()) {
-			$value = is_array($value) ? array_map([
+			$value = is_array($value) ? array_map(array(
 				                                      __CLASS__,
 				                                      'strip_slashes_deep',
-			                                      ],
-			                                      $value) : stripcslashes($value);
+                                                  ),
+                                                  $value) : stripcslashes($value);
 		}
 
 		return $value;

@@ -129,7 +129,7 @@ class CuDBpdo extends PDO implements CuDB {
 		$where         = "`$fieldName` = '$fieldValue'";
 		$dataSetsArray = $this->selectAsArray($tableName, $where);
 
-		$dataSetArray = [];
+		$dataSetArray = array();
 		if(array_key_exists(0, $dataSetsArray)) {
 			$dataSetArray = $dataSetsArray[0];
 		}
@@ -254,7 +254,7 @@ class CuDBpdo extends PDO implements CuDB {
 		$where         = " $fieldName='$fieldValue' ";
 		$dataSetsArray = $this->selectAsArray($tableName, $where);
 
-		$dataSetArray = [];
+		$dataSetArray = array();
 		if(array_key_exists(0, $dataSetsArray)) {
 			$dataSetArray = $dataSetsArray[0];
 		}
@@ -454,11 +454,12 @@ class CuDBpdo extends PDO implements CuDB {
 	}
 
 
-	/**
-	 * @param $val
-	 *
-	 * @return int|string
-	 */
+    /**
+     * @param $val
+     *
+     * @return int|string
+     * @throws \InvalidArgumentException
+     */
 	protected function getParameterInfo($val) {
 		$pdoParameterInfo = gettype($val);
 

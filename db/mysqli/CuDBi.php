@@ -33,7 +33,7 @@ class CuDBi extends mysqli implements CuDB {
 	 * @param int    $port
 	 * @param string $socket
 	 */
-	public function __construct($host, $username, $password, $dbName, $port, $socket) {
+	protected function __construct($host, $username, $password, $dbName, $port, $socket) {
 		parent::__construct($host, $username, $password, $dbName, $port, $socket);
 	}
 
@@ -233,11 +233,11 @@ class CuDBi extends mysqli implements CuDB {
 	public function getColNamesFromTable($tableName) {
 		$sql        = 'DESCRIBE ' . $tableName;
 		$result     = $this->query($sql);
-		$field_name = [];
-		$data_array = [];
+		$field_name = array();
+		$data_array = array();
 		while($data = $result->fetch_assoc()) {
 			$data_array[] = $data;
-		};
+		}
 
 		foreach($data_array as $val) {
 			$field_name[] = $val['Field'];
@@ -306,7 +306,7 @@ class CuDBi extends mysqli implements CuDB {
 	 * @return array
 	 */
 	public function selectAsArray($tableName, $where = '', $order = '', $limit = '') {
-		$data_array = [];
+		$data_array = array();
 		$where      = trim($where);
 		$order      = trim($order);
 		$limit      = trim($limit);

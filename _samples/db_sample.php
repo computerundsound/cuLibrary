@@ -24,10 +24,10 @@ $dbName   = 'test';
 
 $message = 'You need a DB to test the code in the Template';
 
-$smallArray = [
+$smallArray = array(
     'Key One' => 'Value One',
     'Key Two' => 'Value Two',
-];
+);
 
 $smallObj      = new stdClass();
 $smallObj->one = 'Value One from Object';

@@ -16,7 +16,7 @@ namespace computerundsound\culibrary;
  */
 class CuMiniTemplateEngine {
 
-    private $variablesForTemplate = [];
+    private $variablesForTemplate = array();
 
     private $templateFolder = '';
 
@@ -71,7 +71,7 @@ class CuMiniTemplateEngine {
         ob_end_clean();
 
         if($clearAssignments) {
-            $this->variablesForTemplate = [];
+            $this->variablesForTemplate = array();
         }
 
         return $content;

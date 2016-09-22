@@ -44,7 +44,7 @@ final class CuFactoryUtil {
 	 * @return null|object
 	 */
 	public static function create($className) {
-		$parameterArray = [];
+		$parameterArray = array();
 
 		if(substr($className, 0, 1) === '\\') {
 			$className = substr($className, 1);

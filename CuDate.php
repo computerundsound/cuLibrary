@@ -168,7 +168,7 @@ class CuDate {
 	 */
 	public static function allMonateAufDeutsch() {
 
-		$monate = [
+		$monate = array(
 			'Jan' => 'Januar',
 			'Feb' => 'Februar',
 			'Mär' => 'März',
@@ -181,7 +181,7 @@ class CuDate {
 			'Okt' => 'Oktober',
 			'Nov' => 'November',
 			'Dez' => 'Dezember',
-		];
+        );
 
 		return $monate;
 	}
@@ -192,7 +192,7 @@ class CuDate {
 	 */
 	public static function allWochentageAufDeutsch() {
 
-		$wochentage = [
+		$wochentage = array(
 			'Mo' => 'Montag',
 			'Di' => 'Dienstag',
 			'Mi' => 'Mittwoch',
@@ -200,7 +200,7 @@ class CuDate {
 			'Fr' => 'Freitag',
 			'Sa' => 'Samstag',
 			'So' => 'Sonntag',
-		];
+        );
 
 		return $wochentage;
 	}

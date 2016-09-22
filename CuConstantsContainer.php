@@ -84,8 +84,8 @@ class CuConstantsContainer {
 
         $app_root = substr($dirname, strlen($doc_root));
 
-        $app_root            = str_replace(['\\', $this->pathFromAppRootToThisDirectory,],
-                                           ['/', '',],
+        $app_root            = str_replace(array('\\', $this->pathFromAppRootToThisDirectory,),
+                                           array('/', '',),
                                            $app_root);
         $this->app_root_HTTP = $app_root;
     }
@@ -105,7 +105,7 @@ class CuConstantsContainer {
      */
     public static function makeGoodPathServer($path) {
         $path = (string)$path;
-        $path = str_replace(['\\', '/',], DIRECTORY_SEPARATOR, $path);
+        $path = str_replace(array('\\', '/',), DIRECTORY_SEPARATOR, $path);
 
         return $path;
     }
