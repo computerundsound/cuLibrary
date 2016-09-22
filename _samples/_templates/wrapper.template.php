@@ -7,6 +7,9 @@
  * Created by IntelliJ IDEA
  *
  */
+
+/** @var $content */
+
 ?>
 <!DOCTYPE html>
 <html lang="de">
