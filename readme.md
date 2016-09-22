@@ -1,5 +1,7 @@
 # Small Library - little helper for php-developer #
 
+Update to 2.1
+
 Database, Factory (with reflections, good for dependency injection develop)
 
 Needs PHP 5.4
