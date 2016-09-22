@@ -13,23 +13,29 @@ use computerundsound\culibrary\CuMiniTemplateEngine;
 use computerundsound\culibrary\db\pdo\CuDBpdo;
 use computerundsound\culibrary\db\pdo\CuDBpdoResult;
 
-require_once '../CuFactory.php';
+/* include autoloader for this library */
+require_once __DIR__ . '/../culibincluder.start.php';
 
-require_once '../db/CuDB.php';
-require_once '../db/CuDBResult.php';
-
-require_once '../db/mysqli/CuDBi.php';
-require_once '../db/mysqli/CuDBiResult.php';
-
-require_once '../db/pdo/CuDBpdo.php';
-require_once '../db/pdo/CuDBpdoResult.php';
-
+/* DB Data */
 $username = 'peng';
 $password = 'peng';
 $server   = 'localhost';
 $dbName   = 'test';
 
-$message = '';
+$message = 'You need a DB to test the code in the Template';
+
+$smallArray = [
+    'Key One' => 'Value One',
+    'Key Two' => 'Value Two',
+];
+
+$smallObj      = new stdClass();
+$smallObj->one = 'Value One from Object';
+$smallObj->two = 'Value Two from Object';
+
+$codeblock = <<<'HTML'
+
+/* Only an Example - you need a DB to test this - this
 
 /** @var CuDBpdo $mySqlObj */
 $mySqlObj = CuDBpdo::getInstance(new CuDBpdoResult(), $server, $username, $password, $dbName);
@@ -53,19 +59,21 @@ $countDataSets = $mySqlObj->getQuantityOfDataSets($tableName);
 
 $message = (string)$countDataSets;
 
-/* ************************** Template ausgabe *************************************************/
-$dataArray = $mySqlObj->selectAsArray($tableName);
 
-require_once '../CuMiniTemplateEngine.php';
+HTML;
 
-/** @var CuMiniTemplateEngine $cuMTE */
-$cuMTE = CuFactoryUtil::create('curlibrary\CuMiniTemplateEngine');
+//* ************************** Template Output *************************************************/
 
-$cuMTE->setTemplateFolder(__DIR__ . '/_templates/');
+$view = new CuMiniTemplateEngine();
+$view->setTemplateFolder(__DIR__ . '/_templates/');
 
-$cuMTE->assign('Title', 'Hier der Titel');
-$cuMTE->assign('resultArray', $dataArray);
+$view->assign('title', 'This is the Title');
+$view->assign('message', $message);
+$view->assign('codeblock', $codeblock);
+$view->assign('smallArray', $smallArray);
+$view->assign('smallObj', $smallObj);
 
-$cuMTE->assign('message', $message);
+$content = $view->fetch('dbtest');
 
-$cuMTE->display('dbtest');
+$view->assign('content', $content);
+$view->display('wrapper');
