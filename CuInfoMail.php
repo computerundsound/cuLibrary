@@ -26,7 +26,7 @@ class CuInfoMail {
 
 	private $_aktuelleZusatzZeile = 0;
 
-	private $_userDaten = [];
+	private $_userDaten = array();
 
 
 	/**
@@ -235,7 +235,7 @@ class CuInfoMail {
 	 */
 	protected function getClientData() {
 
-		$userDaten = [];
+		$userDaten = array();
 
 		$userDaten['server']   = $this->getServerValue('SERVER_NAME');
 		$userDaten['site']     = $this->getServerValue('PHP_SELF');
@@ -244,7 +244,7 @@ class CuInfoMail {
 		$userDaten['client']   = $this->getServerValue('HTTP_USER_AGENT');
 		$userDaten['referer']  = $this->getServerValue('HTTP_REFERER');
 		$userDaten['query']    = $this->getServerValue('QUERY_STRING');
-		$userDaten['requests'] = isset($_REQUEST) ? $_REQUEST : [];
+		$userDaten['requests'] = isset($_REQUEST) ? $_REQUEST : array();
 		$userDaten['requests'] = serialize($userDaten['requests']);
 
 		return $userDaten;
@@ -289,7 +289,7 @@ class CuInfoMail {
 
 		$requests = $userDaten['requests'];
 
-		$replaceArray = [
+		$replaceArray = array(
 
 			'###Server###'    => $userDaten['server'],
 			'###Seite###'     => $userDaten['site'],
@@ -299,8 +299,8 @@ class CuInfoMail {
 			'###Client###'    => $userDaten['client'],
 			'###Referer###'   => $userDaten['referer'],
 			'###Query###'     => $userDaten['query'],
-			'###rRequests###' => $requests,
-		];
+			'###Requests###' => $requests,
+        );
 
 		$mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
 
