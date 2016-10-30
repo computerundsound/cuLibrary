@@ -299,7 +299,7 @@ class CuInfoMail {
 			'###Client###'    => $userDaten['client'],
 			'###Referer###'   => $userDaten['referer'],
 			'###Query###'     => $userDaten['query'],
-			'###rRequests###' => $requests,
+			'###Requests###' => $requests,
         );
 
 		$mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
