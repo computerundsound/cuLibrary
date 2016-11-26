@@ -79,7 +79,7 @@ class CuDBi extends mysqli implements CuDB {
 	 * @param $tableName
 	 * @param $where
 	 *
-	 * @return CuDBResult
+	 * @return CuDBResult|null
 	 */
 	public function cuDelete($tableName, $where) {
 		$result = null;
@@ -89,7 +89,7 @@ class CuDBi extends mysqli implements CuDB {
 			$query = 'DELETE FROM `%s` WHERE %s';
 			$query = sprintf($query, $tableName, $where);
 
-			$result = $this->query($query);
+			$result = $this->cuQuery($query);
 		}
 
 		return $result;
@@ -107,7 +107,6 @@ class CuDBi extends mysqli implements CuDB {
 
 		self::$cuDBiResult->setResult($result);
 		self::$cuDBiResult->setLastInsertId($id);
-		self::$cuDBiResult->setLastInsertId('');
 		self::$cuDBiResult->setQuery($query);
 
 		return self::$cuDBiResult;
@@ -255,12 +254,12 @@ class CuDBi extends mysqli implements CuDB {
 	}
 
 
-	/**
-	 * @param $tableName
-	 * @param $fieldName
-	 *
-	 * @return object;
-	 */
+    /**
+     * @param $tableName
+     * @param $fieldName
+     *
+     * @return object
+     */
 	public function getFieldInfos($tableName, $fieldName) {
 		/** @noinspection SqlNoDataSourceInspection */
 		$query  = 'SELECT `%s` FROM `%s`;';
@@ -287,7 +286,7 @@ class CuDBi extends mysqli implements CuDB {
 	 * @param       $id
 	 * @param       $id_name
 	 *
-	 * @return CuDBiResult
+	 * @return CuDBResult
 	 */
 	public function update_one_data_set($tab_name, array $data, $id, $id_name) {
 		$where = "$id_name = '$id' ";
@@ -337,11 +336,4 @@ class CuDBi extends mysqli implements CuDB {
 		return $data_array;
 	}
 
-
-	protected function __clone() {
-	}
-
-
-	protected function __wakeup() {
-	}
 }
