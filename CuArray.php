@@ -30,7 +30,7 @@ class CuArray {
     public static function sortArray($arrayToSort, $keyToSort, $parameter = SORT_ASC) {
 
         foreach ($arrayToSort as $nr => $array) {
-            if (is_array($array)) {
+            if (is_array($array) === true) {
                 foreach ($array as $key => $val) {
                     $str = $array[$key];
                     if (is_array($str)) {
@@ -39,10 +39,11 @@ class CuArray {
                         ${$key}[$nr] = strtolower($array[$key]);
                     }
                 }
+                array_multisort($$keyToSort, $parameter, $arrayToSort);
+            } else {
+                asort($arrayToSort);
             }
         }
-
-        array_multisort($$keyToSort, $parameter, $arrayToSort);
 
         return $arrayToSort;
     }
