@@ -58,13 +58,18 @@
 </div>
 
 
-<h3>A foreach - Loop (assigned an Array):</h3>
-<?php /** @noinspection ForeachSourceInspection */
-foreach ($this->getValue('thisIsAnExampleArray') as $valueFromArray):?>
+<h3>A foreach - Loop (assigned an Array from CuRequester::getClientData()):</h3>
 
-    <li><?php echo $valueFromArray ?></li>
+<dl class="dl-horizontal">
 
-<?php endforeach; ?>
+    <?php /** @noinspection ForeachSourceInspection */
+    foreach ($this->getValue('thisIsAnExampleArray') as $key => $valueFromArray):?>
+
+        <dt><?php echo $key ?></dt>
+        <dd><?php echo $valueFromArray ?></dd>
+
+    <?php endforeach; ?>
+</dl>
 
 
 <h3>From an Object:</h3>

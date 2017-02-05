@@ -11,17 +11,25 @@ use computerundsound\culibrary\CuRequester;
 require_once __DIR__ . '/includes/application.inc.php';
 /** @var \computerundsound\culibrary\CuMiniTemplateEngine $view */
 
+$action = CuRequester::getGetPost('action');
+if ($action === 'phpinfo') {
+    /** @noinspection ForgottenDebugOutputInspection */
+    phpinfo();
+    exit;
+}
+
 $view->assign('title', 'Some Example');
 
-$valueFromPostOrFromSession = CuRequester::getPostSession('valueFromPostOrFromSession') ?: '';
+$valueFromPostOrFromSession = CuRequester::getGetPostSession('valueFromPostOrFromSession') ?: '';
 
 $view->assign('valueFromPostOrFromSession', $valueFromPostOrFromSession);
 
-$thisIsAnExampleArray = [
-    'one',
-    'two',
-    'three',
-];
+
+$userData = CuRequester::getClientData();
+
+$thisIsAnExampleArray = $userData;
+
+
 $view->assign('thisIsAnExampleArray', $thisIsAnExampleArray);
 
 $smallObj      = new stdClass();

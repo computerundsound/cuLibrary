@@ -54,14 +54,14 @@ class CuRequester
      *
      * @return bool|string
      */
-    public static function getPostSessionStandardValue($variableName, $standard_value) {
+    public static function getGetOrPostSessionStandardValue($variableName, $standard_value) {
 
-        if (self::getPostSession($variableName) !== null) {
+        if (self::getGetPostSession($variableName) !== null) {
             $_SESSION[$variableName] = $standard_value;
 
             return $standard_value;
         } else {
-            return self::getPostSession($variableName);
+            return self::getGetPostSession($variableName);
         }
     }
 
@@ -71,7 +71,7 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getPostSession($variableName) {
+    public static function getGetPostSession($variableName) {
 
         $value = null;
 
@@ -79,7 +79,7 @@ class CuRequester
             $value = $_SESSION[$variableName];
         }
 
-        $postGetValue = self::getPost($variableName);
+        $postGetValue = self::getGetPost($variableName);
 
         if ($postGetValue !== null) {
             $value                   = $postGetValue;
@@ -95,7 +95,7 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getPost($variableName) {
+    public static function getGetPost($variableName) {
 
         $value = null;
 
@@ -106,7 +106,7 @@ class CuRequester
         if (isset($_POST[$variableName])) {
             $value = $_POST[$variableName];
         }
-
+        
         $value = self::stripSlashesDeep($value);
 
         return $value;
@@ -122,7 +122,7 @@ class CuRequester
      */
     public static function stripSlashesDeep($value) {
 
-        if (get_magic_quotes_gpc()) {
+        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
             $value = is_array($value) ? array_map([__CLASS__, 'stripSlashesDeep'], $value) : stripcslashes($value);
         }
 
