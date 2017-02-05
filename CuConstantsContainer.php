@@ -1,12 +1,9 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 30.06.2014
- * Time: 20:33
+ * Hire me! coder@cusp.de
  *
- * Created by IntelliJ IDEA
- *
- * Filename: CuConstantsContainer.class.php
+ * LastModified: 2017.02.05 at 02:48 MEZ
  */
 
 namespace computerundsound\culibrary;
@@ -14,33 +11,34 @@ namespace computerundsound\culibrary;
 /**
  * Class CuConstantsContainer
  */
-class CuConstantsContainer {
+class CuConstantsContainer
+{
 
     /**
      * @var
      */
-    private $app_root_HTTP;
+    private $appRoot_HTTP;
     /**
      * @var
      */
-    private $app_root_Server;
+    private $appRoot_Server;
     /**
      * @var
      */
-    private $app_root_FQHTTP;
+    private $appRoot_FQHTTP;
     /**
      * @var
      */
-    private $file_path_HTTP;
+    private $filePath_HTTP;
 
     /**
      * @var string
      */
-    private $server_serverName = '';
+    private $server_ServerName = '';
     /**
      * @var string
      */
-    private $server_document_root = '';
+    private $server_documentRoot = '';
     /**
      * @var string
      */
@@ -50,15 +48,15 @@ class CuConstantsContainer {
      */
     private $server_protocol = '';
     /** @var string */
-    private $pathFromAppRootToThisDirectory;
+    private $pathFromDocRootToAppRoot;
 
 
     /**
-     * @param $pathFromAppRootToThisDirectory
+     * @param $pathFromDocRootToAppRoot
      */
-    public function __construct($pathFromAppRootToThisDirectory) {
+    public function __construct($pathFromDocRootToAppRoot) {
 
-        $this->pathFromAppRootToThisDirectory = (string)$pathFromAppRootToThisDirectory;
+        $this->pathFromDocRootToAppRoot = (string)$pathFromDocRootToAppRoot;
 
         $this->buildServerValues();
 
@@ -69,33 +67,76 @@ class CuConstantsContainer {
     }
 
     private function buildServerValues() {
-        $this->server_serverName    = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-        $this->server_document_root = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
-        $this->server_phpSelf       = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
-        $this->server_protocol      = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
+
+        $this->server_ServerName   = isset($_SERVER['SERVER_NAME']) ? (string)$_SERVER['SERVER_NAME'] : '';
+        $this->server_documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string)$_SERVER['DOCUMENT_ROOT'] : '';
+        $this->server_phpSelf      = isset($_SERVER['PHP_SELF']) ? (string)$_SERVER['PHP_SELF'] : '';
+        $this->server_protocol     = $this->getProtocol();
+    }
+
+    /**
+     * @return string
+     */
+    private function getProtocol() {
+
+        $protocol =
+            ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (int)$_SERVER['SERVER_PORT'] === 443) ?
+                'https://' : 'http://';
+
+        return $protocol;
+
     }
 
     /**
      *
      */
     private function buildAppRootHTTP() {
-        $doc_root = $this->server_document_root;
-        $dirname  = __DIR__;
 
-        $app_root = substr($dirname, strlen($doc_root));
+        $appRoot = $this->pathFromDocRootToAppRoot;
 
-        $app_root            = str_replace(['\\', $this->pathFromAppRootToThisDirectory,],
-                                           ['/', '',],
-                                           $app_root);
-        $this->app_root_HTTP = $app_root;
+        $appRoot = self::makeUniversal($appRoot);
+
+        $appRoot = $appRoot ?: '/';
+
+        $this->appRoot_HTTP = $appRoot;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    private static function makeUniversal($path) {
+
+        $path = str_replace('\\', '/', $path) ?: $path;
+
+        return $path;
     }
 
     /**
      *
      */
     private function buildAppRootServer() {
-        $path                  = $this->server_document_root . $this->app_root_HTTP;
-        $this->app_root_Server = self::makeGoodPathServer($path);
+
+        $docRoot = $this->server_documentRoot;
+        $docRoot = self::makeUniversal($docRoot);
+
+        $docRoot = self::killLastSlash($docRoot);
+        $appRoot = $docRoot . $this->pathFromDocRootToAppRoot;
+
+        $this->appRoot_Server = self::makeGoodPathServer($appRoot);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    private static function killLastSlash($path) {
+
+        $path = substr($path, -1) ? substr($path, 0, -1) : $path;
+
+        return (string)$path;
     }
 
     /**
@@ -104,6 +145,7 @@ class CuConstantsContainer {
      * @return string
      */
     public static function makeGoodPathServer($path) {
+
         $path = (string)$path;
         $path = str_replace(['\\', '/',], DIRECTORY_SEPARATOR, $path);
 
@@ -115,83 +157,93 @@ class CuConstantsContainer {
      */
     private function buildAppRootFQHTTP() {
 
-        $methode = $this->server_protocol;
-        $methode = substr($methode, 0, 4);
-        $methode = strtoupper($methode);
+        $method = $this->server_protocol;
+        $method = substr($method, 0, 4);
+        $method = strtoupper($method);
 
         $protocol = 'http://';
-        if ($methode === 'HTTPS') {
+        if ($method === 'HTTPS') {
             $protocol = 'https://';
         }
 
-        $url = $protocol . $this->server_serverName;
+        $url = $protocol . $this->server_ServerName;
 
-        $app_root = $this->app_root_HTTP;
+        $app_root = $this->appRoot_HTTP;
 
-        $this->app_root_FQHTTP = $url . $app_root;
+        $this->appRoot_FQHTTP = $url . $app_root;
     }
 
     /**
      *
      */
     private function buildFilePathHTTP() {
+
         $this->buildAppRootHTTP();
-        $file_path            = $this->app_root_FQHTTP . $this->server_phpSelf;
-        $this->file_path_HTTP = $file_path;
+        $filePathHTTP        = self::killLastSlash($this->appRoot_FQHTTP);
+        $filePathHTTP        .= $this->server_phpSelf;
+        $this->filePath_HTTP = $filePathHTTP;
     }
 
     /**
      * @param $path
      *
-     * @return mixed
+     * @return string
      */
     public static function makeGoodPathHTTP($path) {
+
         $path = (string)$path;
         $path = str_replace('\\', '/', $path);
+        $path = (string)$path;
 
         return $path;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function get_file_path_HTTP() {
-        return $this->file_path_HTTP;
-    }
+    public function getFilePath_HTTP() {
 
-    /**
-     * @return mixed
-     */
-    public function getAppRootHTTP() {
-        return $this->app_root_HTTP;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAppRootFQHTTP() {
-        return $this->app_root_FQHTTP;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAppRootServer() {
-        return $this->app_root_Server;
+        return $this->filePath_HTTP;
     }
 
     /**
      * @return string
      */
-    public function getPathFromAppRootToThisDirectory() {
-        return $this->pathFromAppRootToThisDirectory;
+    public function getAppRootHTTP() {
+
+        return $this->appRoot_HTTP;
     }
 
     /**
-     * @param string $pathFromAppRootToThisDirectory
+     * @return string
      */
-    public function setPathFromAppRootToThisDirectory($pathFromAppRootToThisDirectory) {
-        $this->pathFromAppRootToThisDirectory = $pathFromAppRootToThisDirectory;
+    public function getAppRootFQHTTP() {
+
+        return $this->appRoot_FQHTTP;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppRootServer() {
+
+        return $this->appRoot_Server;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathFromDocRootToAppRoot() {
+
+        return $this->pathFromDocRootToAppRoot;
+    }
+
+    /**
+     * @param string $pathFromDocRootToAppRoot
+     */
+    public function setPathFromDocRootToAppRoot($pathFromDocRootToAppRoot) {
+
+        $this->pathFromDocRootToAppRoot = $pathFromDocRootToAppRoot;
     }
 
 

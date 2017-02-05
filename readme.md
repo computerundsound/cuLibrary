@@ -1,10 +1,8 @@
 # Small Library - little helper for php-developer #
 
-Update to 2.1
+Update to 3
 
-Database, Factory (with reflections, good for dependency injection develop)
-
-Needs PHP 5.4
+Needs PHP 5.4 - PHP 7.1
 Easy using!
 
 You can include_once 'culibincluder.start.php';

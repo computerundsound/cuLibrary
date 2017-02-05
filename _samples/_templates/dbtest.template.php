@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Hire me! coder@cusp.de
+ *
+ * LastModified: 2017.02.05 at 06:55 MEZ
+ */
 
 /** @var $message */
 /** @var $title */
@@ -13,32 +19,38 @@
 
         <div class="col-sm-12">
 
-            <h1><?php echo $title; ?></h1>
+            <h1><?php $this->showValue('title'); ?></h1>
 
-            <p><?php echo $message; ?></p>
+            <p><?php $this->showValue('message'); ?></p>
+
+            <h3>Values in DB:</h3>
+
+            <table class="table table-condensed table-striped">
+
+                <tr>
+                    <th>id</th>
+                    <th>value</th>
+                    <th>info</th>
+                    <th>created</th>
+                </tr>
+
+                <?php foreach ($valuesInDB as $row): ?>
+
+                    <tr>
+
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['value']; ?></td>
+                        <td><?php echo $row['info']; ?></td>
+                        <td><?php echo $row['created']; ?></td>
 
 
-            <div class="alert alert-info">
-                <?php highlight_string($codeblock); ?>
-            </div>
+                    </tr>
 
-            <h3>From Array:</h3>
-            <?php
+                <?php endforeach; ?>
 
-            /** @noinspection ForeachSourceInspection */
-            foreach ($smallArray as $key => $value):
-                ?>
 
-                <p>Pair: <?php echo $key; ?> => <?php echo $value; ?></p>
+            </table>
 
-                <?php
-            endforeach;
-            ?>
-
-            <h3>From Object</h3>
-
-            <p><?php echo $smallObj->one; ?></p>
-            <p><?php echo $smallObj->two; ?></p>
 
         </div>
 

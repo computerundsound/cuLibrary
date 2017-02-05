@@ -1,12 +1,11 @@
 <?php
-/*
+/**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 11.05.2015
- * Time: 21:51
- * 
- * Created by IntelliJ IDEA
+ * Hire me! coder@cusp.de
  *
+ * LastModified: 2017.02.04 at 23:47 MEZ
  */
+
 namespace computerundsound\culibrary;
 
 /**
@@ -14,11 +13,24 @@ namespace computerundsound\culibrary;
  *
  * @package curlibrary
  */
-class CuMiniTemplateEngine {
+class CuMiniTemplateEngine
+{
 
     private $variablesForTemplate = [];
 
     private $templateFolder = '';
+
+    /**
+     * CuMiniTemplateEngine constructor.
+     *
+     * @param string $templateFolder
+     *
+     * @throws \DomainException
+     */
+    public function __construct($templateFolder) {
+
+        $this->setTemplateFolder($templateFolder);
+    }
 
 
     /**
@@ -46,38 +58,6 @@ class CuMiniTemplateEngine {
     }
 
     /**
-     * @param string $template
-     * @param bool   $clearAssignments
-     *
-     * @return string
-     * @throws \DomainException
-     */
-    public function fetch($template, $clearAssignments = true) {
-        extract($this->variablesForTemplate, EXTR_SKIP);
-
-        $template = $this->templateFolder . $template . '.template.php';
-
-        if(file_exists($template) === false) {
-            throw new \DomainException('Template not found in ' . $template);
-        }
-
-        ob_clean();
-        ob_start();
-
-        /** @noinspection PhpIncludeInspection */
-        include $template;
-
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        if($clearAssignments) {
-            $this->variablesForTemplate = [];
-        }
-
-        return $content;
-    }
-
-    /**
      * @param $template
      *
      * @throws \DomainException
@@ -89,6 +69,52 @@ class CuMiniTemplateEngine {
         echo $content;
     }
 
+    /**
+     * @param string $template
+     * @param bool   $clearAssignments
+     *
+     * @return string
+     * @throws \DomainException
+     */
+    public function fetch($template, $clearAssignments = true) {
+
+        extract($this->variablesForTemplate, EXTR_SKIP);
+
+        $template = $this->templateFolder . $template . '.template.php';
+
+        if (file_exists($template) === false) {
+            throw new \DomainException('Template not found in ' . $template);
+        }
+
+        ob_start();
+
+        /** @noinspection PhpIncludeInspection */
+        include $template;
+
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        if ($clearAssignments) {
+            $this->variablesForTemplate = [];
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param      $name
+     * @param bool $html
+     */
+    public function showValue($name, $html = true) {
+
+        $value = $this->getValue($name);
+
+        if ($html) {
+            $value = $this->getAsHtml($value);
+        }
+
+        echo $value;
+    }
 
     /**
      * @param $name
@@ -106,19 +132,21 @@ class CuMiniTemplateEngine {
         return $returnValue;
     }
 
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function getAsHtml($value) {
+
+        return htmlspecialchars($value, ENT_COMPAT, 'utf-8');
+    }
 
     /**
-     * @param      $name
-     * @param bool $html
+     * @param string $value
      */
-    public function showValue($name, $html = false) {
+    public function showAsHtml($value) {
 
-        $value = $this->getValue($name);
-
-        if ($html) {
-            $value = htmlspecialchars($html, ENT_COMPAT, 'utf-8');
-        }
-
-        echo $value;
+        echo $this->getAsHtml($value);
     }
 }
