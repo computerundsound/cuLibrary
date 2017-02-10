@@ -134,7 +134,7 @@ class CuConstantsContainer
      */
     private static function killLastSlash($path) {
 
-        $path = substr($path, -1) ? substr($path, 0, -1) : $path;
+        $path = substr($path, -1) === '/' ? substr($path, 0, -1) : $path;
 
         return (string)$path;
     }
