@@ -133,18 +133,12 @@ class CuString {
 		$ip_array = explode('.', $ip);
 
 		if(is_array($ip_array)) {
-			foreach($ip_array as $val) {
+            foreach($ip_array as $val) {
 
-				if($val[0] === '0') {
-					$val = $val[1] . $val[2];
-				}
+                $valNew = preg_replace('/^0+([\d]+)/', '$1', $val);
 
-				if($val[0] === '0') {
-					$val = $val[1] . $val[2];
-				}
-
-				$newIP .= $val . '.';
-			}
+                $newIP .= $valNew . '.';
+            }
 		}
 
 		$newIP = substr($newIP, 0, -1);
