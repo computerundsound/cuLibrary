@@ -15,10 +15,13 @@ use computerundsound\culibrary\db\CuDB;
 use computerundsound\culibrary\db\CuDBResult;
 use mysqli;
 
+/** @noinspection SingletonFactoryPatternViolationInspection */
+
 /**
  * Class CuDBi
  */
-class CuDBi extends mysqli implements CuDB {
+class CuDBi extends mysqli implements CuDB
+{
 
     protected static $instance;
     /** @var  CuDBiResult */
@@ -33,9 +36,12 @@ class CuDBi extends mysqli implements CuDB {
      * @param int    $port
      * @param string $socket
      */
-    protected function __construct($host, $username, $password, $dbName, $port, $socket) {
+    public function __construct($host, $username, $password, $dbName, $port, $socket) {
 
-        parent::__construct($host, $username, $password, $dbName, $port, $socket);
+        if (self::$instance === null) {
+            parent::__construct($host, $username, $password, $dbName, $port, $socket);
+            self::$instance = $this;
+        }
     }
 
 
@@ -48,7 +54,7 @@ class CuDBi extends mysqli implements CuDB {
      * @param string      $port
      * @param string      $socket
      *
-     * @return mysqli
+     * @return \computerundsound\culibrary\db\mysqli\CuDBi
      */
     public static function getInstance(
         CuDBiResult $cuDBiResult,
@@ -128,7 +134,7 @@ class CuDBi extends mysqli implements CuDB {
 
         $insert_string = '';
         foreach ($assocDataArray as $key => $val) {
-            $val = $this->real_escape_string($val);
+            $val           = $this->real_escape_string($val);
             $insert_string .= ' ' . $key . '= "' . $this->real_escape_string($val) . '", ';
         }
 
@@ -184,7 +190,7 @@ class CuDBi extends mysqli implements CuDB {
         $where     = ' WHERE ' . $where;
 
         foreach ($assocDataArray as $key => $val) {
-            $val = $this->real_escape_string($val);
+            $val       = $this->real_escape_string($val);
             $updateStr .= ' ' . $key . ' = "' . $val . '", ';
         }
 

@@ -8,12 +8,9 @@
  *
  */
 
-use computerundsound\culibrary\CuFactoryUtil;
 use computerundsound\culibrary\CuMiniTemplateEngine;
-use computerundsound\culibrary\db\pdo\CuDBpdo;
-use computerundsound\culibrary\db\pdo\CuDBpdoResult;
 
-/* include autoloader for this library */
+/* include autoloader for this library - better use composer! */
 require_once __DIR__ . '/../culibincluder.start.php';
 
 /* DB Data */
@@ -35,7 +32,7 @@ $smallObj->two = 'Value Two from Object';
 
 $codeblock = <<<'HTML'
 
-/* Only an Example - you need a DB to test this - this
+/* Only an Example - you need a DB to run this example
 
 /** @var CuDBpdo $mySqlObj */
 $mySqlObj = CuDBpdo::getInstance(new CuDBpdoResult(), $server, $username, $password, $dbName);
