@@ -1,12 +1,9 @@
 <?php
 /**
- * Copyright by Jörg Wrase - Computer-Und-Sound.de
- * Date: 20.12.13
- * Time: 12:14
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Hire me! coder@cusp.de
  *
- * Created by PhpStorm
- *
- * Filename: CuDBi.class.php
+ * LastModified: 2017.03.20 at 02:47 MEZ
  */
 
 namespace computerundsound\culibrary\db\mysqli;
@@ -222,6 +219,20 @@ class CuDBi extends mysqli implements CuDB
         return $dataSetArray;
     }
 
+    /**
+     * @param string $tableName
+     * @param string $where
+     *
+     * @return bool
+     */
+    public function dataSetExist($tableName, $where = '') {
+
+        $dataSets = $this->selectAsArray($tableName, $where);
+
+        return (count($dataSets) > 0);
+
+    }
+
 
     /**
      * @param string $tableName
@@ -277,17 +288,16 @@ class CuDBi extends mysqli implements CuDB
      * @param $tableName
      * @param $fieldName
      *
-     * @return object;
+     * @return mixed;
      */
-    public function getFieldInfos($tableName, $fieldName) {
+    public function getFieldInfo($tableName, $fieldName) {
 
-        /** @noinspection SqlNoDataSourceInspection */
         $query  = 'SELECT `%s` FROM `%s`;';
         $query  = sprintf($query, $fieldName, $tableName);
         $result = $this->query($query);
-        $infos  = $result->fetch_field_direct(0);
+        $info  = $result->fetch_field_direct(0);
 
-        return $infos;
+        return $info;
     }
 
 
@@ -345,7 +355,6 @@ class CuDBi extends mysqli implements CuDB
             $limit = ' LIMIT ' . $limit;
         }
 
-        /** @noinspection SqlNoDataSourceInspection */
         $q      = 'SELECT * FROM `%s` %s %s %s;';
         $q      = sprintf($q, $tableName, $where, $order, $limit);
         $result = $this->query($q);

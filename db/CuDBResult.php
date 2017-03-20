@@ -1,12 +1,9 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 31.07.14
- * Time: 14:48
+ * Hire me! coder@cusp.de
  *
- * Created by IntelliJ IDEA
- *
- * Filename: CuDBiResult.php
+ * LastModified: 2017.03.19 at 01:47 MEZ
  */
 
 namespace computerundsound\culibrary\db;

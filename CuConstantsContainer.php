@@ -1,12 +1,9 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 30.06.2014
- * Time: 20:33
+ * Hire me! coder@cusp.de
  *
- * Created by IntelliJ IDEA
- *
- * Filename: CuConstantsContainer.class.php
+ * LastModified: 2017.03.19 at 01:47 MEZ
  */
 
 namespace computerundsound\culibrary;
@@ -80,9 +77,9 @@ class CuConstantsContainer {
      */
     private function buildAppRootHTTP() {
         $doc_root = $this->server_document_root;
-        $dirname  = __DIR__;
+        $dirName  = __DIR__;
 
-        $app_root = substr($dirname, strlen($doc_root));
+        $app_root = substr($dirName, strlen($doc_root));
 
         $app_root            = str_replace(['\\', $this->pathFromAppRootToThisDirectory,],
                                            ['/', '',],

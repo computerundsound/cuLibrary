@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Copyright by Jörg Wrase - Computer-Und-Sound.de
- * Date: 24.06.12
- * Time: 00:37
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Hire me! coder@cusp.de
  *
- * Created by JetBrains PhpStorm
- *
- * Filename: CuDate.class.php
+ * LastModified: 2017.03.19 at 01:47 MEZ
  */
 
 namespace computerundsound\culibrary;

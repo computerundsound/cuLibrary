@@ -2,106 +2,110 @@
 
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 12.02.14
- * Time: 17:26
+ * Hire me! coder@cusp.de
  *
- * Created by PhpStorm
- *
- * Filename: CuCRUD.class.php
+ * LastModified: 2017.03.19 at 01:47 MEZ
  */
 
 namespace computerundsound\culibrary;
+
 use computerundsound\culibrary\db\mysqli\CuDBi;
+use computerundsound\culibrary\db\mysqli\CuDBiResult;
 
 /**
  * Class CuCRUD
  *
  * @package curlibrary
  */
-class CuCRUD {
+class CuCRUD
+{
 
-	public  $idName;
-	public  $id;
-	public  $data_set;
-	private $_tab;
-	private $_dbObj_coo;
-
-
-	/**
-	 * @param       $tableName
-	 * @param CuDBi $dbi_coo
-	 */
-	public function __construct($tableName, CuDBi $dbi_coo) {
-		$this->_tab       = $tableName;
-		$this->_dbObj_coo = $dbi_coo;
-	}
+    public  $idName;
+    public  $id;
+    public  $data_set;
+    private $_tab;
+    private $_dbObj_coo;
 
 
-	/**
-	 * @param array $id field_name_in_DB => value
-	 */
-	public function loadFromDB(array $id) {
+    /**
+     * @param       $tableName
+     * @param CuDBi $dbi_coo
+     */
+    public function __construct($tableName, CuDBi $dbi_coo) {
 
-		$this->idName    = key($id);
-		$this->id        = $id[$this->idName];
-		$idName          = $this->idName;
-		$id              = $this->id;
-		$data_sets_array = $this->_dbObj_coo->selectAsArray($this->_tab, $idName . '="' . $id . '"');
-		$this->data_set  = $data_sets_array[0];
-	}
+        $this->_tab       = $tableName;
+        $this->_dbObj_coo = $dbi_coo;
+    }
 
 
-	/**
-	 * @return array
-	 */
-	public function insertInDB() {
-		$dataArray = $this->data_set;
-		if(null !== $this->idName) {
-			unset($dataArray[$this->idName]);
-		}
+    /**
+     * @param array $id field_name_in_DB => value
+     */
+    public function loadFromDB(array $id) {
 
-		$ret = $this->_dbObj_coo->cuInsert($this->_tab, $dataArray);
-
-		return $ret;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function updateInDB() {
-		$dataArray = $this->data_set;
-		unset($dataArray[$this->idName]);
-		$where = $this->idName . '=' . $this->id;
-		$ret   = $this->_dbObj_coo->cuUpdate($this->_tab, $dataArray, $where);
-
-		return $ret;
-	}
+        $this->idName    = key($id);
+        $this->id        = $id[$this->idName];
+        $idName          = $this->idName;
+        $id              = $this->id;
+        $data_sets_array = $this->_dbObj_coo->selectAsArray($this->_tab, $idName . '="' . $id . '"');
+        $this->data_set  = $data_sets_array[0];
+    }
 
 
-	/**
-	 * @param      $field_name
-	 * @param null $forWhat
-	 *
-	 * @return string
-	 */
-	public function getValue($field_name, $forWhat = null) {
-		$val = $this->data_set[$field_name];
+    /**
+     * @return CuDBiResult
+     */
+    public function insertInDB() {
 
-		switch($forWhat) {
-			case'HTML':
-				$val = CuString::stringFromDB2HTML($val);
-				break;
+        $dataArray = $this->data_set;
+        if (null !== $this->idName) {
+            unset($dataArray[$this->idName]);
+        }
 
-			case'FROM':
-				$val = CuString::stringFromDB2Form($val);
-				break;
+        $ret = $this->_dbObj_coo->cuInsert($this->_tab, $dataArray);
 
-			default:
-				/* No Changes */
-				break;
-		}
+        return $ret;
+    }
 
-		return $val;
-	}
+
+    /**
+     * @return \computerundsound\culibrary\db\CuDBResult
+     */
+    public function updateInDB() {
+
+        $dataArray = $this->data_set;
+        unset($dataArray[$this->idName]);
+        $where = $this->idName . '=' . $this->id;
+        $ret   = $this->_dbObj_coo->cuUpdate($this->_tab, $dataArray, $where);
+
+        return $ret;
+    }
+
+
+    /**
+     * @param      $field_name
+     * @param null $forWhat
+     *
+     * @return string
+     */
+    public function getValue($field_name, $forWhat = null) {
+
+        $val = $this->data_set[$field_name];
+
+        switch ($forWhat) {
+            case'HTML':
+                $val = CuString::stringFromDB2HTML($val);
+                break;
+
+            case'FROM':
+                $val = CuString::stringFromDB2Form($val);
+                break;
+
+            default:
+                /* No Changes */
+                break;
+        }
+
+        return $val;
+    }
 }

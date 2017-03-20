@@ -1,12 +1,9 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 17.07.14
- * Time: 12:38
+ * Hire me! coder@cusp.de
  *
- * Created by IntelliJ IDEA
- *
- * Filename: CuReloadPreventer.php
+ * LastModified: 2017.03.20 at 02:59 MEZ
  */
 
 namespace computerundsound\culibrary;
@@ -18,6 +15,7 @@ namespace computerundsound\culibrary;
  * Es wird ein Token in die Session geschrieben. Beim Aufruf der Seite muss der alte Token mitgeliefert werden - sonst
  * werden keine PostData gesendet
  *
+ * @package computerundsound\culibrary
  */
 class CuReloadPreventer {
 
@@ -103,7 +101,7 @@ class CuReloadPreventer {
 
 
 	private function generate_token_new() {
-		$this->token_new = time() . str_pad(rand(0, 9999), 4, 0);
+		$this->token_new = time() . str_pad(mt_rand(0, 9999), 4, 0);
 	}
 
 

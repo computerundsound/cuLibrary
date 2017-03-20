@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Copyright by Jörg Wrase - Computer-Und-Sound.de
- * Date: 29.07.12
- * Time: 16:06
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Hire me! coder@cusp.de
  *
- * Created by JetBrains PhpStorm
- *
- * Filename: CuArray.class.php
+ * LastModified: 2017.03.20 at 02:43 MEZ
  */
 
 namespace computerundsound\culibrary;
@@ -17,8 +14,23 @@ namespace computerundsound\culibrary;
  *
  * @package curlibrary
  */
-class CuArray {
+class CuArray
+{
 
+    /**
+     * @param array       $array
+     * @param string      $keyName
+     * @param string|null $standard
+     *
+     * @return mixed|null
+     */
+    public static function getValueFromKey(array $array, $keyName, $standard = null) {
+
+        $value = isset($array[$keyName]) ? $array[$keyName] : $standard;
+
+        return $value;
+
+    }
 
     /**
      * @param array $arrayToSort
@@ -31,6 +43,7 @@ class CuArray {
 
         foreach ($arrayToSort as $nr => $array) {
             if (is_array($array)) {
+                /** @var array $array */
                 foreach ($array as $key => $val) {
                     $str = $array[$key];
                     if (is_array($str)) {

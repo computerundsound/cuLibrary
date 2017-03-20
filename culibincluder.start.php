@@ -1,26 +1,24 @@
 <?php
-/*
+/**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 09.09.2016
- * Time: 22:23
- * 
- * Created by IntelliJ IDEA
+ * Hire me! coder@cusp.de
  *
+ * LastModified: 2017.03.19 at 01:47 MEZ
  */
 
 /**
- * @param $classname
+ * @param $className
  *
  * @return bool
  */
-function culibraryAutoloader($classname) {
+function culibraryAutoloader($className) {
 
     $success = false;
 
     $ds = DIRECTORY_SEPARATOR;
     $ns = '\\';
 
-    $nameSpaceParts = explode($ns, $classname);
+    $nameSpaceParts = explode($ns, $className);
 
     $nameSpacePartsUsed = array_slice($nameSpaceParts, 2);
 

@@ -1,12 +1,9 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 25.12.2014
- * Time: 16:26
+ * Hire me! coder@cusp.de
  *
- * Created by IntelliJ IDEA
- *
- * Filename: DateTimeCu.php
+ * LastModified: 2017.03.19 at 01:47 MEZ
  */
 
 namespace computerundsound\culibrary;

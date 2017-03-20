@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
+ * Hire me! coder@cusp.de
+ *
+ * LastModified: 2017.03.19 at 01:47 MEZ
+ */
 
 /** @var $message */
 /** @var $title */

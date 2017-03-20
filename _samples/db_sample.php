@@ -1,11 +1,9 @@
 <?php
-/*
+/**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Date: 10.05.2015
- * Time: 23:24
- * 
- * Created by IntelliJ IDEA
+ * Hire me! coder@cusp.de
  *
+ * LastModified: 2017.03.19 at 02:17 MEZ
  */
 
 use computerundsound\culibrary\CuMiniTemplateEngine;
