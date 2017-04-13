@@ -14,7 +14,8 @@ namespace computerundsound\culibrary;
  *
  * @package curlibrary
  */
-class CuNet {
+class CuNet
+{
 
     /**
      * @return array | 'client', referer', 'server', 'site', 'query',
@@ -55,12 +56,16 @@ class CuNet {
      */
     public static function get_post_session_standard_value($variableName, $standard_value) {
 
-        if (self::get_post_session($variableName) !== null) {
-            $_SESSION[$variableName] = $standard_value;
-            return $standard_value;
+        $fromRequestOrSession = self::get_post_session($variableName);
+
+        if ($fromRequestOrSession) {
+            $value = $fromRequestOrSession;
         } else {
-            return self::get_post_session($variableName);
+            $_SESSION[$variableName] = $standard_value;
+            $value                   = $standard_value;
         }
+
+        return $value;
     }
 
 
