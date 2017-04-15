@@ -163,21 +163,26 @@ class CuDBi extends mysqli implements CuDB
 
 
     /**
-     * @param $tableName
-     * @param $idName
-     * @param $idValue
+     * @param string $tableName
+     * @param string $idName
+     * @param        $idValue
+     *
+     * @return \computerundsound\culibrary\db\CuDBResult|\computerundsound\culibrary\db\mysqli\CuDBiResult
      */
     public function deleteOneDataSet($tableName, $idName, $idValue) {
 
-        $where = " $idName='$idValue' ";
-        $this->cuDelete($tableName, $where);
+        $where      = " $idName='$idValue' ";
+        $cuDBResult = $this->cuDelete($tableName, $where);
+
+        return $cuDBResult;
+
     }
 
 
     /**
-     * @param       $tableName
-     * @param array $assocDataArray
-     * @param       $where
+     * @param string $tableName
+     * @param array  $assocDataArray
+     * @param        $where
      *
      * @return CuDBResult
      */
@@ -295,7 +300,7 @@ class CuDBi extends mysqli implements CuDB
         $query  = 'SELECT `%s` FROM `%s`;';
         $query  = sprintf($query, $fieldName, $tableName);
         $result = $this->query($query);
-        $info  = $result->fetch_field_direct(0);
+        $info   = $result->fetch_field_direct(0);
 
         return $info;
     }
@@ -303,11 +308,15 @@ class CuDBi extends mysqli implements CuDB
 
     /**
      * @param $tabName
+     *
+     * @return \computerundsound\culibrary\db\mysqli\CuDBiResult
      */
     public function truncateTAB($tabName) {
 
-        $q = 'TRUNCATE ' . $tabName;
-        $this->query($q);
+        $q          = 'TRUNCATE ' . $tabName;
+        $cuDBResult = $this->cuQuery($q);
+
+        return $cuDBResult;
     }
 
 

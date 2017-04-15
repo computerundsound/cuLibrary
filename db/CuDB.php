@@ -16,6 +16,8 @@ interface CuDB
 
     /**
      * @param $tableName
+     *
+     * @return \computerundsound\culibrary\db\mysqli\CuDBiResult
      */
     public function truncateTab($tableName);
 
@@ -24,6 +26,8 @@ interface CuDB
      * @param $tableName
      * @param $idName
      * @param $idValue
+     *
+     * @return \computerundsound\culibrary\db\mysqli\CuDBiResult
      *
      */
     public function deleteOneDataSet($tableName, $idName, $idValue);

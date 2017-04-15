@@ -102,11 +102,15 @@ class CuDBpdo extends PDO implements CuDB
 
     /**
      * @param $tabName
+     *
+     * @return \computerundsound\culibrary\db\CuDBResult|\computerundsound\culibrary\db\mysqli\CuDBiResult
      */
     public function truncateTAB($tabName) {
 
-        $q = 'TRUNCATE ' . $tabName;
-        $this->query($q);
+        $q          = 'TRUNCATE ' . $tabName;
+        $cuDBResult = $this->cuQuery($q);
+
+        return $cuDBResult;
     }
 
     /****************************************************************************************/
@@ -121,11 +125,15 @@ class CuDBpdo extends PDO implements CuDB
      * @param $tableName
      * @param $idName
      * @param $idValue
+     *
+     * @return \computerundsound\culibrary\db\CuDBResult|\computerundsound\culibrary\db\mysqli\CuDBiResult
      */
     public function deleteOneDataSet($tableName, $idName, $idValue) {
 
-        $where = " $idValue='$idName' ";
-        $this->cuDelete($tableName, $where);
+        $where      = " $idValue='$idName' ";
+        $cuDBResult = $this->cuDelete($tableName, $where);
+
+        return $cuDBResult;
     }
 
 
