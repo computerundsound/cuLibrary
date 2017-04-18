@@ -111,7 +111,7 @@ class CuDBi extends mysqli implements CuDB
     public function cuQuery($query) {
 
         $result = $this->query($query);
-        $id     = $this->insert_id;
+        $id     = mysqli_insert_id(self::$instance);
 
         self::$cuDBiResult->setResult($result);
         self::$cuDBiResult->setLastInsertId($id);
