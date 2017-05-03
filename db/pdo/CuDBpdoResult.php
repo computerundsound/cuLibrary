@@ -25,7 +25,7 @@ class CuDBpdoResult implements CuDBResult
     /** @var  int|float|string|null */
     private $lastInsertId;
     /** @var  string */
-    private $message;
+    private $message = '';
     /** @var  string */
     private $query;
 
