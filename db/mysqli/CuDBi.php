@@ -21,7 +21,7 @@ class CuDBi extends mysqli implements CuDB
 {
 
     protected static $instance;
-    /** @var  CuDBiResult */
+    /** @var  CuDBResult */
     protected static $cuDBiResult;
 
 
@@ -51,7 +51,6 @@ class CuDBi extends mysqli implements CuDB
      * @param string      $port
      * @param string      $socket
      *
-     * @return \computerundsound\culibrary\db\mysqli\CuDBi
      */
     public static function getInstance(
         CuDBiResult $cuDBiResult,
@@ -106,7 +105,7 @@ class CuDBi extends mysqli implements CuDB
     /**
      * @param $query
      *
-     * @return CuDBiResult
+     * @return CuDBResult
      */
     public function cuQuery($query) {
 
@@ -125,7 +124,7 @@ class CuDBi extends mysqli implements CuDB
      * @param string $tableName
      * @param array  $assocDataArray
      *
-     * @return CuDBiResult
+     * @return CuDBResult
      */
     public function cuInsert($tableName, array $assocDataArray) {
 
@@ -167,7 +166,7 @@ class CuDBi extends mysqli implements CuDB
      * @param string $idName
      * @param        $idValue
      *
-     * @return \computerundsound\culibrary\db\CuDBResult|\computerundsound\culibrary\db\mysqli\CuDBiResult
+     * @return
      */
     public function deleteOneDataSet($tableName, $idName, $idValue) {
 
@@ -309,7 +308,6 @@ class CuDBi extends mysqli implements CuDB
     /**
      * @param $tabName
      *
-     * @return \computerundsound\culibrary\db\mysqli\CuDBiResult
      */
     public function truncateTAB($tabName) {
 

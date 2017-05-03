@@ -48,4 +48,14 @@ interface CuDBResult {
 	 * @param string $query
 	 */
 	public function setQuery($query);
+
+    /**
+     * @param $dbResult
+     */
+    public function setResult($dbResult);
+
+    /**
+     * @return mixed
+     */
+    public function getResult();
 }
