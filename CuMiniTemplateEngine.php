@@ -75,14 +75,7 @@ class CuMiniTemplateEngine
             throw new \DomainException('Template not found in ' . $template);
         }
 
-        ob_clean();
-        ob_start();
-
-        /** @noinspection PhpIncludeInspection */
-        include $template;
-
-        $content = ob_get_contents();
-        ob_end_clean();
+        $content = $this->sendToBrowser($template);
 
         if ($clearAssignments) {
             $this->variablesForTemplate = [];
@@ -134,5 +127,23 @@ class CuMiniTemplateEngine
         }
 
         echo $value;
+    }
+
+    /**
+     * @param string $template
+     *
+     * @return string
+     */
+    protected function sendToBrowser($template) {
+
+        ob_start();
+
+        /** @noinspection PhpIncludeInspection */
+        include $template;
+
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        return $content;
     }
 }
