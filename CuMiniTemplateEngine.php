@@ -5,6 +5,7 @@
  *
  * LastModified: 2017.03.19 at 01:47 MEZ
  */
+
 namespace computerundsound\culibrary;
 
 /**
@@ -12,11 +13,25 @@ namespace computerundsound\culibrary;
  *
  * @package curlibrary
  */
-class CuMiniTemplateEngine {
+class CuMiniTemplateEngine
+{
 
     private $variablesForTemplate = [];
 
     private $templateFolder = '';
+
+    /**
+     * CuMiniTemplateEngine constructor.
+     *
+     * @param string $templateFolder
+     *
+     * @throws \DomainException
+     */
+    public function __construct($templateFolder) {
+
+        $this->setTemplateFolder($templateFolder);
+
+    }
 
 
     /**
@@ -51,11 +66,12 @@ class CuMiniTemplateEngine {
      * @throws \DomainException
      */
     public function fetch($template, $clearAssignments = true) {
+
         extract($this->variablesForTemplate, EXTR_SKIP);
 
         $template = $this->templateFolder . $template . '.template.php';
 
-        if(file_exists($template) === false) {
+        if (file_exists($template) === false) {
             throw new \DomainException('Template not found in ' . $template);
         }
 
@@ -68,7 +84,7 @@ class CuMiniTemplateEngine {
         $content = ob_get_contents();
         ob_end_clean();
 
-        if($clearAssignments) {
+        if ($clearAssignments) {
             $this->variablesForTemplate = [];
         }
 
