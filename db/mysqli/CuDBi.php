@@ -33,6 +33,7 @@ class CuDBi extends mysqli implements CuDB
      * @param string      $socket
      *
      * @return mysqli | null
+     * @throws \Exception
      */
     public static function getInstance(
         CuDBiResult $cuDBiResult,
@@ -59,8 +60,22 @@ class CuDBi extends mysqli implements CuDB
             try {
                 /** @noinspection PhpUsageOfSilenceOperatorInspection */
                 self::$instance = @new static($serverName, $username, $password, $dbName, $port, $socket);
+
+                if (!self::$instance || (self::$instance instanceof self) || self::$instance->connect_errno > 0) {
+
+                    $errorMessage = 'Error while connecting to Database';
+
+                    /** @noinspection NotOptimalIfConditionsInspection */
+                    if (self::$instance instanceof self) {
+                        $errorMessage = self::$instance->connect_error;
+                    }
+
+                    throw new \RuntimeException($errorMessage);
+
+                }
+
             } catch (\Exception $e) {
-                die('Can\'t connect to database');
+                throw new \RuntimeException($e->getMessage());
             }
         }
 
@@ -299,7 +314,7 @@ class CuDBi extends mysqli implements CuDB
         $query  = 'SELECT `%s` FROM `%s`;';
         $query  = sprintf($query, $fieldName, $tableName);
         $result = $this->query($query);
-        $info  = $result->fetch_field_direct(0);
+        $info   = $result->fetch_field_direct(0);
 
         return $info;
     }
