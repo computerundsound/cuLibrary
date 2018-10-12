@@ -16,27 +16,34 @@ namespace computerundsound\culibrary;
 class CuInfoMail
 {
 
-    private $subject;
-    private $mailText;
-    private $addressTo;
-    private $addressFrom;
-    private $nameFrom;
+    /**
+     * @var int
+     */
+    protected $chunkSplit;
+    private   $subject;
+    private   $mailText;
+    private   $addressTo;
+    private   $addressFrom;
+    private   $nameFrom;
 
     private $additionalRow = 0;
 
-    private $userData = array();
+    /** @var array */
+    private $userData;
 
 
     /**
      * @param string $addressTo
      * @param string $addressFrom
      * @param string $nameFrom
+     * @param int    $chunkSplit
      */
-    public function __construct($addressTo, $addressFrom, $nameFrom) {
+    public function __construct($addressTo, $addressFrom, $nameFrom, $chunkSplit = 0) {
 
         $this->addressTo   = $addressTo;
         $this->addressFrom = $addressFrom;
         $this->nameFrom    = $nameFrom;
+        $this->chunkSplit  = $chunkSplit;
 
         $this->userData = $this->getClientData();
 
@@ -122,6 +129,10 @@ class CuInfoMail
             '###Query###'    => $userData['query'],
             '###Requests###' => $requests,
         );
+
+        if ($this->chunkSplit > 0) {
+            $replaceArray = $this->chunkValues($replaceArray, $this->chunkSplit);
+        }
 
         $mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
 
@@ -266,6 +277,27 @@ class CuInfoMail
 </html>';
 
         return $mailTemplate;
+    }
+
+    /**
+     * @param array $values
+     * @param int   $chunkLength
+     *
+     * @return array
+     */
+    protected function chunkValues(array $values, $chunkLength) {
+
+        foreach ($values as &$value) {
+
+            /** @noinspection ReferenceMismatchInspection */
+            if (is_string($value)) {
+                $value = chunk_split($value, $chunkLength);
+            }
+
+        }
+
+        return $values;
+
     }
 
     public function sendEmail() {
