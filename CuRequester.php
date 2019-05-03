@@ -20,7 +20,8 @@ class CuRequester
     /**
      * @return array | 'client', referer', 'server', 'site', 'query',
      */
-    public static function getClientData() {
+    public static function getClientData()
+    {
 
         $user_data_array = [];
 
@@ -54,15 +55,18 @@ class CuRequester
      *
      * @return bool|string
      */
-    public static function getGetOrPostSessionStandardValue($variableName, $standard_value) {
+    public static function getGetOrPostSessionStandardValue($variableName, $standard_value)
+    {
+
+        $value = self::getGetPostSession($variableName);
 
         if (self::getGetPostSession($variableName) !== null) {
             $_SESSION[$variableName] = $standard_value;
 
-            return $standard_value;
-        } else {
-            return self::getGetPostSession($variableName);
+            $value = $standard_value;
         }
+        
+        return $value;
     }
 
 
@@ -71,7 +75,8 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPostSession($variableName) {
+    public static function getGetPostSession($variableName)
+    {
 
         $value = null;
 
@@ -95,7 +100,8 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPost($variableName) {
+    public static function getGetPost($variableName)
+    {
 
         $value = null;
 
@@ -106,7 +112,7 @@ class CuRequester
         if (isset($_POST[$variableName])) {
             $value = $_POST[$variableName];
         }
-        
+
         $value = self::stripSlashesDeep($value);
 
         return $value;
@@ -120,7 +126,8 @@ class CuRequester
      * @return array|string
      * will only do something when get_magic_quotes_gpc === true
      */
-    public static function stripSlashesDeep($value) {
+    public static function stripSlashesDeep($value)
+    {
 
         if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
             $value = is_array($value) ? array_map([__CLASS__, 'stripSlashesDeep'], $value) : stripcslashes($value);

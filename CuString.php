@@ -20,7 +20,8 @@ class CuString
     /**
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
 
@@ -30,16 +31,20 @@ class CuString
      *
      * @return bool
      */
-    public static function getCheckStrFromSession($sessionVariable, $expected_value) {
+    public static function getCheckStrFromSession($sessionVariable, $expected_value)
+    {
+
+        $success = false;
 
         $session_value = $_SESSION[$sessionVariable];
         if ($expected_value === $session_value) {
             echo(' checked="checked" ');
 
-            return true;
-        } else {
-            return false;
+            $success = true;
+
         }
+
+        return $success;
     }
 
 
@@ -48,7 +53,8 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromFormToDB($str) {
+    public static function stringFromFormToDB($str)
+    {
 
         $str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
 
@@ -61,7 +67,8 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromDB2HTML($str) {
+    public static function stringFromDB2HTML($str)
+    {
 
         if (!$str || $str === null || $str === '' || is_array($str)) {
             return $str;
@@ -79,7 +86,8 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromDB2Form($str) {
+    public static function stringFromDB2Form($str)
+    {
 
         $str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
 
@@ -92,7 +100,8 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromDBtoXML($str) {
+    public static function stringFromDBtoXML($str)
+    {
 
         $str = urlencode($str);
 
@@ -105,7 +114,8 @@ class CuString
      *
      * @return string
      */
-    public static function makeGoodIP($ip) {
+    public static function makeGoodIP($ip)
+    {
 
         $newIP = '';
 
@@ -127,7 +137,8 @@ class CuString
      *
      * @return string
      */
-    public static function makeGoodIpToTrace($ip) {
+    public static function makeGoodIpToTrace($ip)
+    {
 
         $newIP = '';
 
@@ -135,10 +146,6 @@ class CuString
 
         if (is_array($ip_array)) {
             foreach ($ip_array as $val) {
-
-                if ($val[0] === '0') {
-                    $val = $val[1] . $val[2];
-                }
 
                 if ($val[0] === '0') {
                     $val = $val[1] . $val[2];
@@ -159,7 +166,8 @@ class CuString
      *
      * @return string
      */
-    public static function makeHTMLString($str) {
+    public static function makeHTMLString($str)
+    {
 
         $str = trim($str);
         $str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
@@ -173,7 +181,8 @@ class CuString
      *
      * @return mixed
      */
-    public static function brEncodedToHTML($val) {
+    public static function brEncodedToHTML($val)
+    {
 
         $pattern = '/&lt;br&gt;/';
         $val     = preg_replace($pattern, '<br>', $val);
@@ -189,7 +198,8 @@ class CuString
      *
      * @return string
      */
-    public static function killLastSign($str, $counts = 1) {
+    public static function killLastSign($str, $counts = 1)
+    {
 
         $str = substr($str, 0, -$counts);
 
@@ -201,16 +211,18 @@ class CuString
      * @param $variableName
      * @param $variableValue
      */
-    public static function cuEchoVariable($variableName, $variableValue) {
+    public static function cuEchoVariable($variableName, $variableValue)
+    {
 
-        CuString::cuEcho($variableName . ' => ' . $variableValue);
+        self::cuEcho($variableName . ' => ' . $variableValue);
     }
 
 
     /**
      * @param $str
      */
-    public static function cuEcho($str) {
+    public static function cuEcho($str)
+    {
 
         echo("<br />$str<br />");
     }
@@ -221,7 +233,8 @@ class CuString
      *
      * @return string
      */
-    public static function makePriceFromDB($price) {
+    public static function makePriceFromDB($price)
+    {
 
         $price_element = explode('.', $price);
 
@@ -229,34 +242,7 @@ class CuString
 
         $cent = str_pad($cent, '0', STR_PAD_LEFT);
 
-        $new_price = ',' . $price_element[0] . $cent;
-
-        return $new_price;
+        return ',' . $price_element[0] . $cent;
     }
 
-
-    /**
-     * @param      $vari
-     * @param bool $makeEcho
-     *
-     * @return mixed|string
-     */
-    public static function debug_var_dump_formatted($vari, $makeEcho = true) {
-
-        ob_start();
-
-        /** @noinspection ForgottenDebugOutputInspection */
-        print_r($vari);
-
-        $output = ob_get_clean();
-
-        $output = str_replace(' ', '&nbsp;', $output);
-        $output = nl2br($output);
-
-        if ($makeEcho) {
-            echo $output . '<br>';
-        }
-
-        return $output;
-    }
 }

@@ -17,7 +17,7 @@ interface CuDB
     /**
      * @param $tableName
      */
-    public function truncateTab($tableName);
+    public function cuTruncateTab($tableName);
 
 
     /**
@@ -26,7 +26,7 @@ interface CuDB
      * @param $idValue
      *
      */
-    public function deleteOneDataSet($tableName, $idName, $idValue);
+    public function cuDeleteOneDataSet($tableName, $idName, $idValue);
 
 
     /**
@@ -63,7 +63,7 @@ interface CuDB
      *
      * @return CuDBResult
      */
-    public function updateOneDataSet($tableName, array $assocDataArray, $idName, $id);
+    public function cuUpdateOneDataSet($tableName, array $assocDataArray, $idName, $id);
 
 
     /**
@@ -83,7 +83,7 @@ interface CuDB
      *
      * @return array
      */
-    public function selectOneDataSet($tableName, $fieldName, $fieldValue);
+    public function cuSelectOneDataSet($tableName, $fieldName, $fieldValue);
 
 
     /**
@@ -94,7 +94,7 @@ interface CuDB
      *
      * @return array
      */
-    public function selectAsArray($tableName, $where = '', $order = '', $limit = '');
+    public function cuSelectAsArray($tableName, $where = '', $order = '', $limit = '');
 
 
     /**
@@ -102,7 +102,7 @@ interface CuDB
      *
      * @return int
      */
-    public function getQuantityOfDataSets($tableName);
+    public function cuGetQuantityOfDataSets($tableName);
 
 
     /**
@@ -110,13 +110,13 @@ interface CuDB
      *
      * @return array
      */
-    public function getColNamesFromTable($tableName);
+    public function cuGetColNamesFromTable($tableName);
 
 
     /**
      *
      */
-    public function closeConnection();
+    public function cuCloseConnection();
 
 
     /**
@@ -125,5 +125,5 @@ interface CuDB
      *
      * @return Object;
      */
-    public function getFieldInfo($tableName, $fieldName);
+    public function cuGetFieldInfo($tableName, $fieldName);
 }

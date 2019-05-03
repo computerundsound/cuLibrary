@@ -8,6 +8,8 @@
 
 namespace computerundsound\culibrary;
 
+use DomainException;
+
 /**
  * Class CuMiniTemplateEngine
  *
@@ -25,9 +27,10 @@ class CuMiniTemplateEngine
      *
      * @param string $templateFolder
      *
-     * @throws \DomainException
+     * @throws DomainException
      */
-    public function __construct($templateFolder) {
+    public function __construct($templateFolder)
+    {
 
         $this->setTemplateFolder($templateFolder);
     }
@@ -36,12 +39,13 @@ class CuMiniTemplateEngine
     /**
      * @param $templateFolder
      *
-     * @throws \DomainException
+     * @throws DomainException
      */
-    public function setTemplateFolder($templateFolder) {
+    public function setTemplateFolder($templateFolder)
+    {
 
         if (is_dir($templateFolder) === false) {
-            throw new \DomainException("Template-Folder $templateFolder not found");
+            throw new DomainException("Template-Folder $templateFolder not found");
         }
 
         $this->templateFolder = $templateFolder;
@@ -52,7 +56,8 @@ class CuMiniTemplateEngine
      * @param $name
      * @param $value
      */
-    public function assign($name, $value) {
+    public function assign($name, $value)
+    {
 
         $this->variablesForTemplate[$name] = $value;
     }
@@ -60,9 +65,10 @@ class CuMiniTemplateEngine
     /**
      * @param $template
      *
-     * @throws \DomainException
+     * @throws DomainException
      */
-    public function display($template) {
+    public function display($template)
+    {
 
         $content = $this->fetch($template);
 
@@ -74,16 +80,17 @@ class CuMiniTemplateEngine
      * @param bool   $clearAssignments
      *
      * @return string
-     * @throws \DomainException
+     * @throws DomainException
      */
-    public function fetch($template, $clearAssignments = true) {
+    public function fetch($template, $clearAssignments = true)
+    {
 
-        extract($this->variablesForTemplate, EXTR_SKIP);
+        extract($this->variablesForTemplate, EXTR_OVERWRITE);
 
         $template = $this->templateFolder . $template . '.template.php';
 
         if (file_exists($template) === false) {
-            throw new \DomainException('Template not found in ' . $template);
+            throw new DomainException('Template not found in ' . $template);
         }
 
         ob_start();
@@ -91,8 +98,7 @@ class CuMiniTemplateEngine
         /** @noinspection PhpIncludeInspection */
         include $template;
 
-        $content = ob_get_contents();
-        ob_end_clean();
+        $content = ob_get_clean();
 
         if ($clearAssignments) {
             $this->variablesForTemplate = [];
@@ -102,10 +108,11 @@ class CuMiniTemplateEngine
     }
 
     /**
-     * @param      $name
-     * @param bool $html
+     * @param string $name
+     * @param bool   $html
      */
-    public function showValue($name, $html = true) {
+    public function showValue($name, $html = true)
+    {
 
         $value = $this->getValue($name);
 
@@ -121,7 +128,8 @@ class CuMiniTemplateEngine
      *
      * @return mixed
      */
-    public function getValue($name) {
+    public function getValue($name)
+    {
 
         $returnValue = '';
 
@@ -134,19 +142,21 @@ class CuMiniTemplateEngine
 
     /**
      * @param string $value
-     *
-     * @return string
      */
-    private function getAsHtml($value) {
+    public function showAsHtml($value)
+    {
 
-        return htmlspecialchars($value, ENT_COMPAT, 'utf-8');
+        echo $this->getAsHtml($value);
     }
 
     /**
      * @param string $value
+     *
+     * @return string
      */
-    public function showAsHtml($value) {
+    private function getAsHtml($value)
+    {
 
-        echo $this->getAsHtml($value);
+        return htmlspecialchars($value, ENT_COMPAT, 'utf-8');
     }
 }

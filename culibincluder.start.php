@@ -6,12 +6,17 @@
  * LastModified: 2016.10.30 at 07:42 MEZ
  */
 
+/*
+ * Only use this file, if you don't have composer
+ */
+
 /**
  * @param $className
  *
  * @return bool
  */
-function culibraryAutoloader($className) {
+function culibraryAutoloader($className)
+{
 
     $success = false;
 

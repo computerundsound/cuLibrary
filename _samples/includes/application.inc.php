@@ -6,16 +6,30 @@
  * LastModified: 2017.02.05 at 06:35 MEZ
  */
 
+use computerundsound\culibrary\CuConstantsContainer;
+use computerundsound\culibrary\CuMiniTemplateEngine;
+
 require_once __DIR__ . '/../../culibincluder.start.php';
 
-$view = new \computerundsound\culibrary\CuMiniTemplateEngine(__DIR__ . '/../_templates/');
+require_once __DIR__ . '/config.php';
 
-define('DB_USERNAME', 'curlibrary_username');
-define('DB_PASSWORD', 'curlibrary_password');
-define('DB_SERVER', 'localhost');
-define('DB_DB_NAME', 'curlibrary_dbName');
+$view = new CuMiniTemplateEngine(__DIR__ . '/../_templates/');
 
 $view->assign('db_username', DB_USERNAME);
 $view->assign('db_password', DB_PASSWORD);
 $view->assign('db_server', DB_SERVER);
 $view->assign('db_dbName', DB_DB_NAME);
+
+/* CuConstants: */
+
+$cuConstants = new CuConstantsContainer('/_samples/');
+
+$cuConstantsArray['FilePathHTTP'] = $cuConstants->getFilePath_HTTP();
+$cuConstantsArray['AppRootHTTP'] = $cuConstants->getAppRootHTTP();
+$cuConstantsArray['AppRootFQHTTP'] = $cuConstants->getAppRootFQHTTP();
+$cuConstantsArray['AppRootServer'] = $cuConstants->getAppRootServer();
+
+$view->assign('cuConstants', $cuConstantsArray);
+
+define('CU_FLASH_STANDARD_MESSAGE',
+       'This Message has a livetime only for the next request. This is very handy if you want to send a message to the browser just for the next request (like: Data is saved, or there was an error i.e.)');

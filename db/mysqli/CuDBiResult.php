@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
@@ -9,6 +10,7 @@
 namespace computerundsound\culibrary\db\mysqli;
 
 use computerundsound\culibrary\db\CuDBResult;
+use mysqli_result;
 
 /**
  * Class CuDBiResult
@@ -16,7 +18,7 @@ use computerundsound\culibrary\db\CuDBResult;
 class CuDBiResult implements CuDBResult
 {
 
-    /** @var  \mysqli_result */
+    /** @var  mysqli_result */
     private $result;
 
     private $lastInsertId;
@@ -29,7 +31,8 @@ class CuDBiResult implements CuDBResult
     /**
      * @return int
      */
-    public function getLastInsertId() {
+    public function getLastInsertId()
+    {
 
         return $this->lastInsertId;
     }
@@ -38,7 +41,8 @@ class CuDBiResult implements CuDBResult
     /**
      * @param mixed $lastInsertId
      */
-    public function setLastInsertId($lastInsertId) {
+    public function setLastInsertId($lastInsertId)
+    {
 
         $this->lastInsertId = $lastInsertId;
     }
@@ -47,7 +51,8 @@ class CuDBiResult implements CuDBResult
     /**
      * @return string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
 
         return $this->message;
     }
@@ -56,25 +61,28 @@ class CuDBiResult implements CuDBResult
     /**
      * @param string $message
      */
-    public function setMessage($message) {
+    public function setMessage($message)
+    {
 
         $this->message = (string)$message;
     }
 
 
     /**
-     * @return \mysqli_result | bool
+     * @return mysqli_result | bool
      */
-    public function getResult() {
+    public function getResult()
+    {
 
         return $this->result;
     }
 
 
     /**
-     * @param \mysqli_result | bool $result
+     * @param mysqli_result | bool $result
      */
-    public function setResult($result) {
+    public function setResult($result)
+    {
 
         $this->result = $result;
     }
@@ -83,7 +91,8 @@ class CuDBiResult implements CuDBResult
     /**
      * @return string
      */
-    public function getQuery() {
+    public function getQuery()
+    {
 
         return $this->query;
     }
@@ -92,7 +101,8 @@ class CuDBiResult implements CuDBResult
     /**
      * @param string $query
      */
-    public function setQuery($query) {
+    public function setQuery($query)
+    {
 
         $this->query = (string)$query;
     }

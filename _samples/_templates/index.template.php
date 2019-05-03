@@ -6,6 +6,8 @@
  * LastModified: 2017.02.05 at 06:11 MEZ
  */
 
+use computerundsound\culibrary\CuDebug;
+
 /** @var $message */
 /** @var $title */
 /** @var $db_username */
@@ -18,16 +20,20 @@
 
 <div class="row">
 
-    <div class="col-md-7">
+    <div class="col">
         <h1><?php echo $title; ?></h1>
     </div>
+</div>
 
-    <div class="col-md-5">
+<div class="row">
+
+    <div class="col-5">
 
         <div class="panel panel-primary">
             <div class="panel-body">
-                <p>Go to Data-Base-Example <br>
-                   You need a database with:</p>
+
+                <h4>For this example you need a clean database with following credentials:</h4>
+                <p>You don't need to create a table. This will be done by this tool.</p>
 
                 <table class="table  table-condensed">
                     <tr>
@@ -47,71 +53,165 @@
                         <td><?php $this->showValue('db_dbName') ?></td>
                     </tr>
                 </table>
+                <!--suppress HtmlUnknownTarget -->
                 <a href="db_sample.php">
                     <button class="btn btn-success">Go to DB-Example</button>
                 </a>
             </div>
         </div>
+    </div>
+</div>
 
+<hr>
+
+<div class="row mt-4">
+
+    <div class="col">
+
+        <h3>Flash Message example</h3>
+
+        <p>In your code, you save a Flashmessage with CuFlashMessage::save()</p>
+        <p>When you run CuFlashMessage::get() it will return the Flashmessage and clear the saved Flashmessage.</p>
+
+
+        <form action="#" method="post">
+
+            <input type="hidden" name="action" value="showFlash">
+
+            <p>
+                <button class="btn btn-primary">Save Flashmessage</button>
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+
+<hr>
+
+<div class="row mt-4">
+    <div class="col">
+        <h3>Debug example:</h3>
+        <code>
+            CuDebug::show(['foo'=>'bar']);
+        </code>
+        will output:
+
+        <?php CuDebug::show(['foo' => 'bar']); ?>
 
     </div>
 </div>
 
+<hr>
 
-<h3>A foreach - Loop (assigned an Array from CuRequester::getClientData()):</h3>
+<div class="row mt-4">
 
-<dl class="dl-horizontal">
+    <div class="col">
 
-    <?php /** @noinspection ForeachSourceInspection */
-    foreach ($this->getValue('thisIsAnExampleArray') as $key => $valueFromArray):?>
+        <h3>Assign arrays to an Template</h3>
 
-        <dt><?php echo $key ?></dt>
-        <dd><?php echo $valueFromArray ?></dd>
+        <p>A foreach - Loop (assigned an Array from CuRequester::getClientData()):</p>
 
-    <?php endforeach; ?>
-</dl>
+        <dl class="dl-horizontal">
 
+            <?php /** @noinspection ForeachSourceInspection */
+            foreach ($this->getValue('thisIsAnExampleArray') as $key => $valueFromArray):?>
 
-<h3>From an Object:</h3>
-<p><?php echo $myObject->one; ?></p>
+                <dt><?php echo $key ?></dt>
+                <dd><?php echo $valueFromArray ?></dd>
 
-
-<h3>Just a small Form Example:</h3>
-
-
-<div class="well">
-    You can set the second parameter from the this->showValue() - method as 'true'. It will NOT use htmlspecialchars()
-    function.
-    Try to use &lt;b&gt;strong&lt;/b&gt; in input-Field.
-
-    Send Data with htmlspecialchars switched off ($this->showValue('variableName', false):
-
-</div>
-
-<div class="alert alert-success">
-    <?php $this->showValue('valueFromPostOrFromSession', false); ?>
-</div>
-
-<p>And with htmlspecialchars ($this->showValue('variableName')):</p>
-
-<div class="alert alert-warning">
-    <?php $this->showValue('valueFromPostOrFromSession'); ?>
-</div>
+            <?php endforeach; ?>
+        </dl>
 
 
-<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>"
-      method="post"
-      enctype="application/x-www-form-urlencoded">
+        <h3>Assign an Object:</h3>
+        <p><?php echo $myObject->one; ?></p>
 
-    <div class="form-group">
-        <label for="formInputOne">Insert Value</label>
-        <input type="text"
-               id="formInputOne"
-               name="valueFromPostOrFromSession"
-               class="form-control"
-               value="<?php $this->showValue('valueFromPostOrFromSession'); ?>">
     </div>
+</div>
 
-    <button type="submit" class="btn btn-default">Send</button>
+<hr>
 
-</form>
+<div class="row">
+    <div class="col">
+
+        <h3>Just a small Form Example:</h3>
+
+        <div class="well">
+            You can set the second parameter from the this->showValue() - method as 'true'. It will NOT use
+            htmlspecialchars()
+            function.
+            Try to use &lt;b&gt;strong&lt;/b&gt; in input-Field.
+
+            Send Data with htmlspecialchars switched off ($this->showValue('variableName', false):
+
+        </div>
+
+        <div class="alert alert-success">
+            <?php $this->showValue('valueFromPostOrFromSession', false); ?>
+        </div>
+
+        <p>And with htmlspecialchars ($this->showValue('variableName')):</p>
+
+        <div class="alert alert-warning">
+            <?php $this->showValue('valueFromPostOrFromSession'); ?>
+        </div>
+
+        <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>"
+              method="post"
+              enctype="application/x-www-form-urlencoded">
+
+            <div class="form-group">
+                <label for="formInputOne">Insert Value</label>
+                <input type="text"
+                       id="formInputOne"
+                       name="valueFromPostOrFromSession"
+                       class="form-control"
+                       value="<?php $this->showValue('valueFromPostOrFromSession'); ?>">
+            </div>
+
+            <button type="submit" class="btn btn-info">Send data</button>
+
+        </form>
+    </div>
+</div>
+
+<hr>
+
+<div class="row mt-4">
+    <div class="col">
+
+        <h3>Send a Message with CuInfoMail()</h3>
+
+        <div class="alert">
+            <p>If you runs this on your localhost, then you have make sure, that the mail() function is working.</p>
+        </div>
+
+        <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>"
+              method="post"
+              enctype="application/x-www-form-urlencoded">
+
+            <input type="hidden" name="action" value="sendMail">
+
+            <div class="form-group">
+
+                <label for="formInputMail">Email</label>
+                <input type="text"
+                       class="form-control"
+                       name="email"
+                       value="<?php echo isset($emailAddress) ? $emailAddress : ''; ?>"
+                       id="formInputMail">
+            </div>
+
+            <p>
+                <button class="btn btn-warning" type="submit">Send email</button>
+            </p>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="mt-4">&nbsp;</div>
+<hr>

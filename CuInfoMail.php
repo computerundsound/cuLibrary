@@ -8,6 +8,8 @@
 
 namespace computerundsound\culibrary;
 
+use RuntimeException;
+
 /**
  * Class CuInfoMail
  *
@@ -38,7 +40,8 @@ class CuInfoMail
      * @param string $nameFrom
      * @param int    $chunkSplit
      */
-    public function __construct($addressTo, $addressFrom, $nameFrom, $chunkSplit = 0) {
+    public function __construct($addressTo, $addressFrom, $nameFrom, $chunkSplit = 0)
+    {
 
         $this->addressTo   = $addressTo;
         $this->addressFrom = $addressFrom;
@@ -52,100 +55,13 @@ class CuInfoMail
     }
 
     /**
-     * @return array;
-     */
-    protected function getClientData() {
-
-        $userData = array();
-
-        $userData['server']   = $this->getServerValue('SERVER_NAME');
-        $userData['site']     = $this->getServerValue('PHP_SELF');
-        $userData['ip']       = $this->getServerValue('REMOTE_ADDR');
-        $userData['host']     = $userData['ip'] === '' ? '' : gethostbyaddr($userData['ip']);
-        $userData['client']   = $this->getServerValue('HTTP_USER_AGENT');
-        $userData['referer']  = $this->getServerValue('HTTP_REFERER');
-        $userData['query']    = $this->getServerValue('QUERY_STRING');
-        $userData['requests'] = isset($_REQUEST) ? $_REQUEST : array();
-        $userData['requests'] = serialize($userData['requests']);
-
-        return $userData;
-    }
-
-    /**
-     * @param string $name
-     *
      * @return string
      */
-    protected function getServerValue($name) {
-
-        $name = trim((string)$name);
-
-        $value = '';
-
-        if (isset($_SERVER[$name])) {
-            $value = (string)$_SERVER[$name];
-        }
-
-        return $value;
-    }
-
-    private function buildSubject() {
-
-        $subject       = 'Request form page ' .
-                         htmlspecialchars($_SERVER['PHP_SELF'],
-                                          ENT_COMPAT,
-                                          'utf-8') .
-                         ' - ' .
-                         $this->userData['server'] .
-                         $this->userData['site'] .
-                         ' - ' .
-                         date('Y-m-d H:i:s');
-        $this->subject = $subject;
-    }
-
-    /**
-     *
-     */
-    private function buildMessage() {
-
-        $template = self::getMailTemplate();
-        $userData = $this->userData;
-
-        $mailMessage = $template;
-
-        $timeStr = date('d.m.Y') . ' --- ' . date('H:i.s') . ' Uhr';
-
-        $requests = $userData['requests'];
-
-        $replaceArray = array(
-
-            '###Server###'   => $userData['server'],
-            '###Seite###'    => $userData['site'],
-            '###Time###'     => $timeStr,
-            '###IP###'       => $userData['ip'],
-            '###Host###'     => $userData['host'],
-            '###Client###'   => $userData['client'],
-            '###Referer###'  => $userData['referer'],
-            '###Query###'    => $userData['query'],
-            '###Requests###' => $requests,
-        );
-
-        if ($this->chunkSplit > 0) {
-            $replaceArray = $this->chunkValues($replaceArray, $this->chunkSplit);
-        }
-
-        $mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
-
-        $this->mailText = $mailMessage;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getMailTemplate() {
+    public static function getMailTemplate()
+    {
 
         $mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Email</title>
@@ -279,28 +195,8 @@ class CuInfoMail
         return $mailTemplate;
     }
 
-    /**
-     * @param array $values
-     * @param int   $chunkLength
-     *
-     * @return array
-     */
-    protected function chunkValues(array $values, $chunkLength) {
-
-        foreach ($values as &$value) {
-
-            /** @noinspection ReferenceMismatchInspection */
-            if (is_string($value)) {
-                $value = chunk_split($value, $chunkLength);
-            }
-
-        }
-
-        return $values;
-
-    }
-
-    public function sendEmail() {
+    public function sendEmail()
+    {
 
         $header = 'MIME-Version: 1.0' . "\r\n";
         $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -311,14 +207,21 @@ class CuInfoMail
         $this->subject;
         $this->mailText;
 
-        mail($this->addressTo, $this->subject, $this->mailText, $header);
+        $return = @mail($this->addressTo, $this->subject, $this->mailText, $header);
+
+        if (!$return) {
+            throw new RuntimeException('There was an Error while trying to send an email: ' . error_get_last()['message']);
+        }
+
+
     }
 
     /**
      * @param string $name
      * @param string $value
      */
-    public function addRow($name, $value) {
+    public function addRow($name, $value)
+    {
 
         $className = 'zeileGrau';
         if ($this->additionalRow % 2 === 0) {
@@ -339,5 +242,118 @@ class CuInfoMail
         $message = str_replace('<!--###ZUSATZ###-->', $zeile, $message);
 
         $this->mailText = $message;
+    }
+
+    /**
+     * @return array;
+     */
+    protected function getClientData()
+    {
+
+        $userData = array();
+
+        $userData['server']   = $this->getServerValue('SERVER_NAME');
+        $userData['site']     = $this->getServerValue('PHP_SELF');
+        $userData['ip']       = $this->getServerValue('REMOTE_ADDR');
+        $userData['host']     = $userData['ip'] === '' ? '' : gethostbyaddr($userData['ip']);
+        $userData['client']   = $this->getServerValue('HTTP_USER_AGENT');
+        $userData['referer']  = $this->getServerValue('HTTP_REFERER');
+        $userData['query']    = $this->getServerValue('QUERY_STRING');
+        $userData['requests'] = isset($_REQUEST) ? $_REQUEST : array();
+        $userData['requests'] = serialize($userData['requests']);
+
+        return $userData;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function getServerValue($name)
+    {
+
+        $name = trim((string)$name);
+
+        $value = '';
+
+        if (isset($_SERVER[$name])) {
+            $value = (string)$_SERVER[$name];
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param array $values
+     * @param int   $chunkLength
+     *
+     * @return array
+     */
+    protected function chunkValues(array $values, $chunkLength)
+    {
+
+        foreach ($values as &$value) {
+
+            if (is_string($value)) {
+                $value = chunk_split($value, $chunkLength);
+            }
+
+        }
+
+        return $values;
+
+    }
+
+    private function buildSubject()
+    {
+
+        $subject       = 'Request form page ' .
+                         htmlspecialchars($_SERVER['PHP_SELF'],
+                                          ENT_COMPAT,
+                                          'utf-8') .
+                         ' - ' .
+                         $this->userData['server'] .
+                         $this->userData['site'] .
+                         ' - ' .
+                         date('Y-m-d H:i:s');
+        $this->subject = $subject;
+    }
+
+    /**
+     *
+     */
+    private function buildMessage()
+    {
+
+        $template = self::getMailTemplate();
+        $userData = $this->userData;
+
+        $mailMessage = $template;
+
+        $timeStr = date('d.m.Y') . ' --- ' . date('H:i.s') . ' Uhr';
+
+        $requests = $userData['requests'];
+
+        $replaceArray = array(
+
+            '###Server###'   => $userData['server'],
+            '###Seite###'    => $userData['site'],
+            '###Time###'     => $timeStr,
+            '###IP###'       => $userData['ip'],
+            '###Host###'     => $userData['host'],
+            '###Client###'   => $userData['client'],
+            '###Referer###'  => $userData['referer'],
+            '###Query###'    => $userData['query'],
+            '###Requests###' => $requests,
+        );
+
+        if ($this->chunkSplit > 0) {
+            $replaceArray = $this->chunkValues($replaceArray, $this->chunkSplit);
+        }
+
+        $mailMessage = str_replace(array_keys($replaceArray), array_values($replaceArray), $mailMessage);
+
+        $this->mailText = $mailMessage;
     }
 }
