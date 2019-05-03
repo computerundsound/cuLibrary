@@ -184,8 +184,8 @@ use computerundsound\culibrary\CuDebug;
 
         <h3>Send a Message with CuInfoMail()</h3>
 
-        <div class="alert">
-            <p>If you runs this on your localhost, then you have make sure, that the mail() function is working.</p>
+        <div class="alert alert-primary">
+            <p>If you run this on your localhost, then you have make sure, that the mail() function is working.</p>
         </div>
 
         <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>"
