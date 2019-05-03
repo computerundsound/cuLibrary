@@ -13,9 +13,13 @@ Install with:
 
     composer install computerundsound/culibrary
 
-### You can see some examples in /_samples/
+### You can see some examples in /_examples/
 
+The best way for running the examples on server.  
+Just copy the whole cuLibrary-dir into a directory of your server (localhost for example)  
+Then start http://your-server/directoryFromCuServer/_examples/
 
+Or just read the code :-)
 
 # Why this?
 This is a very(!) small library. I use it for little projects (often when I have only to build very small thinks like a vcard-page ore another onepage-tool)
