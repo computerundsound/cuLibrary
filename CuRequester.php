@@ -12,7 +12,7 @@ namespace computerundsound\culibrary;
 /**
  * Class CuNet
  *
- * @package curlibrary
+ * @package culibrary
  */
 class CuRequester
 {

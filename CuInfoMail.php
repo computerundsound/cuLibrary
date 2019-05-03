@@ -13,7 +13,7 @@ use RuntimeException;
 /**
  * Class CuInfoMail
  *
- * @package curlibrary
+ * @package culibrary
  */
 class CuInfoMail
 {

@@ -12,7 +12,7 @@ namespace computerundsound\culibrary;
 /**
  * Class CuString
  *
- * @package curlibrary
+ * @package culibrary
  */
 class CuString
 {

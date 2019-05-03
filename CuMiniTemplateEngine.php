@@ -13,7 +13,7 @@ use DomainException;
 /**
  * Class CuMiniTemplateEngine
  *
- * @package curlibrary
+ * @package culibrary
  */
 class CuMiniTemplateEngine
 {
