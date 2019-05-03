@@ -22,7 +22,7 @@ $view->assign('db_dbName', DB_DB_NAME);
 
 /* CuConstants: */
 
-$cuConstants = new CuConstantsContainer('/_samples/');
+$cuConstants = new CuConstantsContainer('/_examples/');
 
 $cuConstantsArray['FilePathHTTP'] = $cuConstants->getFilePath_HTTP();
 $cuConstantsArray['AppRootHTTP'] = $cuConstants->getAppRootHTTP();
