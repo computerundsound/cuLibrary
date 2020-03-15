@@ -1,22 +1,24 @@
-<?php
+<?php /** @noinspection PhpUnused */
+declare(strict_types=1);
 
 
 namespace computerundsound\culibrary;
 
 
+/**
+ * Class CuFlashMessage
+ *
+ * @package computerundsound\culibrary
+ */
 class CuFlashMessage
 {
 
-    /** @var string */
-    protected static $flashMessage = '';
-    /** @var string */
-    protected static $sessionVariableName = 'cu_flash_message';
+    protected static string $flashMessage = '';
+
+    protected static string $sessionVariableName = 'cu_flash_message';
 
 
-    /**
-     * @return string
-     */
-    public static function get()
+    public static function get(): string
     {
 
         self::startSession();
@@ -28,24 +30,22 @@ class CuFlashMessage
         return self::$flashMessage;
     }
 
-    /**
-     * @param string $message
-     */
-    public static function save($message)
+
+    public static function save(string $message): void
     {
 
         self::startSession();
-        $_SESSION[self::$sessionVariableName] = (string)$message;
+        $_SESSION[self::$sessionVariableName] = $message;
     }
 
-    public static function setNewSessionVariableName($sessionVariableName)
+    public static function setNewSessionVariableName(string $sessionVariableName): void
     {
 
-        self::$sessionVariableName = (string)$sessionVariableName;
+        self::$sessionVariableName = $sessionVariableName;
 
     }
 
-    protected static function startSession()
+    protected static function startSession(): void
     {
 
         if (!session_id()) {
@@ -53,7 +53,7 @@ class CuFlashMessage
         }
     }
 
-    protected static function loadFromSession()
+    protected static function loadFromSession(): void
     {
 
         self::$flashMessage = isset($_SESSION[self::$sessionVariableName]) ?
@@ -61,7 +61,7 @@ class CuFlashMessage
 
     }
 
-    protected static function clearSession()
+    protected static function clearSession(): void
     {
 
         $_SESSION[self::$sessionVariableName] = '';

@@ -1,47 +1,31 @@
-<?php
+<?php /** @noinspection PhpUnused */
+declare(strict_types=1);
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.04 at 23:47 MEZ
  */
 
 namespace computerundsound\culibrary;
 
 use DomainException;
 
-/**
- * Class CuMiniTemplateEngine
- *
- * @package culibrary
- */
 class CuMiniTemplateEngine
 {
 
-    private $variablesForTemplate = [];
+    private array $variablesForTemplate = [];
 
-    private $templateFolder = '';
+    private string $templateFolder = '';
 
-    /**
-     * CuMiniTemplateEngine constructor.
-     *
-     * @param string $templateFolder
-     *
-     * @throws DomainException
-     */
-    public function __construct($templateFolder)
+
+    public function __construct(string $templateFolder)
     {
 
         $this->setTemplateFolder($templateFolder);
     }
 
 
-    /**
-     * @param $templateFolder
-     *
-     * @throws DomainException
-     */
-    public function setTemplateFolder($templateFolder)
+    public function setTemplateFolder(string $templateFolder): void
     {
 
         if (is_dir($templateFolder) === false) {
@@ -53,21 +37,16 @@ class CuMiniTemplateEngine
 
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed  $value
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value): void
     {
 
         $this->variablesForTemplate[$name] = $value;
     }
 
-    /**
-     * @param $template
-     *
-     * @throws DomainException
-     */
-    public function display($template)
+    public function display(string $template): void
     {
 
         $content = $this->fetch($template);
@@ -75,14 +54,7 @@ class CuMiniTemplateEngine
         echo $content;
     }
 
-    /**
-     * @param string $template
-     * @param bool   $clearAssignments
-     *
-     * @return string
-     * @throws DomainException
-     */
-    public function fetch($template, $clearAssignments = true)
+    public function fetch(string $template, bool $clearAssignments = true): string
     {
 
         extract($this->variablesForTemplate, EXTR_OVERWRITE);
@@ -107,11 +79,7 @@ class CuMiniTemplateEngine
         return $content;
     }
 
-    /**
-     * @param string $name
-     * @param bool   $html
-     */
-    public function showValue($name, $html = true)
+    public function showValue(string $name, bool $html = true): void
     {
 
         $value = $this->getValue($name);
@@ -124,11 +92,11 @@ class CuMiniTemplateEngine
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return mixed
      */
-    public function getValue($name)
+    public function getValue(string $name)
     {
 
         $returnValue = '';
@@ -140,10 +108,7 @@ class CuMiniTemplateEngine
         return $returnValue;
     }
 
-    /**
-     * @param string $value
-     */
-    public function showAsHtml($value)
+    public function showAsHtml(string $value): void
     {
 
         echo $this->getAsHtml($value);
@@ -154,7 +119,7 @@ class CuMiniTemplateEngine
      *
      * @return string
      */
-    private function getAsHtml($value)
+    private function getAsHtml(string $value): string
     {
 
         return htmlspecialchars($value, ENT_COMPAT, 'utf-8');

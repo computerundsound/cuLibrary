@@ -1,31 +1,27 @@
 <?php
+/** @noinspection PhpUnused */
+declare(strict_types=1);
 
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.05 at 00:20 MEZ
  */
 
 namespace computerundsound\culibrary;
 
-/**
- * Class CuNet
- *
- * @package culibrary
- */
 class CuRequester
 {
 
     /**
      * @return array | 'client', referer', 'server', 'site', 'query',
      */
-    public static function getClientData()
+    public static function getClientData(): array
     {
 
         $user_data_array = [];
 
-        $ip                      = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        $ip                      = $_SERVER['REMOTE_ADDR'] ?? '';
         $user_data_array['host'] = gethostbyaddr($ip) ?: '';
 
         $user_data_array['ip'] = $ip ?: '';
@@ -39,10 +35,7 @@ class CuRequester
         ];
 
         foreach ($userDataKeyValueArray as $key => $val) {
-            $user_data_array[$val] = '';
-            if (isset($_SERVER[$key])) {
-                $user_data_array[$val] = $_SERVER[$key];
-            }
+            $user_data_array[$val] = $_SERVER[$key] ?? '';
         }
 
         return $user_data_array;
@@ -50,12 +43,12 @@ class CuRequester
 
 
     /**
-     * @param $variableName
-     * @param $standard_value
+     * @param string $variableName
+     * @param mixed  $standard_value
      *
      * @return bool|string
      */
-    public static function getGetOrPostSessionStandardValue($variableName, $standard_value)
+    public static function getGetOrPostSessionStandardValue(string $variableName, $standard_value)
     {
 
         $value = self::getGetPostSession($variableName);
@@ -65,7 +58,7 @@ class CuRequester
 
             $value = $standard_value;
         }
-        
+
         return $value;
     }
 
@@ -75,14 +68,10 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPostSession($variableName)
+    public static function getGetPostSession(string $variableName)
     {
 
-        $value = null;
-
-        if (isset($_SESSION[$variableName])) {
-            $value = $_SESSION[$variableName];
-        }
+        $value = $_SESSION[$variableName] ?? null;
 
         $postGetValue = self::getGetPost($variableName);
 
@@ -100,18 +89,10 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPost($variableName)
+    public static function getGetPost(string $variableName)
     {
 
-        $value = null;
-
-        if (isset($_GET[$variableName])) {
-            $value = $_GET[$variableName];
-        }
-
-        if (isset($_POST[$variableName])) {
-            $value = $_POST[$variableName];
-        }
+        $value = $_POST[$variableName] ?? $_GET[$variableName] ?? null;
 
         $value = self::stripSlashesDeep($value);
 
@@ -129,7 +110,8 @@ class CuRequester
     public static function stripSlashesDeep($value)
     {
 
-        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+        /** @noinspection PhpDeprecationInspection */
+        if (function_exists('get_magic_quotes_gpc') && PHP_VERSION < 7 && get_magic_quotes_gpc()) {
             $value = is_array($value) ? array_map([__CLASS__, 'stripSlashesDeep'], $value) : stripcslashes($value);
         }
 

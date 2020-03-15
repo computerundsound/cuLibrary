@@ -1,21 +1,17 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2016.10.30 at 07:42 MEZ
  */
 
 /*
  * Only use this file, if you don't have composer
  */
 
-/**
- * @param $className
- *
- * @return bool
- */
-function culibraryAutoloader($className)
+
+function culibraryAutoloader(string $className): bool
 {
 
     $success = false;

@@ -1,10 +1,12 @@
 <?php
+/** @noinspection ParameterDefaultValueIsNotNullInspection */
+
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.05 at 00:25 MEZ
  */
+declare(strict_types=1);
 
 namespace computerundsound\culibrary;
 
@@ -18,29 +20,17 @@ use RuntimeException;
 class CuInfoMail
 {
 
-    /**
-     * @var int
-     */
-    protected $chunkSplit;
-    private   $subject;
-    private   $mailText;
-    private   $addressTo;
-    private   $addressFrom;
-    private   $nameFrom;
-
-    private $additionalRow = 0;
-
-    /** @var array */
-    private $userData;
+    protected int   $chunkSplit;
+    private string  $subject;
+    private string  $mailText;
+    private string  $addressTo;
+    private string  $addressFrom;
+    private string  $nameFrom;
+    private int     $additionalRow = 0;
+    private array   $userData;
 
 
-    /**
-     * @param string $addressTo
-     * @param string $addressFrom
-     * @param string $nameFrom
-     * @param int    $chunkSplit
-     */
-    public function __construct($addressTo, $addressFrom, $nameFrom, $chunkSplit = 0)
+    public function __construct(string $addressTo, string $addressFrom, string $nameFrom, int $chunkSplit = 0)
     {
 
         $this->addressTo   = $addressTo;
@@ -54,13 +44,12 @@ class CuInfoMail
         $this->buildMessage();
     }
 
-    /**
-     * @return string
-     */
-    public static function getMailTemplate()
+    public static function getMailTemplate(): string
     {
 
-        $mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        /** @noinspection PhpUnnecessaryLocalVariableInspection */
+        $mailTemplate = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -131,8 +120,13 @@ class CuInfoMail
 
 <table class="myTable" cellpadding="0" cellspacing="0" width="500px" align="center">
     <tr>
-        <td><h1 class="h1">Request from page <a class="mylink" href="http://###Server######Seite###">###Server######Seite###</a></h1></td>
-            </tr>
+        <td>
+            <h1 class="h1">
+                Request from page <a class="mylink" 
+                                     href="http://###Server######Seite###">###Server######Seite###</a>
+            </h1>
+        </td>
+    </tr>
     <tr>
         <td class="td" style="text-align: left;">
             <h2 class="h2">Userdata:</h2>
@@ -195,7 +189,7 @@ class CuInfoMail
         return $mailTemplate;
     }
 
-    public function sendEmail()
+    public function sendEmail(): void
     {
 
         $header = 'MIME-Version: 1.0' . "\r\n";
@@ -207,20 +201,18 @@ class CuInfoMail
         $this->subject;
         $this->mailText;
 
+        /** @noinspection PhpUsageOfSilenceOperatorInspection */
         $return = @mail($this->addressTo, $this->subject, $this->mailText, $header);
 
         if (!$return) {
-            throw new RuntimeException('There was an Error while trying to send an email: ' . error_get_last()['message']);
+            throw new RuntimeException('There was an Error while trying to send an email: ' .
+                                       error_get_last()['message']);
         }
 
 
     }
 
-    /**
-     * @param string $name
-     * @param string $value
-     */
-    public function addRow($name, $value)
+    public function addRow(string $name, string $value): void
     {
 
         $className = 'zeileGrau';
@@ -244,13 +236,11 @@ class CuInfoMail
         $this->mailText = $message;
     }
 
-    /**
-     * @return array;
-     */
-    protected function getClientData()
+
+    protected function getClientData(): array
     {
 
-        $userData = array();
+        $userData = [];
 
         $userData['server']   = $this->getServerValue('SERVER_NAME');
         $userData['site']     = $this->getServerValue('PHP_SELF');
@@ -259,21 +249,17 @@ class CuInfoMail
         $userData['client']   = $this->getServerValue('HTTP_USER_AGENT');
         $userData['referer']  = $this->getServerValue('HTTP_REFERER');
         $userData['query']    = $this->getServerValue('QUERY_STRING');
-        $userData['requests'] = isset($_REQUEST) ? $_REQUEST : array();
+        $userData['requests'] = $_REQUEST ?? [];
         $userData['requests'] = serialize($userData['requests']);
 
         return $userData;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
-    protected function getServerValue($name)
+
+    protected function getServerValue(string $name): string
     {
 
-        $name = trim((string)$name);
+        $name = trim($name);
 
         $value = '';
 
@@ -284,13 +270,8 @@ class CuInfoMail
         return $value;
     }
 
-    /**
-     * @param array $values
-     * @param int   $chunkLength
-     *
-     * @return array
-     */
-    protected function chunkValues(array $values, $chunkLength)
+
+    protected function chunkValues(array $values, int $chunkLength): array
     {
 
         foreach ($values as &$value) {
@@ -305,7 +286,7 @@ class CuInfoMail
 
     }
 
-    private function buildSubject()
+    private function buildSubject(): void
     {
 
         $subject       = 'Request form page ' .
@@ -320,10 +301,8 @@ class CuInfoMail
         $this->subject = $subject;
     }
 
-    /**
-     *
-     */
-    private function buildMessage()
+
+    private function buildMessage(): void
     {
 
         $template = self::getMailTemplate();
@@ -335,7 +314,7 @@ class CuInfoMail
 
         $requests = $userData['requests'];
 
-        $replaceArray = array(
+        $replaceArray = [
 
             '###Server###'   => $userData['server'],
             '###Seite###'    => $userData['site'],
@@ -346,7 +325,7 @@ class CuInfoMail
             '###Referer###'  => $userData['referer'],
             '###Query###'    => $userData['query'],
             '###Requests###' => $requests,
-        );
+        ];
 
         if ($this->chunkSplit > 0) {
             $replaceArray = $this->chunkValues($replaceArray, $this->chunkSplit);

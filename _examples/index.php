@@ -3,8 +3,8 @@
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.05 at 06:10 MEZ
  */
+declare(strict_types=1);
 
 use computerundsound\culibrary\CuFlashMessage;
 use computerundsound\culibrary\CuInfoMail;

@@ -1,13 +1,24 @@
 <?php
+declare(strict_types=1);
 
 
 namespace computerundsound\culibrary;
 
 
+/**
+ * Class CuDebug
+ *
+ * @package computerundsound\culibrary
+ */
 class CuDebug
 {
 
-    public static function show($value, $showAsHtml = true, $exit = false)
+    /**
+     * @param mixed $value
+     * @param bool  $showAsHtml
+     * @param bool  $exit
+     */
+    public static function show($value, bool $showAsHtml = true, bool $exit = false): void
     {
 
         $valueToOutput = is_array($value) ? $value : [$value];

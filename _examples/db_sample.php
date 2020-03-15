@@ -1,12 +1,14 @@
-<?php /** @noinspection SqlNoDataSourceInspection */
+<?php
+/** @noinspection SqlNoDataSourceInspection */
 /** @noinspection PhpUnhandledExceptionInspection */
 
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.05 at 06:53 MEZ
  */
+
+declare(strict_types=1);
 
 use computerundsound\culibrary\CuFlashMessage;
 use computerundsound\culibrary\CuRequester;
@@ -26,7 +28,6 @@ $cuDBi = CuDBi::getInstance(new CuDBiResult(),
 $message
        = $cuDBi->connect_errno ? 'You need a DB to test the code in the Template: ' . $cuDBi->connect_error : $message;
 
-/** @noinspection UnNecessaryDoubleQuotesInspection */
 $createTestTable = <<<'SQL'
 CREATE TABLE IF NOT EXISTS test
 (
@@ -39,7 +40,7 @@ SQL;
 
 $cuDBi->cuQuery($createTestTable);
 
-$rand = mt_rand(0, 1000);
+$rand = random_int(0, 1000);
 
 $insert = [
 

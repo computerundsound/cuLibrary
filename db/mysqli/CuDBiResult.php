@@ -1,10 +1,10 @@
-<?php /** @noinspection PhpComposerExtensionStubsInspection */
-
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpComposerExtensionStubsInspection */
+declare(strict_types=1);
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2016.10.30 at 07:42 MEZ
  */
 
 namespace computerundsound\culibrary\db\mysqli;
@@ -19,52 +19,41 @@ class CuDBiResult implements CuDBResult
 {
 
     /** @var  mysqli_result */
-    private $result;
+    private mysqli_result $result;
 
-    private $lastInsertId;
+    private int $lastInsertId;
+
     /** @var  string */
-    private $message;
+    private string $message;
+
     /** @var  string */
-    private $query;
+    private string $query;
 
 
-    /**
-     * @return int
-     */
-    public function getLastInsertId()
+    public function getLastInsertId(): int
     {
 
         return $this->lastInsertId;
     }
 
 
-    /**
-     * @param mixed $lastInsertId
-     */
-    public function setLastInsertId($lastInsertId)
+    public function setLastInsertId($lastInsertId): void
     {
 
         $this->lastInsertId = $lastInsertId;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
 
         return $this->message;
     }
 
 
-    /**
-     * @param string $message
-     */
-    public function setMessage($message)
+    public function setMessage(string $message): void
     {
 
-        $this->message = (string)$message;
+        $this->message = $message;
     }
 
 
@@ -78,32 +67,21 @@ class CuDBiResult implements CuDBResult
     }
 
 
-    /**
-     * @param mysqli_result | bool $result
-     */
-    public function setResult($result)
+    public function setResult($result): void
     {
 
         $this->result = $result;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getQuery()
+    public function getQuery(): string
     {
 
         return $this->query;
     }
 
-
-    /**
-     * @param string $query
-     */
-    public function setQuery($query)
+    public function setQuery(string $query): void
     {
 
-        $this->query = (string)$query;
+        $this->query = $query;
     }
 }

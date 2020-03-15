@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2016.10.30 at 07:42 MEZ
  */
 
 namespace computerundsound\culibrary\db;
@@ -20,33 +20,16 @@ interface CuDBResult
      */
     public function getLastInsertId();
 
-
     /**
      * @param mixed $lastInsertId
      */
     public function setLastInsertId($lastInsertId);
 
+    public function getMessage(): string;
 
-    /**
-     * @return string
-     */
-    public function getMessage();
+    public function setMessage(string $message);
 
+    public function getQuery(): string;
 
-    /**
-     * @param string $message
-     */
-    public function setMessage($message);
-
-
-    /**
-     * @return string
-     */
-    public function getQuery();
-
-
-    /**
-     * @param string $query
-     */
-    public function setQuery($query);
+    public function setQuery(string $query);
 }

@@ -3,8 +3,9 @@
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.05 at 06:11 MEZ
  */
+
+declare(strict_types=1);
 
 use computerundsound\culibrary\CuDebug;
 
@@ -115,7 +116,7 @@ use computerundsound\culibrary\CuDebug;
 
         <dl class="dl-horizontal">
 
-            <?php /** @noinspection ForeachSourceInspection */
+            <?php
             foreach ($this->getValue('thisIsAnExampleArray') as $key => $valueFromArray):?>
 
                 <dt><?php echo $key ?></dt>
@@ -200,7 +201,7 @@ use computerundsound\culibrary\CuDebug;
                 <input type="text"
                        class="form-control"
                        name="email"
-                       value="<?php echo isset($emailAddress) ? $emailAddress : ''; ?>"
+                       value="<?php echo $emailAddress ?? ''; ?>"
                        id="formInputMail">
             </div>
 

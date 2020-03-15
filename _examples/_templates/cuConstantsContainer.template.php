@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.04 at 23:56 MEZ
  */
 
 /** @var array $cuConstants */

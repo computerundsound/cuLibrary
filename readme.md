@@ -1,7 +1,7 @@
 # Small Library - little helper for php-developer #
 
 
-Needs PHP 5.4+
+Needs PHP 7.4+
 
 Very easy using!
 
@@ -22,7 +22,8 @@ Then start http://your-server/directoryFromCuServer/_examples/
 Or just read the code :-)
 
 # Why this?
-This is a very(!) small library. I use it for little projects (often when I have only to build very small thinks like a vcard-page ore another onepage-tool)
+This is a very(!) small library. I use it for little projects (often when I have only to build very small thinks 
+like a vcard-page ore another onepage-tool)
 
 ## Highlights:
 

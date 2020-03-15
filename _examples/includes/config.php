@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /* For testing => you can insert your own credentials here */
 define('DB_USERNAME', 'culibrary');

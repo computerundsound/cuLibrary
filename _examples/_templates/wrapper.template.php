@@ -3,8 +3,9 @@
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de
  *
- * LastModified: 2017.02.05 at 05:35 MEZ
- */use computerundsound\culibrary\CuFlashMessage;
+ */
+declare(strict_types=1);
+use computerundsound\culibrary\CuFlashMessage;
 
 /** @var string $currentPage */
 /** @var string[] $cuConstantsArray */
