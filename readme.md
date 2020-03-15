@@ -1,7 +1,7 @@
 # Small Library - little helper for php-developer #
 
 
-Needs PHP 7.4+
+Needs PHP 7.4+ (for php < 7.4 use older cuLibrary version)
 
 Very easy using!
 
