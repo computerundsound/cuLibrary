@@ -110,9 +110,8 @@ class CuRequester
     public static function stripSlashesDeep($value)
     {
 
-        /** @noinspection PhpDeprecationInspection */
-        if (function_exists('get_magic_quotes_gpc') && PHP_VERSION < 7 && get_magic_quotes_gpc()) {
-            $value = is_array($value) ? array_map([__CLASS__, 'stripSlashesDeep'], $value) : stripcslashes($value);
+        if (function_exists('get_magic_quotes_gpc') && PHP_VERSION < 7) {
+            require_once __DIR__ . '/include/stripSlashes.php';
         }
 
         return $value;
