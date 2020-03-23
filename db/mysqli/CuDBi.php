@@ -3,7 +3,7 @@
 /** @noinspection SqlNoDataSourceInspection */
 /** @noinspection SqlResolve */
 /** @noinspection PhpComposerExtensionStubsInspection */
-declare(strict_types=1);
+
 
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de

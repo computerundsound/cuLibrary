@@ -6,7 +6,7 @@
  * Hire me! coder@cusp.de
  *
  */
-declare(strict_types=1);
+
 
 namespace computerundsound\culibrary;
 

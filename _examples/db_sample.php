@@ -8,7 +8,6 @@
  *
  */
 
-declare(strict_types=1);
 
 use computerundsound\culibrary\CuFlashMessage;
 use computerundsound\culibrary\CuRequester;

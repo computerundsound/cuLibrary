@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de

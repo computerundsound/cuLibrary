@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 /** @noinspection PhpComposerExtensionStubsInspection */
-declare(strict_types=1);
+
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
  * Hire me! coder@cusp.de

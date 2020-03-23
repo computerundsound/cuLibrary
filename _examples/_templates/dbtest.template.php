@@ -4,7 +4,7 @@
  * Hire me! coder@cusp.de
  *
  */
-declare(strict_types=1);
+
 
 /** @var $message */
 /** @var $title */

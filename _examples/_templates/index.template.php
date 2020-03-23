@@ -5,7 +5,7 @@
  *
  */
 
-declare(strict_types=1);
+
 
 use computerundsound\culibrary\CuDebug;
 
