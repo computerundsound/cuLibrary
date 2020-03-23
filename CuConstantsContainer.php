@@ -69,7 +69,9 @@ class CuConstantsContainer
     private static function makeUniversal(string $path): string
     {
 
-        $path = str_replace('\\', '/', $path) ?: $path;
+        $replaced = str_replace('\\', '/', $path) ?: $path;
+
+        $path = is_array($replaced) ? '' : (string)$replaced;
 
         return $path;
     }
