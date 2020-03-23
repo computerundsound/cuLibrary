@@ -6,7 +6,6 @@
  */
 
 
-
 use computerundsound\culibrary\CuDebug;
 
 /** @var $message */
@@ -201,7 +200,7 @@ use computerundsound\culibrary\CuDebug;
                 <input type="text"
                        class="form-control"
                        name="email"
-                       value="<?php echo $emailAddress ?? ''; ?>"
+                       value="<?php echo isset($emailAddress) ? $emailAddress : '' ?>"
                        id="formInputMail">
             </div>
 

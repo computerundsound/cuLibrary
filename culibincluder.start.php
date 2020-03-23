@@ -11,7 +11,7 @@
  */
 
 
-function culibraryAutoloader(string $className): bool
+function culibraryAutoloader($className)
 {
 
     $success = false;

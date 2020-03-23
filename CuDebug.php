@@ -17,7 +17,7 @@ class CuDebug
      * @param bool  $showAsHtml
      * @param bool  $exit
      */
-    public static function show($value, bool $showAsHtml = true, bool $exit = false): void
+    public static function show($value, $showAsHtml = true, $exit = false)
     {
 
         $valueToOutput = is_array($value) ? $value : [$value];

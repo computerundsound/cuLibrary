@@ -25,11 +25,11 @@ interface CuDBResult
      */
     public function setLastInsertId($lastInsertId);
 
-    public function getMessage(): string;
+    public function getMessage();
 
-    public function setMessage(string $message);
+    public function setMessage($message);
 
-    public function getQuery(): string;
+    public function getQuery();
 
-    public function setQuery(string $query);
+    public function setQuery($query);
 }

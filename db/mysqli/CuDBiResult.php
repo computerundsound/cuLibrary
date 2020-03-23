@@ -19,38 +19,38 @@ class CuDBiResult implements CuDBResult
 {
 
     /** @var  mysqli_result */
-    private mysqli_result $result;
+    private $result;
 
-    private int $lastInsertId;
-
-    /** @var  string */
-    private string $message;
+    private $lastInsertId;
 
     /** @var  string */
-    private string $query;
+    private $message;
+
+    /** @var  string */
+    private $query;
 
 
-    public function getLastInsertId(): int
+    public function getLastInsertId()
     {
 
         return $this->lastInsertId;
     }
 
 
-    public function setLastInsertId($lastInsertId): void
+    public function setLastInsertId($lastInsertId)
     {
 
         $this->lastInsertId = $lastInsertId;
     }
 
-    public function getMessage(): string
+    public function getMessage()
     {
 
         return $this->message;
     }
 
 
-    public function setMessage(string $message): void
+    public function setMessage($message)
     {
 
         $this->message = $message;
@@ -58,7 +58,7 @@ class CuDBiResult implements CuDBResult
 
 
     /**
-     * @return mysqli_result | bool
+     * @return mysqli_result |
      */
     public function getResult()
     {
@@ -67,19 +67,19 @@ class CuDBiResult implements CuDBResult
     }
 
 
-    public function setResult($result): void
+    public function setResult($result)
     {
 
         $this->result = $result;
     }
 
-    public function getQuery(): string
+    public function getQuery()
     {
 
         return $this->query;
     }
 
-    public function setQuery(string $query): void
+    public function setQuery($query)
     {
 
         $this->query = $query;

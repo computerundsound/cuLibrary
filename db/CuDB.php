@@ -15,32 +15,32 @@ interface CuDB
 {
 
 
-    public function cuTruncateTab(string $tableName);
+    public function cuTruncateTab($tableName);
 
-    public function cuDeleteOneDataSet(string $tableName, string $idName, $idValue): void;
+    public function cuDeleteOneDataSet($tableName, $idName, $idValue);
 
-    public function cuDelete(string $tableName, string $where): CuDBResult;
+    public function cuDelete($tableName, $where);
 
-    public function cuQuery(string $query): CuDBResult;
+    public function cuQuery($query);
 
-    public function cuInsert(string $tableName, array $assocDataArray): CuDBResult;
+    public function cuInsert($tableName, array $assocDataArray);
 
-    public function cuUpdateOneDataSet(string $tableName, array $assocDataArray, string $idName, $id): CuDBResult;
+    public function cuUpdateOneDataSet($tableName, array $assocDataArray, $idName, $id);
 
-    public function cuUpdate(string $tableName, array $assocDataArray, string $where): CuDBResult;
+    public function cuUpdate($tableName, array $assocDataArray, $where);
 
-    public function cuSelectOneDataSet(string $tableName, string $fieldName, $fieldValue): array;
+    public function cuSelectOneDataSet($tableName, $fieldName, $fieldValue);
 
-    public function cuSelectAsArray(string $tableName,
-                                    string $where = '',
-                                    string $order = '',
-                                    string $limit = ''): array;
+    public function cuSelectAsArray($tableName,
+                                    $where = '',
+                                    $order = '',
+                                    $limit = '');
 
-    public function cuGetQuantityOfDataSets(string $tableName): int;
+    public function cuGetQuantityOfDataSets($tableName);
 
-    public function cuGetColNamesFromTable(string $tableName): array;
+    public function cuGetColNamesFromTable($tableName);
 
-    public function cuCloseConnection(): void;
+    public function cuCloseConnection();
 
-    public function cuGetFieldInfo(string $tableName, string $fieldName): object;
+    public function cuGetFieldInfo($tableName, $fieldName);
 }

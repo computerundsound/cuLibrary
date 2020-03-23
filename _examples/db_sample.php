@@ -39,7 +39,7 @@ SQL;
 
 $cuDBi->cuQuery($createTestTable);
 
-$rand = random_int(0, 1000);
+$rand = mt_rand(0, 1000);
 
 $insert = [
 

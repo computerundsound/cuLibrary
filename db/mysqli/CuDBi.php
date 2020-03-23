@@ -14,7 +14,6 @@
 namespace computerundsound\culibrary\db\mysqli;
 
 use computerundsound\culibrary\db\CuDB;
-use computerundsound\culibrary\db\CuDBResult;
 use Exception;
 use mysqli;
 use RuntimeException;
@@ -23,23 +22,23 @@ use RuntimeException;
 class CuDBi extends mysqli implements CuDB
 {
 
-    protected static ?mysqli $instance;
+    protected static $instance;
 
     /** @var  CuDBiResult */
-    protected static CuDBiResult $cuDBiResult;
+    protected static $cuDBiResult;
 
     /**
      * @throws Exception
      */
     public static function getInstance(
         CuDBiResult $cuDBiResult,
-        string $serverName,
-        string $username,
-        string $password,
-        string $dbName,
-        string $port = '',
-        string $socket = ''
-    ): ?mysqli
+        $serverName,
+        $username,
+        $password,
+        $dbName,
+        $port = '',
+        $socket = ''
+    )
     {
 
         self::$cuDBiResult = $cuDBiResult;
@@ -83,7 +82,7 @@ class CuDBi extends mysqli implements CuDB
         return self::$instance;
     }
 
-    public function cuInsert($tableName, array $assocDataArray): CuDBResult
+    public function cuInsert($tableName, array $assocDataArray)
     {
 
         $insert_string = '';
@@ -100,7 +99,7 @@ class CuDBi extends mysqli implements CuDB
         return $this->cuQuery($q);
     }
 
-    public function cuQuery(string $query): CuDBiResult
+    public function cuQuery($query)
     {
 
         $result = $this->query($query);
@@ -113,7 +112,7 @@ class CuDBi extends mysqli implements CuDB
         return self::$cuDBiResult;
     }
 
-    public function cuUpdateOneDataSet(string $tableName, array $assocDataArray, string $idName, $id): CuDBResult
+    public function cuUpdateOneDataSet($tableName, array $assocDataArray, $idName, $id)
     {
 
         $where = "$idName = '$id' ";
@@ -121,7 +120,7 @@ class CuDBi extends mysqli implements CuDB
         return $this->cuUpdate($tableName, $assocDataArray, $where);
     }
 
-    public function cuUpdate(string $tableName, array $assocDataArray, string $where): CuDBResult
+    public function cuUpdate($tableName, array $assocDataArray, $where)
     {
 
         $updateStr = '';
@@ -138,14 +137,14 @@ class CuDBi extends mysqli implements CuDB
         return $this->cuQuery($q);
     }
 
-    public function cuDeleteOneDataSet(string $tableName, string $idName, $idValue): void
+    public function cuDeleteOneDataSet($tableName, $idName, $idValue)
     {
 
         $where = " $idName='$idValue' ";
         $this->cuDelete($tableName, $where);
     }
 
-    public function cuDelete(string $tableName, string $where): CuDBResult
+    public function cuDelete($tableName, $where)
     {
 
         $result = null;
@@ -161,7 +160,7 @@ class CuDBi extends mysqli implements CuDB
         return $result;
     }
 
-    public function cuSelectOneDataSet(string $tableName, string $fieldName, $fieldValue): array
+    public function cuSelectOneDataSet($tableName, $fieldName, $fieldValue)
     {
 
         $where         = " $fieldName='$fieldValue' ";
@@ -176,10 +175,10 @@ class CuDBi extends mysqli implements CuDB
     }
 
 
-    public function cuSelectAsArray(string $tableName,
-                                    string $where = '',
-                                    string $order = '',
-                                    string $limit = ''): array
+    public function cuSelectAsArray($tableName,
+                                    $where = '',
+                                    $order = '',
+                                    $limit = '')
     {
 
         $data_array = [];
@@ -213,7 +212,7 @@ class CuDBi extends mysqli implements CuDB
         return $data_array;
     }
 
-    public function cuGetQuantityOfDataSets(string $tableName, string $where = ''): int
+    public function cuGetQuantityOfDataSets($tableName, $where = '')
     {
 
         $q      = "SELECT * FROM `%s` $where;";
@@ -223,7 +222,7 @@ class CuDBi extends mysqli implements CuDB
         return $result->num_rows;
     }
 
-    public function cuGetColNamesFromTable(string $tableName): array
+    public function cuGetColNamesFromTable($tableName)
     {
 
         $sql        = 'DESCRIBE ' . $tableName;
@@ -244,14 +243,14 @@ class CuDBi extends mysqli implements CuDB
     /**
      *
      */
-    public function cuCloseConnection(): void
+    public function cuCloseConnection()
     {
 
         $this->close();
     }
 
 
-    public function cuGetFieldInfo($tableName, $fieldName): object
+    public function cuGetFieldInfo($tableName, $fieldName)
     {
 
         $query  = 'SELECT `%s` FROM `%s`;';
@@ -261,7 +260,7 @@ class CuDBi extends mysqli implements CuDB
         return $result->fetch_field_direct(0);
     }
 
-    public function cuTruncateTab(string $tabName): void
+    public function cuTruncateTab($tabName)
     {
 
         $q = 'TRUNCATE ' . $tabName;
@@ -269,7 +268,7 @@ class CuDBi extends mysqli implements CuDB
     }
 
 
-    public function update_one_data_set(string $tab_name, array $data, $id, string $id_name): CuDBResult
+    public function update_one_data_set($tab_name, array $data, $id, $id_name)
     {
 
         $where = "$id_name = '$id' ";

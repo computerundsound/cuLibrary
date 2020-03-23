@@ -16,12 +16,12 @@ class CuRequester
     /**
      * @return array | 'client', referer', 'server', 'site', 'query',
      */
-    public static function getClientData(): array
+    public static function getClientData()
     {
 
         $user_data_array = [];
 
-        $ip                      = $_SERVER['REMOTE_ADDR'] ?? '';
+        $ip                      = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
         $user_data_array['host'] = gethostbyaddr($ip) ?: '';
 
         $user_data_array['ip'] = $ip ?: '';
@@ -35,7 +35,7 @@ class CuRequester
         ];
 
         foreach ($userDataKeyValueArray as $key => $val) {
-            $user_data_array[$val] = $_SERVER[$key] ?? '';
+            $user_data_array[$val] = isset($_SERVER[$key]) ? $_SERVER[$key] : '';
         }
 
         return $user_data_array;
@@ -46,9 +46,9 @@ class CuRequester
      * @param string $variableName
      * @param mixed  $standard_value
      *
-     * @return bool|string
+     * @return |string
      */
-    public static function getGetOrPostSessionStandardValue(string $variableName, $standard_value)
+    public static function getGetOrPostSessionStandardValue($variableName, $standard_value)
     {
 
         $value = self::getGetPostSession($variableName);
@@ -68,10 +68,10 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPostSession(string $variableName)
+    public static function getGetPostSession($variableName)
     {
 
-        $value = $_SESSION[$variableName] ?? null;
+        $value = isset($_SESSION[$variableName]) ? $_SESSION[$variableName] : null;
 
         $postGetValue = self::getGetPost($variableName);
 
@@ -89,10 +89,13 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPost(string $variableName)
+    public static function getGetPost($variableName)
     {
 
-        $value = $_POST[$variableName] ?? $_GET[$variableName] ?? null;
+        $value    = isset($_POST[$variableName]) ? $_POST[$variableName] : null;
+        $valueGet = isset($_GET[$variableName]) ? $_GET[$variableName] : null;
+
+        $value = $value ?: $valueGet;
 
         $value = self::stripSlashesDeep($value);
 

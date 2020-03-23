@@ -27,9 +27,9 @@ class CuString
      * @param string $sessionVariable
      * @param        $expected_value
      *
-     * @return bool
+     * @return
      */
-    public static function getCheckStrFromSession(string $sessionVariable, $expected_value): bool
+    public static function getCheckStrFromSession($sessionVariable, $expected_value)
     {
 
         $success = false;
@@ -51,7 +51,7 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromFormToDB(string $str): string
+    public static function stringFromFormToDB($str)
     {
 
         $str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
@@ -65,7 +65,7 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromDB2HTML(string $str): string
+    public static function stringFromDB2HTML($str)
     {
 
         if (!$str || $str === null || $str === '') {
@@ -84,7 +84,7 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromDB2Form(string $str): string
+    public static function stringFromDB2Form($str)
     {
 
         $str = htmlspecialchars($str, ENT_COMPAT, 'utf-8');
@@ -98,7 +98,7 @@ class CuString
      *
      * @return string
      */
-    public static function stringFromDBtoXML(string $str): string
+    public static function stringFromDBtoXML($str)
     {
 
         $str = urlencode($str);
@@ -112,7 +112,7 @@ class CuString
      *
      * @return string
      */
-    public static function makeGoodIP(string $ip): string
+    public static function makeGoodIP($ip)
     {
 
         $newIP = '';
@@ -135,7 +135,7 @@ class CuString
      *
      * @return string
      */
-    public static function makeGoodIpToTrace(string $ip): string
+    public static function makeGoodIpToTrace($ip)
     {
 
         $newIP = '';
@@ -164,7 +164,7 @@ class CuString
      *
      * @return string
      */
-    public static function makeHTMLString(string $str): string
+    public static function makeHTMLString($str)
     {
 
         $str = trim($str);
@@ -179,7 +179,7 @@ class CuString
      *
      * @return mixed
      */
-    public static function brEncodedToHTML(string $val)
+    public static function brEncodedToHTML($val)
     {
 
         $pattern = '/&lt;br&gt;/';
@@ -196,7 +196,7 @@ class CuString
      *
      * @return string
      */
-    public static function killLastSign(string $str, int $counts = 1): string
+    public static function killLastSign($str, $counts = 1)
     {
 
         $str = substr($str, 0, -$counts);
@@ -209,7 +209,7 @@ class CuString
      * @param string $variableName
      * @param        $variableValue
      */
-    public static function cuEchoVariable(string $variableName, $variableValue): void
+    public static function cuEchoVariable($variableName, $variableValue)
     {
 
         self::cuEcho($variableName . ' => ' . $variableValue);
@@ -219,7 +219,7 @@ class CuString
     /**
      * @param string $str
      */
-    public static function cuEcho(string $str): void
+    public static function cuEcho($str)
     {
 
         echo("<br />$str<br />");
@@ -231,7 +231,7 @@ class CuString
      *
      * @return string
      */
-    public static function makePriceFromDB($price): string
+    public static function makePriceFromDB($price)
     {
 
         $price_element = explode('.', $price);

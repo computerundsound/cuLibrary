@@ -13,19 +13,19 @@ use DomainException;
 class CuMiniTemplateEngine
 {
 
-    private array $variablesForTemplate = [];
+    private $variablesForTemplate = [];
 
-    private string $templateFolder = '';
+    private $templateFolder = '';
 
 
-    public function __construct(string $templateFolder)
+    public function __construct($templateFolder)
     {
 
         $this->setTemplateFolder($templateFolder);
     }
 
 
-    public function setTemplateFolder(string $templateFolder): void
+    public function setTemplateFolder($templateFolder)
     {
 
         if (is_dir($templateFolder) === false) {
@@ -40,13 +40,13 @@ class CuMiniTemplateEngine
      * @param string $name
      * @param mixed  $value
      */
-    public function assign(string $name, $value): void
+    public function assign($name, $value)
     {
 
         $this->variablesForTemplate[$name] = $value;
     }
 
-    public function display(string $template): void
+    public function display($template)
     {
 
         $content = $this->fetch($template);
@@ -54,7 +54,7 @@ class CuMiniTemplateEngine
         echo $content;
     }
 
-    public function fetch(string $template, bool $clearAssignments = true): string
+    public function fetch($template, $clearAssignments = true)
     {
 
         extract($this->variablesForTemplate, EXTR_OVERWRITE);
@@ -79,7 +79,7 @@ class CuMiniTemplateEngine
         return $content;
     }
 
-    public function showValue(string $name, bool $html = true): void
+    public function showValue($name, $html = true)
     {
 
         $value = $this->getValue($name);
@@ -96,7 +96,7 @@ class CuMiniTemplateEngine
      *
      * @return mixed
      */
-    public function getValue(string $name)
+    public function getValue($name)
     {
 
         $returnValue = '';
@@ -108,7 +108,7 @@ class CuMiniTemplateEngine
         return $returnValue;
     }
 
-    public function showAsHtml(string $value): void
+    public function showAsHtml($value)
     {
 
         echo $this->getAsHtml($value);
@@ -119,7 +119,7 @@ class CuMiniTemplateEngine
      *
      * @return string
      */
-    private function getAsHtml(string $value): string
+    private function getAsHtml($value)
     {
 
         return htmlspecialchars($value, ENT_COMPAT, 'utf-8');

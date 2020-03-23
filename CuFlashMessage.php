@@ -12,12 +12,12 @@ namespace computerundsound\culibrary;
 class CuFlashMessage
 {
 
-    protected static string $flashMessage = '';
+    protected static $flashMessage = '';
 
-    protected static string $sessionVariableName = 'cu_flash_message';
+    protected static $sessionVariableName = 'cu_flash_message';
 
 
-    public static function get(): string
+    public static function get()
     {
 
         self::startSession();
@@ -30,21 +30,21 @@ class CuFlashMessage
     }
 
 
-    public static function save(string $message): void
+    public static function save($message)
     {
 
         self::startSession();
         $_SESSION[self::$sessionVariableName] = $message;
     }
 
-    public static function setNewSessionVariableName(string $sessionVariableName): void
+    public static function setNewSessionVariableName($sessionVariableName)
     {
 
         self::$sessionVariableName = $sessionVariableName;
 
     }
 
-    protected static function startSession(): void
+    protected static function startSession()
     {
 
         if (!session_id()) {
@@ -52,7 +52,7 @@ class CuFlashMessage
         }
     }
 
-    protected static function loadFromSession(): void
+    protected static function loadFromSession()
     {
 
         self::$flashMessage = isset($_SESSION[self::$sessionVariableName]) ?
@@ -60,7 +60,7 @@ class CuFlashMessage
 
     }
 
-    protected static function clearSession(): void
+    protected static function clearSession()
     {
 
         $_SESSION[self::$sessionVariableName] = '';

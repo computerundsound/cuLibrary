@@ -20,17 +20,17 @@ use RuntimeException;
 class CuInfoMail
 {
 
-    protected int   $chunkSplit;
-    private string  $subject;
-    private string  $mailText;
-    private string  $addressTo;
-    private string  $addressFrom;
-    private string  $nameFrom;
-    private int     $additionalRow = 0;
-    private array   $userData;
+    protected $chunkSplit;
+    private   $subject;
+    private   $mailText;
+    private   $addressTo;
+    private   $addressFrom;
+    private   $nameFrom;
+    private   $additionalRow = 0;
+    private   $userData;
 
 
-    public function __construct(string $addressTo, string $addressFrom, string $nameFrom, int $chunkSplit = 0)
+    public function __construct($addressTo, $addressFrom, $nameFrom, $chunkSplit = 0)
     {
 
         $this->addressTo   = $addressTo;
@@ -44,7 +44,7 @@ class CuInfoMail
         $this->buildMessage();
     }
 
-    public static function getMailTemplate(): string
+    public static function getMailTemplate()
     {
 
         /** @noinspection PhpUnnecessaryLocalVariableInspection */
@@ -189,7 +189,7 @@ class CuInfoMail
         return $mailTemplate;
     }
 
-    public function sendEmail(): void
+    public function sendEmail()
     {
 
         $header = 'MIME-Version: 1.0' . "\r\n";
@@ -212,7 +212,7 @@ class CuInfoMail
 
     }
 
-    public function addRow(string $name, string $value): void
+    public function addRow($name, $value)
     {
 
         $className = 'zeileGrau';
@@ -237,7 +237,7 @@ class CuInfoMail
     }
 
 
-    protected function getClientData(): array
+    protected function getClientData()
     {
 
         $userData = [];
@@ -249,14 +249,14 @@ class CuInfoMail
         $userData['client']   = $this->getServerValue('HTTP_USER_AGENT');
         $userData['referer']  = $this->getServerValue('HTTP_REFERER');
         $userData['query']    = $this->getServerValue('QUERY_STRING');
-        $userData['requests'] = $_REQUEST ?? [];
+        $userData['requests'] = isset($_REQUEST) ? $_REQUEST : [];
         $userData['requests'] = serialize($userData['requests']);
 
         return $userData;
     }
 
 
-    protected function getServerValue(string $name): string
+    protected function getServerValue($name)
     {
 
         $name = trim($name);
@@ -271,7 +271,7 @@ class CuInfoMail
     }
 
 
-    protected function chunkValues(array $values, int $chunkLength): array
+    protected function chunkValues(array $values, $chunkLength)
     {
 
         foreach ($values as &$value) {
@@ -286,7 +286,7 @@ class CuInfoMail
 
     }
 
-    private function buildSubject(): void
+    private function buildSubject()
     {
 
         $subject       = 'Request form page ' .
@@ -302,7 +302,7 @@ class CuInfoMail
     }
 
 
-    private function buildMessage(): void
+    private function buildMessage()
     {
 
         $template = self::getMailTemplate();
