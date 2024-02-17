@@ -33,30 +33,30 @@ class CuDBi extends mysqli implements CuDB
      */
     public static function getInstance(
         CuDBiResult $cuDBiResult,
-        string $serverName,
-        string $username,
-        string $password,
-        string $dbName,
-        string $port = '',
-        string $socket = ''
+        string      $serverName,
+        string      $username,
+        string      $password,
+        string      $dbName,
+        string      $port = '',
+        string      $socket = ''
     ): ?mysqli
     {
 
         self::$cuDBiResult = $cuDBiResult;
 
         if ($port === '') {
-            $port = ini_get('mysqli.default_port');
+            $port = ini_get('mysqli.default_port') ?? '';
         }
 
         if ($socket === '') {
-            $socket = ini_get('mysqli.default_socket');
+            $socket = ini_get('mysqli.default_socket' ?? '');
         }
 
         if (self::$instance === null) {
 
             try {
                 /** @noinspection PhpUsageOfSilenceOperatorInspection */
-                self::$instance = @new static($serverName, $username, $password, $dbName, $port, $socket);
+                self::$instance = @new static($serverName, $username, $password, $dbName, (int)$port, $socket);
 
                 if (!self::$instance ||
                     ((self::$instance instanceof self) === false) ||
@@ -88,7 +88,7 @@ class CuDBi extends mysqli implements CuDB
 
         $insert_string = '';
         foreach ($assocDataArray as $key => $val) {
-            $valEscaped    = $this->real_escape_string($val);
+            $valEscaped = $this->real_escape_string($val);
             $insert_string .= ' ' . $key . '= "' . $valEscaped . '", ';
         }
 
@@ -104,7 +104,7 @@ class CuDBi extends mysqli implements CuDB
     {
 
         $result = $this->query($query);
-        $id     = $this->insert_id;
+        $id = $this->insert_id;
 
         self::$cuDBiResult->setResult($result);
         self::$cuDBiResult->setLastInsertId($id);
@@ -125,15 +125,15 @@ class CuDBi extends mysqli implements CuDB
     {
 
         $updateStr = '';
-        $where     = ' WHERE ' . $where;
+        $where = ' WHERE ' . $where;
 
         foreach ($assocDataArray as $key => $val) {
             $valEscaped = $this->real_escape_string($val);
-            $updateStr  .= ' ' . $key . ' = "' . $valEscaped . '", ';
+            $updateStr .= ' ' . $key . ' = "' . $valEscaped . '", ';
         }
 
         $updateStr = substr($updateStr, 0, -2);
-        $q         = 'UPDATE ' . $tableName . ' SET ' . $updateStr . $where;
+        $q = 'UPDATE ' . $tableName . ' SET ' . $updateStr . $where;
 
         return $this->cuQuery($q);
     }
@@ -149,7 +149,7 @@ class CuDBi extends mysqli implements CuDB
     {
 
         $result = null;
-        $where  = trim($where);
+        $where = trim($where);
         if ($where !== '') {
 
             $query = 'DELETE FROM `%s` WHERE %s';
@@ -164,7 +164,7 @@ class CuDBi extends mysqli implements CuDB
     public function cuSelectOneDataSet(string $tableName, string $fieldName, $fieldValue): array
     {
 
-        $where         = " $fieldName='$fieldValue' ";
+        $where = " $fieldName='$fieldValue' ";
         $dataSetsArray = $this->cuSelectAsArray($tableName, $where);
 
         $dataSetArray = null;
@@ -183,12 +183,9 @@ class CuDBi extends mysqli implements CuDB
     {
 
         $data_array = [];
-        $where      = trim($where);
-        $order      = trim($order);
-        $limit      = trim($limit);
-        if ($where === false) {
-            $where = '';
-        }
+        $where = trim($where);
+        $order = trim($order);
+        $limit = trim($limit);
         if ($where !== '') {
             $where = ' WHERE ' . $where;
         }
@@ -200,8 +197,8 @@ class CuDBi extends mysqli implements CuDB
         }
 
 
-        $q      = 'SELECT * FROM `%s` %s %s %s;';
-        $q      = sprintf($q, $tableName, $where, $order, $limit);
+        $q = 'SELECT * FROM `%s` %s %s %s;';
+        $q = sprintf($q, $tableName, $where, $order, $limit);
         $result = $this->query($q);
 
         if ($result !== false) {
@@ -216,8 +213,8 @@ class CuDBi extends mysqli implements CuDB
     public function cuGetQuantityOfDataSets(string $tableName, string $where = ''): int
     {
 
-        $q      = "SELECT * FROM `%s` $where;";
-        $q      = sprintf($q, $tableName);
+        $q = "SELECT * FROM `%s` $where;";
+        $q = sprintf($q, $tableName);
         $result = $this->query($q);
 
         return $result->num_rows;
@@ -226,8 +223,8 @@ class CuDBi extends mysqli implements CuDB
     public function cuGetColNamesFromTable(string $tableName): array
     {
 
-        $sql        = 'DESCRIBE ' . $tableName;
-        $result     = $this->query($sql);
+        $sql = 'DESCRIBE ' . $tableName;
+        $result = $this->query($sql);
         $field_name = [];
         $data_array = [];
         while ($data = $result->fetch_assoc()) {
@@ -254,17 +251,17 @@ class CuDBi extends mysqli implements CuDB
     public function cuGetFieldInfo($tableName, $fieldName): object
     {
 
-        $query  = 'SELECT `%s` FROM `%s`;';
-        $query  = sprintf($query, $fieldName, $tableName);
+        $query = 'SELECT `%s` FROM `%s`;';
+        $query = sprintf($query, $fieldName, $tableName);
         $result = $this->query($query);
 
         return $result->fetch_field_direct(0);
     }
 
-    public function cuTruncateTab(string $tabName): void
+    public function cuTruncateTab(string $tableName): void
     {
 
-        $q = 'TRUNCATE ' . $tabName;
+        $q = 'TRUNCATE ' . $tableName;
         $this->query($q);
     }
 

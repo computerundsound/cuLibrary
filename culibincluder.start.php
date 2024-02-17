@@ -27,7 +27,6 @@ function culibraryAutoloader(string $className): bool
     $pathToFile = __DIR__ . $ds . $pathPart . '.php';
 
     if (file_exists($pathToFile)) {
-        /** @noinspection PhpIncludeInspection */
         include_once $pathToFile;
         $success = true;
     }

@@ -57,7 +57,7 @@ class CuMiniTemplateEngine
     public function fetch(string $template, bool $clearAssignments = true): string
     {
 
-        extract($this->variablesForTemplate, EXTR_OVERWRITE);
+        extract($this->variablesForTemplate);
 
         $template = $this->templateFolder . $template . '.template.php';
 
@@ -67,7 +67,6 @@ class CuMiniTemplateEngine
 
         ob_start();
 
-        /** @noinspection PhpIncludeInspection */
         include $template;
 
         $content = ob_get_clean();

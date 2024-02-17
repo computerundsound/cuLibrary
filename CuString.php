@@ -69,7 +69,7 @@ class CuString
     public static function stringFromDB2HTML(string $str): string
     {
 
-        if (!$str || $str === null || $str === '') {
+        if (!$str) {
             return $str;
         }
 
@@ -176,15 +176,13 @@ class CuString
 
 
     /**
-     * @param string $val
-     *
-     * @return mixed
+     * @return array|string|string[]|null
      */
     public static function brEncodedToHTML(string $val)
     {
 
         $pattern = '/&lt;br&gt;/';
-        $val     = preg_replace($pattern, '<br>', $val);
+        $val = preg_replace($pattern, '<br>', $val);
 
         //        $val = str_replace("&lt;br&gt;","<br>",$val);
         return $val;
@@ -193,7 +191,7 @@ class CuString
 
     /**
      * @param string $str
-     * @param int    $counts
+     * @param int $counts
      *
      * @return string
      */
@@ -239,7 +237,7 @@ class CuString
 
         $cent = $price_element[1];
 
-        $cent = str_pad($cent, '0', STR_PAD_LEFT);
+        $cent = str_pad($cent, 0, ' ', STR_PAD_LEFT);
 
         return ',' . $price_element[0] . $cent;
     }

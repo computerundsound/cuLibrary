@@ -5,6 +5,7 @@
  *
  */
 declare(strict_types=1);
+global $valuesInDB;
 
 /** @var $message */
 /** @var $title */

@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace computerundsound\culibrary;
 
-use http\Exception\RuntimeException;
-
 /**
  * Class CuConstantsContainer
  */
@@ -71,7 +69,7 @@ class CuConstantsContainer
 
         $replaced = str_replace('\\', '/', $path) ?: $path;
 
-        $path = is_array($replaced) ? '' : (string)$replaced;
+        $path = is_array($replaced) ? '' : $replaced;
 
         return $path;
     }
@@ -81,10 +79,6 @@ class CuConstantsContainer
     {
 
         $pathWithoutLastSlash = rtrim($path, '/');
-
-        if ($pathWithoutLastSlash === false) {
-            throw new RuntimeException('Could not remove last sign from String');
-        }
 
         return $pathWithoutLastSlash;
     }

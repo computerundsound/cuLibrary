@@ -7,6 +7,8 @@
 declare(strict_types=1);
 use computerundsound\culibrary\CuFlashMessage;
 
+global$cuConstants;
+
 /** @var string $currentPage */
 /** @var string[] $cuConstantsArray */
 /** @var string $content */

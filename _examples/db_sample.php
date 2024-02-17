@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
+global $view;
 /** @noinspection SqlNoDataSourceInspection */
-/** @noinspection PhpUnhandledExceptionInspection */
 
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
@@ -8,7 +9,6 @@
  *
  */
 
-declare(strict_types=1);
 
 use computerundsound\culibrary\CuFlashMessage;
 use computerundsound\culibrary\CuRequester;
@@ -20,13 +20,17 @@ require_once __DIR__ . '/includes/application.inc.php';
 $message = 'DB-Example';
 
 /** @var CuDBi $cuDBi */
-$cuDBi = CuDBi::getInstance(new CuDBiResult(),
-                            DB_SERVER,
-                            DB_USERNAME,
-                            DB_PASSWORD,
-                            DB_DB_NAME);
+try {
+    $cuDBi = CuDBi::getInstance(new CuDBiResult(),
+        DB_SERVER,
+        DB_USERNAME,
+        DB_PASSWORD,
+        DB_DB_NAME);
+} catch (Exception $e) {
+    die('no database found');
+}
 $message
-       = $cuDBi->connect_errno ? 'You need a DB to test the code in the Template: ' . $cuDBi->connect_error : $message;
+    = $cuDBi->connect_errno ? 'You need a DB to test the code in the Template: ' . $cuDBi->connect_error : $message;
 
 $createTestTable = <<<'SQL'
 CREATE TABLE IF NOT EXISTS test
@@ -44,8 +48,8 @@ $rand = random_int(0, 1000);
 
 $insert = [
 
-    'value'   => 'one Value: ' . $rand,
-    'info'    => 'one Info: ' . $rand,
+    'value' => 'one Value: ' . $rand,
+    'info' => 'one Info: ' . $rand,
     'created' => date('Y-m-d H:i:s'),
 
 ];

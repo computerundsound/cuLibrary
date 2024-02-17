@@ -110,7 +110,7 @@ use computerundsound\culibrary\CuDebug;
 
     <div class="col">
 
-        <h3>Assign arrays to an Template</h3>
+        <h3>Assign arrays to a Template</h3>
 
         <p>A foreach - Loop (assigned an Array from CuRequester::getClientData()):</p>
 

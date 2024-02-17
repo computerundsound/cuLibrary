@@ -57,10 +57,7 @@ class CuDBiResult implements CuDBResult
     }
 
 
-    /**
-     * @return mysqli_result | bool
-     */
-    public function getResult()
+    public function getResult(): mysqli_result
     {
 
         return $this->result;

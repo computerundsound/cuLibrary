@@ -20,28 +20,29 @@ use RuntimeException;
 class CuInfoMail
 {
 
-    protected int   $chunkSplit;
-    private string  $subject;
-    private string  $mailText;
-    private string  $addressTo;
-    private string  $addressFrom;
-    private string  $nameFrom;
-    private int     $additionalRow = 0;
-    private array   $userData;
+    protected int $chunkSplit;
+    private string $subject;
+    private string $mailText;
+    private string $addressTo;
+    private string $addressFrom;
+    private string $nameFrom;
+    private int $additionalRow = 0;
+    private array $userData;
 
 
     public function __construct(string $addressTo, string $addressFrom, string $nameFrom, int $chunkSplit = 0)
     {
 
-        $this->addressTo   = $addressTo;
+        $this->addressTo = $addressTo;
         $this->addressFrom = $addressFrom;
-        $this->nameFrom    = $nameFrom;
-        $this->chunkSplit  = $chunkSplit;
+        $this->nameFrom = $nameFrom;
+        $this->chunkSplit = $chunkSplit;
 
         $this->userData = $this->getClientData();
 
-        $this->buildSubject();
+        $this->buildStandardSubject();
         $this->buildMessage();
+
     }
 
     public static function getMailTemplate(): string
@@ -198,15 +199,12 @@ class CuInfoMail
         $header .= 'To: ' . $this->addressTo . "\r\n";
         $header .= 'From: ' . $this->nameFrom . '<' . $this->addressFrom . '>' . "\r\n";
 
-        $this->subject;
-        $this->mailText;
-
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         $return = @mail($this->addressTo, $this->subject, $this->mailText, $header);
 
         if (!$return) {
             throw new RuntimeException('There was an Error while trying to send an email: ' .
-                                       error_get_last()['message']);
+                error_get_last()['message']);
         }
 
 
@@ -236,19 +234,24 @@ class CuInfoMail
         $this->mailText = $message;
     }
 
+    public function changeSubject(string $subject)
+    {
+        $this->subject = $subject;
+    }
+
 
     protected function getClientData(): array
     {
 
         $userData = [];
 
-        $userData['server']   = $this->getServerValue('SERVER_NAME');
-        $userData['site']     = $this->getServerValue('PHP_SELF');
-        $userData['ip']       = $this->getServerValue('REMOTE_ADDR');
-        $userData['host']     = $userData['ip'] === '' ? '' : gethostbyaddr($userData['ip']);
-        $userData['client']   = $this->getServerValue('HTTP_USER_AGENT');
-        $userData['referer']  = $this->getServerValue('HTTP_REFERER');
-        $userData['query']    = $this->getServerValue('QUERY_STRING');
+        $userData['server'] = $this->getServerValue('SERVER_NAME');
+        $userData['site'] = $this->getServerValue('PHP_SELF');
+        $userData['ip'] = $this->getServerValue('REMOTE_ADDR');
+        $userData['host'] = $userData['ip'] === '' ? '' : gethostbyaddr($userData['ip']);
+        $userData['client'] = $this->getServerValue('HTTP_USER_AGENT');
+        $userData['referer'] = $this->getServerValue('HTTP_REFERER');
+        $userData['query'] = $this->getServerValue('QUERY_STRING');
         $userData['requests'] = $_REQUEST ?? [];
         $userData['requests'] = serialize($userData['requests']);
 
@@ -286,18 +289,18 @@ class CuInfoMail
 
     }
 
-    private function buildSubject(): void
+    private function buildStandardSubject(): void
     {
 
-        $subject       = 'Request form page ' .
-                         htmlspecialchars($_SERVER['PHP_SELF'],
-                                          ENT_COMPAT,
-                                          'utf-8') .
-                         ' - ' .
-                         $this->userData['server'] .
-                         $this->userData['site'] .
-                         ' - ' .
-                         date('Y-m-d H:i:s');
+        $subject = 'Request form page ' .
+            htmlspecialchars($_SERVER['PHP_SELF'],
+                ENT_COMPAT,
+                'utf-8') .
+            ' - ' .
+            $this->userData['server'] .
+            $this->userData['site'] .
+            ' - ' .
+            date('Y-m-d H:i:s');
         $this->subject = $subject;
     }
 
@@ -316,14 +319,14 @@ class CuInfoMail
 
         $replaceArray = [
 
-            '###Server###'   => $userData['server'],
-            '###Seite###'    => $userData['site'],
-            '###Time###'     => $timeStr,
-            '###IP###'       => $userData['ip'],
-            '###Host###'     => $userData['host'],
-            '###Client###'   => $userData['client'],
-            '###Referer###'  => $userData['referer'],
-            '###Query###'    => $userData['query'],
+            '###Server###' => $userData['server'],
+            '###Seite###' => $userData['site'],
+            '###Time###' => $timeStr,
+            '###IP###' => $userData['ip'],
+            '###Host###' => $userData['host'],
+            '###Client###' => $userData['client'],
+            '###Referer###' => $userData['referer'],
+            '###Query###' => $userData['query'],
             '###Requests###' => $requests,
         ];
 
