@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Hire me! coder@cusp.de
+ * Hire me! coder@cu1723.de
  *
  */
 

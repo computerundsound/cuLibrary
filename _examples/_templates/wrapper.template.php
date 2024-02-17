@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Hire me! coder@cusp.de
+ * Hire me! coder@cu1723.de
  *
  */
 declare(strict_types=1);
@@ -42,7 +42,7 @@ use computerundsound\culibrary\CuFlashMessage;
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="https://www.cusp.de" target="_blank">Computer & Sound</a>
+    <a class="navbar-brand" href="https://www.cu1723.de" target="_blank">Computer & Sound</a>
     <button class="navbar-toggler"
             type="button"
             data-toggle="collapse"

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * Copyright by Jörg Wrase - www.Computer-Und-Sound.de
- * Hire me! coder@cusp.de
+ * Hire me! coder@cu1723.de
  *
  */
 
@@ -60,8 +60,8 @@ class CuConstantsContainer
     public static function makeGoodPathHTTP(string $path): string
     {
 
-        $path = str_replace('\\', '/', $path);
-        $path = (string)$path;
+        $path = (string)str_replace('\\', '/', $path);
+
 
         return $path;
     }
@@ -128,10 +128,10 @@ class CuConstantsContainer
     private function buildServerValues(): void
     {
 
-        $this->server_ServerName   = isset($_SERVER['SERVER_NAME']) ? (string)$_SERVER['SERVER_NAME'] : '';
+        $this->server_ServerName = isset($_SERVER['SERVER_NAME']) ? (string)$_SERVER['SERVER_NAME'] : '';
         $this->server_documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string)$_SERVER['DOCUMENT_ROOT'] : '';
-        $this->server_phpSelf      = isset($_SERVER['PHP_SELF']) ? (string)$_SERVER['PHP_SELF'] : '';
-        $this->server_protocol     = $this->getProtocol();
+        $this->server_phpSelf = isset($_SERVER['PHP_SELF']) ? (string)$_SERVER['PHP_SELF'] : '';
+        $this->server_protocol = $this->getProtocol();
     }
 
     private function getProtocol(): string
@@ -140,7 +140,7 @@ class CuConstantsContainer
         $port = isset($_SERVER['SERVER_PORT']) ? (int)$_SERVER['SERVER_PORT'] : 80;
 
         return ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
-                $port === 443) ?
+            $port === 443) ?
             'https://' : 'http://';
 
 
@@ -193,8 +193,8 @@ class CuConstantsContainer
     {
 
         $this->buildAppRootHTTP();
-        $filePathHTTP        = self::killLastSlash($this->appRoot_FQHTTP);
-        $filePathHTTP        .= $this->server_phpSelf;
+        $filePathHTTP = self::killLastSlash($this->appRoot_FQHTTP);
+        $filePathHTTP .= $this->server_phpSelf;
         $this->filePath_HTTP = $filePathHTTP;
     }
 
