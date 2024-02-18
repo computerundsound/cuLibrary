@@ -11,7 +11,7 @@ Then you have autoload (or better use composer)
 
 Install with:
 
-    composer install computerundsound/culibrary
+    composer require computerundsound/culibrary
 
 ### You can see some examples in /_examples/
 
