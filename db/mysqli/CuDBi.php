@@ -23,7 +23,7 @@ use RuntimeException;
 class CuDBi extends mysqli implements CuDB
 {
 
-    protected static ?mysqli $instance;
+    protected static ?mysqli $instance = null;
 
     /** @var  CuDBiResult */
     protected static CuDBiResult $cuDBiResult;
@@ -88,8 +88,10 @@ class CuDBi extends mysqli implements CuDB
 
         $insert_string = '';
         foreach ($assocDataArray as $key => $val) {
-            $valEscaped = $this->real_escape_string($val);
-            $insert_string .= ' ' . $key . '= "' . $valEscaped . '", ';
+            if (is_string($val) || is_numeric($val)) {
+                $valEscaped = $this->real_escape_string($val);
+                $insert_string .= ' ' . $key . '= "' . $valEscaped . '", ';
+            }
         }
 
         $insert_string = substr($insert_string, 0, -2);
@@ -261,7 +263,7 @@ class CuDBi extends mysqli implements CuDB
     public function cuTruncateTab(string $tableName): void
     {
 
-        $q = 'TRUNCATE ' . $tableName;
+        $q = 'TRUNCATE `' . $tableName . '`';
         $this->query($q);
     }
 

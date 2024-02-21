@@ -18,8 +18,7 @@ use mysqli_result;
 class CuDBiResult implements CuDBResult
 {
 
-    /** @var  mysqli_result */
-    private mysqli_result $result;
+    private mysqli_result|bool|null $result = null;
 
     private int $lastInsertId;
 
@@ -57,14 +56,14 @@ class CuDBiResult implements CuDBResult
     }
 
 
-    public function getResult(): mysqli_result
+    public function getResult(): mysqli_result|bool|null
     {
 
         return $this->result;
     }
 
 
-    public function setResult($result): void
+    public function setResult(mysqli_result|bool $result): void
     {
 
         $this->result = $result;

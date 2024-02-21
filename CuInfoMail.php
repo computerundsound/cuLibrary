@@ -124,7 +124,7 @@ class CuInfoMail
         <td>
             <h1 class="h1">
                 Request from page <a class="mylink" 
-                                     href="http://###Server######Seite###">###Server######Seite###</a>
+                                     href="https://###Server######Seite###">###Server######Seite###</a>
             </h1>
         </td>
     </tr>
