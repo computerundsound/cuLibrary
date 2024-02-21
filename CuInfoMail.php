@@ -130,7 +130,7 @@ class CuInfoMail
     </tr>
     <tr>
         <td class="td" style="text-align: left;">
-            <h2 class="h2">Userdata:</h2>
+            <h2 class="h2">Userdata:</h2>   
             <table cellpadding="0" cellspacing="0" width="500px" align="left">
                 <tr>
                     <th class="th thead"></th>

@@ -14,7 +14,6 @@ namespace computerundsound\culibrary;
 class CuConstantsContainer
 {
 
-
     private string $appRoot_HTTP;
 
     private string $appRoot_Server;

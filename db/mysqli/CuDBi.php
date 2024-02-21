@@ -39,7 +39,7 @@ class CuDBi extends mysqli implements CuDB
         string      $dbName,
         string      $port = '',
         string      $socket = ''
-    ): ?mysqli
+    ): ?CuDBi
     {
 
         self::$cuDBiResult = $cuDBiResult;
