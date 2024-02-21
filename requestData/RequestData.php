@@ -7,7 +7,7 @@ use DateTime;
 class RequestData
 {
 
-    private ?string $ip;
+    private ?string $ip = null;
     private string $host;
     private string $client;
     private string $referer;
@@ -17,7 +17,7 @@ class RequestData
     private DateTime $dateTime;
 
 
-    public function getHost()
+    public function getHost(): string
     {
         $this->buildRequestData();
         return $this->host;
@@ -67,7 +67,7 @@ class RequestData
     }
 
 
-    private function buildRequestData()
+    private function buildRequestData(): void
     {
 
         if ($this->ip === null) {
