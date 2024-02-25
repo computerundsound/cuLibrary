@@ -27,6 +27,7 @@ like a vcard-page ore another onepage-tool)
 
 ## Highlights:
 
+* CuErrorHandler - handle errors like you want.
 * Save an Array to Database is only one line: $db->cuInsert($tableName, $accocArray);
 * Many other easy to use Database function like "cuSelectOneDataSet()", "cuUpdate()", "cuSelectAsArray()"
 * Easy MailInfo.
