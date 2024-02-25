@@ -4,7 +4,7 @@ The CuErrorhandler can output meaningful error messages, and SIMPLY
 and without making any changes to the source code, either suppress the error messages
 or display. He can also forward the errors by email.
 
-Application example:
+## Application example:
 
 You are working on a tool on your dev server. You need meaningful Error messages.
 In the productive environment, errors should also be displayed, but without manny
@@ -17,14 +17,14 @@ by email can be determined simply by the presence of empty files.
 
 The file is located
 
-debugShow.debug
+**debugShow.debug**
 
 in your document root directory, meaningful error pages are generated.
 If this is not available, another page will be displayed.
 
 Is the file
 
-debugMail.debug
+**debugMail.debug**
 
 exists, the error message will be sent by email.
 
@@ -35,7 +35,7 @@ However, use the debugShow.debug file on the dev server.
 
 ----
 
-How to - code integration:
+## How to - code integration:
 
 The following line must be included:
 
@@ -46,13 +46,13 @@ The return value of the method can be neglected.
 If you would like to use the email function, you still have to tell the system
 to whom the email should be written. Change the line to:
 
-(CuErrorHandler::getInstance())->setMailToAddress('youremail address');
+**(CuErrorHandler::getInstance())->setMailToAddress('youremail address');**
 
 You can also pass further information to the error handler.
 So you can show the error messages in your own template, or
 Define even more information about the email (subject, name, etc.).
 
-Example:
+### Example:
 
 <pre>
 <code style="color: white">
