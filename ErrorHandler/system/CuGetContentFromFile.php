@@ -53,7 +53,7 @@ class CuGetContentFromFile
         return $relevantLines;
     }
 
-    protected function getLines(array $lines)
+    protected function getLines(array $lines): array
     {
         $relevantLines = [];
 

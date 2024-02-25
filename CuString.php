@@ -146,7 +146,7 @@ class CuString
         if (is_array($ip_array)) {
             foreach ($ip_array as $val) {
 
-                if (strpos($val, '0') === 0) {
+                if (str_starts_with($val, '0')) {
                     $val = $val[1] . $val[2];
                 }
 
@@ -178,7 +178,7 @@ class CuString
     /**
      * @return array|string|string[]|null
      */
-    public static function brEncodedToHTML(string $val)
+    public static function brEncodedToHTML(string $val): array|string|null
     {
 
         $pattern = '/&lt;br&gt;/';

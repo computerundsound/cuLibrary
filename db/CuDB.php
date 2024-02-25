@@ -14,7 +14,6 @@ namespace computerundsound\culibrary\db;
 interface CuDB
 {
 
-
     public function cuTruncateTab(string $tableName);
 
     public function cuDeleteOneDataSet(string $tableName, string $idName, $idValue): void;

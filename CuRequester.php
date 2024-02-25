@@ -14,7 +14,7 @@ class CuRequester
 {
 
     /**
-     * @return array | 'client', referer', 'server', 'site', 'query',
+     * @return array , referer', 'server', 'site', 'query',
      */
     public static function getClientData(): array
     {
@@ -46,9 +46,9 @@ class CuRequester
      * @param string $variableName
      * @param mixed  $standard_value
      *
-     * @return bool|string
+     * @return bool|array|string|null
      */
-    public static function getGetOrPostSessionStandardValue(string $variableName, $standard_value)
+    public static function getGetOrPostSessionStandardValue(string $variableName, mixed $standard_value): bool|array|string|null
     {
 
         $value = self::getGetPostSession($variableName);
@@ -68,7 +68,7 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPostSession(string $variableName)
+    public static function getGetPostSession(string $variableName): array|string|null
     {
 
         $value = $_SESSION[$variableName] ?? null;
@@ -89,7 +89,7 @@ class CuRequester
      *
      * @return string|array|null
      */
-    public static function getGetPost(string $variableName)
+    public static function getGetPost(string $variableName): array|string|null
     {
 
         $value = $_POST[$variableName] ?? $_GET[$variableName] ?? null;
@@ -107,10 +107,9 @@ class CuRequester
      * @return array|string
      * will only do something when get_magic_quotes_gpc === true
      */
-    public static function stripSlashesDeep($value)
+    public static function stripSlashesDeep($value): array|string
     {
 
-        /** @noinspection PhpDeprecationInspection */
         if (function_exists('get_magic_quotes_gpc') && PHP_VERSION < 7 && get_magic_quotes_gpc()) {
             $value = is_array($value) ? array_map([__CLASS__, 'stripSlashesDeep'], $value) : stripcslashes($value);
         }

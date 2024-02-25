@@ -4,6 +4,9 @@ namespace computerundsound\culibrary\ErrorHandler;
 
 use computerundsound\culibrary\ErrorHandler\system\CuErrorHandlerParameter;
 use computerundsound\culibrary\ErrorHandler\system\CuErrorType;
+use JetBrains\PhpStorm\NoReturn;
+use RuntimeException;
+use Throwable;
 
 /**
  *
@@ -38,11 +41,11 @@ class CuErrorHandler
 
     }
 
-    public function cuErrorHandler(int     $errorNo,
-                                   string  $errorMsg,
-                                   ?string $file = null,
-                                   ?int    $line = null,
-                                   ?array  $context = null)
+    #[NoReturn] public function cuErrorHandler(int     $errorNo,
+                                               string  $errorMsg,
+                                               ?string $file = null,
+                                               ?int    $line = null,
+                                               ?array  $context = null): void
     {
 
         $errorParameter = new CuErrorHandlerParameter(CuErrorType::Error);
@@ -54,7 +57,7 @@ class CuErrorHandler
 
     }
 
-    public function cuExceptionHandler(\Throwable $throwable)
+    #[NoReturn] public function cuExceptionHandler(Throwable $throwable): void
     {
 
         $errorMsg = $throwable->getMessage();
@@ -119,7 +122,7 @@ class CuErrorHandler
         return $this;
     }
 
-    protected function handleTrigger(CuErrorHandlerParameter $errorHandlerParameter)
+    protected function handleTrigger(CuErrorHandlerParameter $errorHandlerParameter): void
     {
         $debugDebugFilePath = $_SERVER['DOCUMENT_ROOT'] . '/debugShow.debug';
         $debugMailFilePath  = $_SERVER['DOCUMENT_ROOT'] . '/debugMail.debug';
@@ -136,7 +139,7 @@ class CuErrorHandler
 
     }
 
-    protected function show(CuErrorHandlerParameter $errorHandlerParameter)
+    protected function show(CuErrorHandlerParameter $errorHandlerParameter): void
     {
 
         $content = $this->getTemplate($errorHandlerParameter, self::$templateForErrorPath);
@@ -144,7 +147,7 @@ class CuErrorHandler
         echo $content;
     }
 
-    protected function mail(CuErrorHandlerParameter $errorHandlerParameter)
+    protected function mail(CuErrorHandlerParameter $errorHandlerParameter): void
     {
 
         if (self::$mailToAddress) {
@@ -160,14 +163,14 @@ class CuErrorHandler
             $return = @mail(self::$mailToAddress, $subject, $content, $header);
 
             if (!$return) {
-                throw new \RuntimeException('There was an Error while trying to send an email: ' .
+                throw new RuntimeException('There was an Error while trying to send an email: ' .
                                             error_get_last()['message']);
             }
 
         }
     }
 
-    protected function showIfNoErrorShouldBeShown(CuErrorHandlerParameter $errorHandlerParameter)
+    protected function showIfNoErrorShouldBeShown(CuErrorHandlerParameter $errorHandlerParameter): void
     {
 
         $content = $this->getTemplate($errorHandlerParameter, self::$templateForNotShownErrorPath);
@@ -177,7 +180,8 @@ class CuErrorHandler
 
     /**
      * @param CuErrorHandlerParameter $errorHandlerParameter
-     * @return void
+     * @param string                  $pathToTemplate
+     * @return string
      */
     protected function getTemplate(CuErrorHandlerParameter $errorHandlerParameter, string $pathToTemplate): string
     {

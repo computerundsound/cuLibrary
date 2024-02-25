@@ -40,7 +40,7 @@ class CuMiniTemplateEngine
      * @param string $name
      * @param mixed  $value
      */
-    public function assign(string $name, $value): void
+    public function assign(string $name, mixed $value): void
     {
 
         $this->variablesForTemplate[$name] = $value;
@@ -95,7 +95,7 @@ class CuMiniTemplateEngine
      *
      * @return mixed
      */
-    public function getValue(string $name)
+    public function getValue(string $name): mixed
     {
 
         $returnValue = '';

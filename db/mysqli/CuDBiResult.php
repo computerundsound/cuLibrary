@@ -36,7 +36,7 @@ class CuDBiResult implements CuDBResult
     }
 
 
-    public function setLastInsertId($lastInsertId): void
+    public function setLastInsertId(mixed $lastInsertId): void
     {
 
         $this->lastInsertId = $lastInsertId;

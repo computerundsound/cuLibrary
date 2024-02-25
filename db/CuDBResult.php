@@ -18,12 +18,12 @@ interface CuDBResult
     /**
      * @return mixed
      */
-    public function getLastInsertId();
+    public function getLastInsertId(): mixed;
 
     /**
      * @param mixed $lastInsertId
      */
-    public function setLastInsertId($lastInsertId);
+    public function setLastInsertId(mixed $lastInsertId);
 
     public function getMessage(): string;
 

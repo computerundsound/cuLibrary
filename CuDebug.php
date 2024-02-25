@@ -39,19 +39,19 @@ class CuDebug
 
     }
 
-    public static function enableErrorMessages()
+    public static function enableErrorMessages(): void
     {
         ini_set('display_errors', 'on');
         error_reporting(E_ALL ^ E_NOTICE);
     }
 
-    public static function disableErrorMessages()
+    public static function disableErrorMessages(): void
     {
         ini_set('display_errors', 'off');
         error_reporting(0);
     }
 
-    public static function showPHPErrorMessage(Throwable $t, bool $showCode = false)
+    public static function showPHPErrorMessage(Throwable $t, bool $showCode = false): void
     {
 
         echo '<pre>';

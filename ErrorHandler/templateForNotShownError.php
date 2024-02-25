@@ -1,7 +1,9 @@
 <?php
 
+use computerundsound\culibrary\ErrorHandler\system\CuErrorHandlerParameter;
+
 /**
- * @var \computerundsound\culibrary\ErrorHandler\CuErrorHandlerParameter $cuEHP ;
+ * @var CuErrorHandlerParameter $cuEHP ;
  */
 $cuEHP;
 

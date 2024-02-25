@@ -219,7 +219,7 @@ class CuInfoMail
         $this->mailText = $message;
     }
 
-    public function changeSubject(string $subject)
+    public function changeSubject(string $subject): void
     {
         $this->subject = $subject;
     }
