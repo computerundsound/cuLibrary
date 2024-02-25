@@ -17,8 +17,8 @@ class CuDebug
 
     /**
      * @param mixed $value
-     * @param bool $showAsHtml
-     * @param bool $exit
+     * @param bool  $showAsHtml
+     * @param bool  $exit
      */
     public static function show(mixed $value, bool $showAsHtml = true, bool $exit = false): void
     {
@@ -37,6 +37,18 @@ class CuDebug
             exit;
         }
 
+    }
+
+    public static function enableErrorMessages()
+    {
+        ini_set('display_errors', 'on');
+        error_reporting(E_ALL ^ E_NOTICE);
+    }
+
+    public static function disableErrorMessages()
+    {
+        ini_set('display_errors', 'off');
+        error_reporting(0);
     }
 
     public static function showPHPErrorMessage(Throwable $t, bool $showCode = false)

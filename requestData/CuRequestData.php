@@ -72,16 +72,16 @@ class CuRequestData
 
         if ($this->ip === null) {
 
-            $this->ip = $_SERVER['REMOTE_ADDR'] ?? '';
-            $this->host = gethostbyaddr($this->ip) ?: '';
+            $this->ip       = $_SERVER['REMOTE_ADDR'] ?? '';
+            $this->host     = gethostbyaddr($this->ip) ?: '';
             $this->dateTime = new DateTime();
 
             $userDataKeyValueArray = [
                 'HTTP_USER_AGENT' => 'client',
-                'HTTP_REFERER' => 'referer',
-                'SERVER_NAME' => 'server',
-                'PHP_SELF' => 'site',
-                'QUERY_STRING' => 'query',
+                'HTTP_REFERER'    => 'referer',
+                'SERVER_NAME'     => 'server',
+                'PHP_SELF'        => 'site',
+                'QUERY_STRING'    => 'query',
             ];
 
             foreach ($userDataKeyValueArray as $key => $val) {

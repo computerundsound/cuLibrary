@@ -22,10 +22,10 @@ $message = 'DB-Example';
 /** @var CuDBi $cuDBi */
 try {
     $cuDBi = CuDBi::getInstance(new CuDBiResult(),
-        DB_SERVER,
-        DB_USERNAME,
-        DB_PASSWORD,
-        DB_DB_NAME);
+                                DB_SERVER,
+                                DB_USERNAME,
+                                DB_PASSWORD,
+                                DB_DB_NAME);
 } catch (Exception $e) {
     die('no database found');
 }
@@ -48,8 +48,8 @@ $rand = random_int(0, 1000);
 
 $insert = [
 
-    'value' => 'one Value: ' . $rand,
-    'info' => 'one Info: ' . $rand,
+    'value'   => 'one Value: ' . $rand,
+    'info'    => 'one Info: ' . $rand,
     'created' => date('Y-m-d H:i:s'),
 
 ];

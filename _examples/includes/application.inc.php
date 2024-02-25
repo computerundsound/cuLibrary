@@ -25,8 +25,8 @@ $view->assign('db_dbName', DB_DB_NAME);
 
 $cuConstants = new CuConstantsContainer('/_examples/');
 
-$cuConstantsArray['FilePathHTTP'] = $cuConstants->getFilePath_HTTP();
-$cuConstantsArray['AppRootHTTP'] = $cuConstants->getAppRootHTTP();
+$cuConstantsArray['FilePathHTTP']  = $cuConstants->getFilePath_HTTP();
+$cuConstantsArray['AppRootHTTP']   = $cuConstants->getAppRootHTTP();
 $cuConstantsArray['AppRootFQHTTP'] = $cuConstants->getAppRootFQHTTP();
 $cuConstantsArray['AppRootServer'] = $cuConstants->getAppRootServer();
 

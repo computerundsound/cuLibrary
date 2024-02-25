@@ -121,10 +121,10 @@ class CuConstantsContainer
     private function buildServerValues(): void
     {
 
-        $this->server_ServerName = isset($_SERVER['SERVER_NAME']) ? (string)$_SERVER['SERVER_NAME'] : '';
+        $this->server_ServerName   = isset($_SERVER['SERVER_NAME']) ? (string)$_SERVER['SERVER_NAME'] : '';
         $this->server_documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string)$_SERVER['DOCUMENT_ROOT'] : '';
-        $this->server_phpSelf = isset($_SERVER['PHP_SELF']) ? (string)$_SERVER['PHP_SELF'] : '';
-        $this->server_protocol = $this->getProtocol();
+        $this->server_phpSelf      = isset($_SERVER['PHP_SELF']) ? (string)$_SERVER['PHP_SELF'] : '';
+        $this->server_protocol     = $this->getProtocol();
     }
 
     private function getProtocol(): string
@@ -186,8 +186,8 @@ class CuConstantsContainer
     {
 
         $this->buildAppRootHTTP();
-        $filePathHTTP = self::killLastSlash($this->appRoot_FQHTTP);
-        $filePathHTTP .= $this->server_phpSelf;
+        $filePathHTTP        = self::killLastSlash($this->appRoot_FQHTTP);
+        $filePathHTTP        .= $this->server_phpSelf;
         $this->filePath_HTTP = $filePathHTTP;
     }
 

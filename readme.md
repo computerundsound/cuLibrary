@@ -1,6 +1,5 @@
 # Small Library - little helper for php-developer #
 
-
 Needs PHP 8+
 
 Very easy using!
@@ -22,18 +21,18 @@ Then start http://your-server/directoryFromCuServer/_examples/
 Or just read the code :-)
 
 # Why this?
-This is a very(!) small library. I use it for little projects (often when I have only to build very small thinks 
+
+This is a very(!) small library. I use it for little projects (often when I have only to build very small thinks
 like a vcard-page ore another onepage-tool)
 
 ## Highlights:
 
 * Save an Array to Database is only one line: $db->cuInsert($tableName, $accocArray);
 * Many other easy to use Database function like "cuSelectOneDataSet()", "cuUpdate()", "cuSelectAsArray()"
-* Easy MailInfo. 
+* Easy MailInfo.
 * Save Flashmessages
 * Get standard Constants like AppRoot, HttpServerPath - etc...
 * MiniTemplateEngine
 * Easy Debuginfo
-
 
 [Computer-Und-Sound](http://www.Computer-Und-Sound.de)

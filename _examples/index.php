@@ -23,7 +23,7 @@ switch ($action) {
         exit;
     case 'showFlash':
         CuFlashMessage::save('This flashMessage is here, because you started an request for it.<br><br>' .
-            CU_FLASH_STANDARD_MESSAGE);
+                             CU_FLASH_STANDARD_MESSAGE);
         break;
     case 'sendMail':
 
@@ -59,7 +59,7 @@ $view->assign('thisIsAnExampleArray', $userData);
 /*
  * Assign an Object
  */
-$smallObj = new stdClass();
+$smallObj      = new stdClass();
 $smallObj->one = 'Value One from Object';
 $smallObj->two = 'Value Two from Object';
 

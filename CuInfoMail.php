@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace computerundsound\culibrary;
 
-use RuntimeException;
-
 /**
  * Class CuInfoMail
  *
@@ -33,10 +31,10 @@ class CuInfoMail
     public function __construct(string $addressTo, string $addressFrom, string $nameFrom, int $chunkSplit = 0)
     {
 
-        $this->addressTo = $addressTo;
+        $this->addressTo   = $addressTo;
         $this->addressFrom = $addressFrom;
-        $this->nameFrom = $nameFrom;
-        $this->chunkSplit = $chunkSplit;
+        $this->nameFrom    = $nameFrom;
+        $this->chunkSplit  = $chunkSplit;
 
         $this->userData = $this->getClientData();
 
@@ -193,20 +191,7 @@ class CuInfoMail
     public function sendEmail(): void
     {
 
-        $header = 'MIME-Version: 1.0' . "\r\n";
-        $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-
-        $header .= 'To: ' . $this->addressTo . "\r\n";
-        $header .= 'From: ' . $this->nameFrom . '<' . $this->addressFrom . '>' . "\r\n";
-
-        /** @noinspection PhpUsageOfSilenceOperatorInspection */
-        $return = @mail($this->addressTo, $this->subject, $this->mailText, $header);
-
-        if (!$return) {
-            throw new RuntimeException('There was an Error while trying to send an email: ' .
-                error_get_last()['message']);
-        }
-
+        CuMailer::sendHTMLMail($this->addressTo, $this->subject, $this->mailText, $this->nameFrom);
 
     }
 
@@ -245,13 +230,13 @@ class CuInfoMail
 
         $userData = [];
 
-        $userData['server'] = $this->getServerValue('SERVER_NAME');
-        $userData['site'] = $this->getServerValue('PHP_SELF');
-        $userData['ip'] = $this->getServerValue('REMOTE_ADDR');
-        $userData['host'] = $userData['ip'] === '' ? '' : gethostbyaddr($userData['ip']);
-        $userData['client'] = $this->getServerValue('HTTP_USER_AGENT');
-        $userData['referer'] = $this->getServerValue('HTTP_REFERER');
-        $userData['query'] = $this->getServerValue('QUERY_STRING');
+        $userData['server']   = $this->getServerValue('SERVER_NAME');
+        $userData['site']     = $this->getServerValue('PHP_SELF');
+        $userData['ip']       = $this->getServerValue('REMOTE_ADDR');
+        $userData['host']     = $userData['ip'] === '' ? '' : gethostbyaddr($userData['ip']);
+        $userData['client']   = $this->getServerValue('HTTP_USER_AGENT');
+        $userData['referer']  = $this->getServerValue('HTTP_REFERER');
+        $userData['query']    = $this->getServerValue('QUERY_STRING');
         $userData['requests'] = $_REQUEST ?? [];
         $userData['requests'] = serialize($userData['requests']);
 
@@ -292,10 +277,10 @@ class CuInfoMail
     private function buildStandardSubject(): void
     {
 
-        $subject = 'Request form page ' .
+        $subject       = 'Request form page ' .
             htmlspecialchars($_SERVER['PHP_SELF'],
-                ENT_COMPAT,
-                'utf-8') .
+                             ENT_COMPAT,
+                             'utf-8') .
             ' - ' .
             $this->userData['server'] .
             $this->userData['site'] .
@@ -319,14 +304,14 @@ class CuInfoMail
 
         $replaceArray = [
 
-            '###Server###' => $userData['server'],
-            '###Seite###' => $userData['site'],
-            '###Time###' => $timeStr,
-            '###IP###' => $userData['ip'],
-            '###Host###' => $userData['host'],
-            '###Client###' => $userData['client'],
-            '###Referer###' => $userData['referer'],
-            '###Query###' => $userData['query'],
+            '###Server###'   => $userData['server'],
+            '###Seite###'    => $userData['site'],
+            '###Time###'     => $timeStr,
+            '###IP###'       => $userData['ip'],
+            '###Host###'     => $userData['host'],
+            '###Client###'   => $userData['client'],
+            '###Referer###'  => $userData['referer'],
+            '###Query###'    => $userData['query'],
             '###Requests###' => $requests,
         ];
 

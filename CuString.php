@@ -182,7 +182,7 @@ class CuString
     {
 
         $pattern = '/&lt;br&gt;/';
-        $val = preg_replace($pattern, '<br>', $val);
+        $val     = preg_replace($pattern, '<br>', $val);
 
         //        $val = str_replace("&lt;br&gt;","<br>",$val);
         return $val;
@@ -191,7 +191,7 @@ class CuString
 
     /**
      * @param string $str
-     * @param int $counts
+     * @param int    $counts
      *
      * @return string
      */
