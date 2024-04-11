@@ -34,15 +34,15 @@ class CuMailer
                                        string $toName,
                                        array  $addHeader): string
     {
-        $header = 'MIME-Version: 1.0' . PHP_EOL;
-        $header .= 'Content-type: text/html; charset=utf-8' . PHP_EOL;
+        $header = 'MIME-Version: 1.0' . "\r\n";
+        $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
         if ($toAddress && !$toName) {
             $header .= 'To: ' . $toAddress . "\r\n";
         }
 
         if ($toAddress && $toName) {
-            $header .= 'From: ' . $toName . '<' . $toAddress . '>' . PHP_EOL;
+            $header .= 'From: ' . $toName . '<' . $toAddress . '>' . "\r\n";
         }
 
         if ($fromAddress && !$fromName) {
@@ -50,11 +50,11 @@ class CuMailer
         }
 
         if ($fromAddress && $fromName) {
-            $header .= 'From: ' . $fromName . '<' . $fromAddress . '>' . PHP_EOL;
+            $header .= 'From: ' . $fromName . '<' . $fromAddress . '>' . "\r\n";
         }
 
         foreach ($addHeader as $key => $value) {
-            $header .= "$key: $value" . PHP_EOL;
+            $header .= "$key: $value" . "\r\n";
         }
 
         return $header;
