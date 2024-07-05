@@ -24,16 +24,22 @@ class CuInfoMail
     private string $addressTo;
     private string $addressFrom;
     private string $nameFrom;
+    private string $host;
     private int $additionalRow = 0;
     private array $userData;
 
 
-    public function __construct(string $addressTo, string $addressFrom, string $nameFrom, int $chunkSplit = 0)
+    public function __construct(string $addressTo,
+                                string $addressFrom,
+                                string $nameFrom,
+                                string $host = '',
+                                int    $chunkSplit = 0)
     {
 
         $this->addressTo   = $addressTo;
         $this->addressFrom = $addressFrom;
         $this->nameFrom    = $nameFrom;
+        $this->host        = $host;
         $this->chunkSplit  = $chunkSplit;
 
         $this->userData = $this->getClientData();
@@ -191,7 +197,19 @@ class CuInfoMail
     public function sendEmail(): void
     {
 
-        CuMailer::sendHTMLMail($this->addressTo, $this->subject, $this->mailText, $this->nameFrom);
+
+        try {
+            CuMailer::sendHTMLMail($this->addressTo,
+                                   $this->subject,
+                                   $this->mailText,
+                                   $this->addressFrom,
+                                   $this->nameFrom,
+                                   $this->addressTo,
+                                   $this->addressTo,
+                                   $this->host);
+        } catch (\Throwable $t) {
+            echo $t->getMessage();
+        }
 
     }
 

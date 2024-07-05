@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'computerundsound\\culibrary\\' => array($baseDir . '/'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
 );

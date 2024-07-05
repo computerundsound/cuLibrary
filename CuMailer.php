@@ -2,7 +2,7 @@
 
 namespace computerundsound\culibrary;
 
-use RuntimeException;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class CuMailer
 {
@@ -13,18 +13,25 @@ class CuMailer
                                         string $fromAddress = '',
                                         string $fromName = '',
                                         string $toName = '',
+                                        string $replyToAddress = '',
+                                        string $host = '',
                                         array  $addHeader = []): void
     {
 
-        $header = self::buildHeader($toAddress, $fromAddress, $fromName, $toName, $addHeader);
+        $host = $host ?? $_SERVER['SERVER_NAME'];
 
-        /** @noinspection PhpUsageOfSilenceOperatorInspection */
-        $return = @mail($toAddress, $subject, $content, $header);
+        $phpMailer           = new PHPMailer(false);
+        $phpMailer->CharSet  = 'UTF-8';
+        $phpMailer->Encoding = 'base64';
+        $phpMailer->isHTML(true);
 
-        if (!$return) {
-            throw new RuntimeException('There was an Error while trying to send an email: ' .
-                                       error_get_last()['message']);
-        }
+        $phpMailer->setFrom($fromAddress, $fromName);
+        $phpMailer->addAddress($toAddress, $toName);
+
+        $phpMailer->Subject = $subject;
+        $phpMailer->Body    = $content;
+        $phpMailer->send();
+
 
     }
 
