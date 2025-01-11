@@ -26,7 +26,12 @@ class CuMailer
         $phpMailer->isHTML(true);
 
         $phpMailer->setFrom($fromAddress, $fromName);
-        $phpMailer->addAddress($toAddress, $toName);
+        $toAddresses = self::createAddressArray($toAddress);
+        foreach ($toAddresses as $toAddress) {
+            $phpMailer->addAddress($toAddress, $toName);
+        }
+
+        $phpMailer->
 
         $phpMailer->Subject = $subject;
         $phpMailer->Body    = $content;
@@ -66,5 +71,13 @@ class CuMailer
 
         return $header;
 
+    }
+
+    private static function createAddressArray(string $toAddress): array
+    {
+
+        $addresses[] = explode(',', $toAddress);
+
+        return $addresses;
     }
 }
