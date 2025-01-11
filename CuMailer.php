@@ -31,8 +31,6 @@ class CuMailer
             $phpMailer->addAddress($toAddress, $toName);
         }
 
-        $phpMailer->
-
         $phpMailer->Subject = $subject;
         $phpMailer->Body    = $content;
         $phpMailer->send();
@@ -76,7 +74,7 @@ class CuMailer
     private static function createAddressArray(string $toAddress): array
     {
 
-        $addresses[] = explode(',', $toAddress);
+        $addresses = explode(',', $toAddress);
 
         return $addresses;
     }
