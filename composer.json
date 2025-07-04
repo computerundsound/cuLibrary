@@ -14,7 +14,7 @@
   ],
   "require": {
     "php": "^8.1",
-    "phpmailer/phpmailer": "v6.9.3"
+    "phpmailer/phpmailer": "^6"
   },
   "autoload": {
     "psr-4": {
