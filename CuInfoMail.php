@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace computerundsound\culibrary;
 
+use Throwable;
+
 /**
  * Class CuInfoMail
  *
@@ -23,6 +25,7 @@ class CuInfoMail
     private string $mailText;
     private string $addressTo;
     private string $addressFrom;
+    private string $nameTo;
     private string $nameFrom;
     private string $host;
     private int $additionalRow = 0;
@@ -31,6 +34,7 @@ class CuInfoMail
 
     public function __construct(string $addressTo,
                                 string $addressFrom,
+                                string $nameTo,
                                 string $nameFrom,
                                 string $host = '',
                                 int    $chunkSplit = 0)
@@ -39,6 +43,7 @@ class CuInfoMail
         $this->addressTo   = $addressTo;
         $this->addressFrom = $addressFrom;
         $this->nameFrom    = $nameFrom;
+        $this->nameTo      = $nameTo;
         $this->host        = $host;
         $this->chunkSplit  = $chunkSplit;
 
@@ -204,10 +209,10 @@ class CuInfoMail
                                    $this->mailText,
                                    $this->addressFrom,
                                    $this->nameFrom,
-                                   $this->addressTo,
-                                   $this->addressTo,
+                                   $this->nameTo,
+                                   '',
                                    $this->host);
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             echo $t->getMessage();
         }
 
