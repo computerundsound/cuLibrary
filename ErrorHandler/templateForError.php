@@ -69,7 +69,8 @@ $cuEHP;
 
 <div class="container">
 
-    <h1>An Error occurred:</h1>
+    <h1>An Error occurred: in</h1>
+    <h3><?= $cuEHP->getFile() ?>:<?= $cuEHP->getLine() ?></h3>
 
     <p>Type: <?php echo $cuEHP->getErrorType(); ?></p>
 

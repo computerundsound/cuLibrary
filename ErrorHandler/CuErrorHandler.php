@@ -23,16 +23,22 @@ class CuErrorHandler
     protected static ?string $mailFromAddress = null;
     protected static ?string $subject = null;
 
+    protected static bool $showError = false;
+    protected static bool $sendMail = false;
+
     protected static ?string $templateForErrorPath = __DIR__ . '/templateForError.php';
     protected static ?string $templateForNotShownErrorPath = __DIR__ . '/templateForNotShownError.php';
 
     /**
      * @return CuErrorHandler
      */
-    public static function getInstance(): CuErrorHandler
+    public static function getInstance(bool $showError = false, $sendEmail = false): CuErrorHandler
     {
 
         $instance = new static();
+
+        self::$showError = $showError;
+        self::$sendMail  = $sendEmail;
 
         set_error_handler([$instance, 'cuErrorHandler']);
         set_exception_handler([$instance, 'cuExceptionHandler']);
@@ -41,7 +47,8 @@ class CuErrorHandler
 
     }
 
-    #[NoReturn] public function cuErrorHandler(int     $errorNo,
+    #[NoReturn]
+    public function cuErrorHandler(int     $errorNo,
                                                string  $errorMsg,
                                                ?string $file = null,
                                                ?int    $line = null,
@@ -49,15 +56,16 @@ class CuErrorHandler
     {
 
         $errorParameter = new CuErrorHandlerParameter(CuErrorType::Error);
-        $errorParameter->setMessage($errorMsg)->setFile($file)->setLine($line);
+        $errorParameter->setMessage($errorMsg)->setFile($file)->setLine($line)->setContext($context);
 
-        $this->handleTrigger($errorParameter);
+        $this->handleTrigger($errorParameter, self::$showError, self::$sendMail);
 
         exit;
 
     }
 
-    #[NoReturn] public function cuExceptionHandler(Throwable $throwable): void
+    #[NoReturn]
+    public function cuExceptionHandler(Throwable $throwable): void
     {
 
         $errorMsg = $throwable->getMessage();
@@ -68,7 +76,7 @@ class CuErrorHandler
         $errorParameter = new CuErrorHandlerParameter(CuErrorType::Exception);
         $errorParameter->setMessage($errorMsg)->setFile($file)->setLine($line);
 
-        $this->handleTrigger($errorParameter);
+        $this->handleTrigger($errorParameter, self::$showError, self::$sendMail);
 
         exit;
 
@@ -122,18 +130,18 @@ class CuErrorHandler
         return $this;
     }
 
-    protected function handleTrigger(CuErrorHandlerParameter $errorHandlerParameter): void
+    protected function handleTrigger(CuErrorHandlerParameter $errorHandlerParameter,
+                                     bool                    $showErrors = false,
+                                     bool                    $sendMail = false): void
     {
-        $debugDebugFilePath = $_SERVER['DOCUMENT_ROOT'] . '/debugShow.debug';
-        $debugMailFilePath  = $_SERVER['DOCUMENT_ROOT'] . '/debugMail.debug';
-        if (file_exists($debugDebugFilePath)) {
+
+        if ($showErrors) {
             $this->show($errorHandlerParameter);
         } else {
             $this->showIfNoErrorShouldBeShown($errorHandlerParameter);
         }
 
-
-        if (file_exists($debugMailFilePath)) {
+        if ($sendMail) {
             $this->mail($errorHandlerParameter);
         }
 
@@ -152,7 +160,7 @@ class CuErrorHandler
 
         if (self::$mailToAddress) {
 
-            $content = $this->getTemplate($errorHandlerParameter, self::$templateForNotShownErrorPath);
+            $content = $this->getTemplate($errorHandlerParameter, self::$templateForErrorPath);
 
             $header = 'MIME-Version: 1.0' . "\r\n";
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -164,7 +172,7 @@ class CuErrorHandler
 
             if (!$return) {
                 throw new RuntimeException('There was an Error while trying to send an email: ' .
-                                            error_get_last()['message']);
+                                           error_get_last()['message']);
             }
 
         }

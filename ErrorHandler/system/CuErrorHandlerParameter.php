@@ -14,6 +14,7 @@ class CuErrorHandlerParameter
     private bool $hasStack = false;
     private ?string $file = null;
     private ?int $line = null;
+    private ?array $context = null;
 
     public function __construct(CuErrorType $errorType)
     {
@@ -129,5 +130,18 @@ class CuErrorHandlerParameter
 
 
     }
+
+    public function getContext(): ?array
+    {
+        return $this->context;
+    }
+
+    public function setContext(?array $context): CuErrorHandlerParameter
+    {
+        $this->context = $context;
+        return $this;
+    }
+
+
 
 }
