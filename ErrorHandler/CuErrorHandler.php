@@ -177,8 +177,12 @@ class CuErrorHandler
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
             $header .= 'From: ' . self::$mailFromAddress;
 
+            $requestData = $errorHandlerParameter->getRequestData();
+            $subjectAddOne = $requestData ? $requestData->getServer() : '';
+
             /** @noinspection PhpUsageOfSilenceOperatorInspection */
-            $subject = self::$subject ?? 'Error on your Webpage';
+            $subject =
+                self::$subject ?? ('Error on your Webpage ' . $subjectAddOne);
 
             $return = @mail(self::$mailToAddress, $subject, $content, $header);
 
@@ -208,8 +212,7 @@ class CuErrorHandler
     function getTemplate(CuErrorHandlerParameter $errorHandlerParameter, string $pathToTemplate): string
     {
 
-        $cuEHP = $errorHandlerParameter;
-;
+        $cuEHP = $errorHandlerParameter;;
         ob_start();
         include($pathToTemplate);
         $content = ob_get_clean();
