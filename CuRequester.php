@@ -94,7 +94,7 @@ class CuRequester
 
         $value = $_POST[$variableName] ?? $_GET[$variableName] ?? null;
 
-        $value = self::stripSlashesDeep($value);
+        $value = $value ? self::stripSlashesDeep($value) : null;
 
         return $value;
     }
