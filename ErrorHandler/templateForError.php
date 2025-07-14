@@ -54,7 +54,7 @@ $cuEHP;
         }
 
         .cuUnderTable {
-            background-color: 230000FF;
+            background-color: #230000FF;
             color: white;
         }
 
@@ -103,6 +103,18 @@ $cuEHP;
             </tr>
 
         <?php
+        endif;
+        ?>
+
+        <?php if ($cuEHP->getRequestData()):
+            foreach ($cuEHP->getRequestData()->getSimple() as $key => $value):
+                ?>
+                <tr>
+                    <th><?php echo htmlentities($key, ENT_COMPAT); ?></th>
+                    <td><?php echo htmlentities($value, ENT_COMPAT) ?></td>
+                </tr>
+            <?php
+            endforeach;
         endif;
         ?>
 

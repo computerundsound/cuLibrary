@@ -4,6 +4,7 @@ namespace computerundsound\culibrary\ErrorHandler;
 
 use computerundsound\culibrary\ErrorHandler\system\CuErrorHandlerParameter;
 use computerundsound\culibrary\ErrorHandler\system\CuErrorType;
+use computerundsound\culibrary\requestData\CuRequestData;
 use JetBrains\PhpStorm\NoReturn;
 use RuntimeException;
 use Throwable;
@@ -49,14 +50,17 @@ class CuErrorHandler
 
     #[NoReturn]
     public function cuErrorHandler(int     $errorNo,
-                                               string  $errorMsg,
-                                               ?string $file = null,
-                                               ?int    $line = null,
-                                               ?array  $context = null): void
+                                   string  $errorMsg,
+                                   ?string $file = null,
+                                   ?int    $line = null,
+                                   ?array  $context = null): void
     {
 
         $errorParameter = new CuErrorHandlerParameter(CuErrorType::Error);
         $errorParameter->setMessage($errorMsg)->setFile($file)->setLine($line)->setContext($context);
+
+        $requestData = $this->getRequestData();
+        $errorParameter->setRequestData($requestData);
 
         $this->handleTrigger($errorParameter, self::$showError, self::$sendMail);
 
@@ -75,6 +79,10 @@ class CuErrorHandler
 
         $errorParameter = new CuErrorHandlerParameter(CuErrorType::Exception);
         $errorParameter->setMessage($errorMsg)->setFile($file)->setLine($line);
+
+        $requestData = $this->getRequestData();
+
+        $errorParameter->setRequestData($requestData);
 
         $this->handleTrigger($errorParameter, self::$showError, self::$sendMail);
 
@@ -116,6 +124,7 @@ class CuErrorHandler
         return $this;
     }
 
+
     public function setTemplateForNotShownErrorPath(string $templateForNotShownErrorPath): self
     {
         $templateForNotShownErrorPathReal = realpath($templateForNotShownErrorPath);
@@ -147,7 +156,8 @@ class CuErrorHandler
 
     }
 
-    protected function show(CuErrorHandlerParameter $errorHandlerParameter): void
+    protected
+    function show(CuErrorHandlerParameter $errorHandlerParameter): void
     {
 
         $content = $this->getTemplate($errorHandlerParameter, self::$templateForErrorPath);
@@ -155,7 +165,8 @@ class CuErrorHandler
         echo $content;
     }
 
-    protected function mail(CuErrorHandlerParameter $errorHandlerParameter): void
+    protected
+    function mail(CuErrorHandlerParameter $errorHandlerParameter): void
     {
 
         if (self::$mailToAddress) {
@@ -179,7 +190,8 @@ class CuErrorHandler
         }
     }
 
-    protected function showIfNoErrorShouldBeShown(CuErrorHandlerParameter $errorHandlerParameter): void
+    protected
+    function showIfNoErrorShouldBeShown(CuErrorHandlerParameter $errorHandlerParameter): void
     {
 
         $content = $this->getTemplate($errorHandlerParameter, self::$templateForNotShownErrorPath);
@@ -192,18 +204,25 @@ class CuErrorHandler
      * @param string                  $pathToTemplate
      * @return string
      */
-    protected function getTemplate(CuErrorHandlerParameter $errorHandlerParameter, string $pathToTemplate): string
+    protected
+    function getTemplate(CuErrorHandlerParameter $errorHandlerParameter, string $pathToTemplate): string
     {
 
         $cuEHP = $errorHandlerParameter;
-
-        ob_get_clean();
+;
         ob_start();
         include($pathToTemplate);
-        $content = ob_get_contents();
-        ob_end_clean();
+        $content = ob_get_clean();
 
         return $content;
+    }
+
+    protected
+    function getRequestData(): CuRequestData
+    {
+        $requestData = new CuRequestData();
+
+        return $requestData;
     }
 
 
