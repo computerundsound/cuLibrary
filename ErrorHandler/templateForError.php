@@ -2,12 +2,6 @@
 
 use computerundsound\culibrary\ErrorHandler\system\CuErrorHandlerParameter;
 
-/**
- * @var CuErrorHandlerParameter $cuEHP ;
- */
-
-$cuEHP;
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -69,7 +63,7 @@ $cuEHP;
 
 <div class="container">
 
-    <h1>An Error occurred:</h1>
+    <h1>An Error occurred: in <?= $cuEHP->getFile() ?>:<?= $cuEHP->getLine() ?></h1>
 
     <p>Type: <?php echo $cuEHP->getErrorType(); ?></p>
 
