@@ -47,7 +47,8 @@ class CuErrorHandler
 
     }
 
-    #[NoReturn] public function cuErrorHandler(int     $errorNo,
+    #[NoReturn]
+    public function cuErrorHandler(int     $errorNo,
                                                string  $errorMsg,
                                                ?string $file = null,
                                                ?int    $line = null,
@@ -63,7 +64,8 @@ class CuErrorHandler
 
     }
 
-    #[NoReturn] public function cuExceptionHandler(Throwable $throwable): void
+    #[NoReturn]
+    public function cuExceptionHandler(Throwable $throwable): void
     {
 
         $errorMsg = $throwable->getMessage();
