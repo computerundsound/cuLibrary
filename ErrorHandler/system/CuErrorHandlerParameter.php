@@ -2,6 +2,8 @@
 
 namespace computerundsound\culibrary\ErrorHandler\system;
 
+use computerundsound\culibrary\requestData\CuRequestData;
+
 class CuErrorHandlerParameter
 {
 
@@ -15,6 +17,7 @@ class CuErrorHandlerParameter
     private ?string $file = null;
     private ?int $line = null;
     private ?array $context = null;
+    private ?CuRequestData $requestData = null;
 
     public function __construct(CuErrorType $errorType)
     {
@@ -110,11 +113,31 @@ class CuErrorHandlerParameter
         return $this->referer;
     }
 
+    public function getContext(): ?array
+    {
+        return $this->context;
+    }
+
+    public function setContext(?array $context): CuErrorHandlerParameter
+    {
+        $this->context = $context;
+        return $this;
+    }
+
+    public function getRequestData(): ?CuRequestData
+    {
+        return $this->requestData;
+    }
+
+    public function setRequestData(CuRequestData $requestData)
+    {
+        $this->requestData = $requestData;
+    }
+
     protected function buildCodeBlock(): string
     {
         $cuGetContentFromFile = new CuGetContentFromFile($this->file, $this->line);
-
-        $htmlString = $cuGetContentFromFile->getLinesAsHtmlString();
+        $htmlString           = $cuGetContentFromFile->getLinesAsHtmlString();
 
         return $htmlString;
 
@@ -130,18 +153,5 @@ class CuErrorHandlerParameter
 
 
     }
-
-    public function getContext(): ?array
-    {
-        return $this->context;
-    }
-
-    public function setContext(?array $context): CuErrorHandlerParameter
-    {
-        $this->context = $context;
-        return $this;
-    }
-
-
 
 }

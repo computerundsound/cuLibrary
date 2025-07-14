@@ -15,6 +15,7 @@ class CuRequestData
     private string $site;
     private string $query;
     private DateTime $dateTime;
+    private bool $requestDataBuild = false;
 
 
     public function getHost(): string
@@ -70,24 +71,49 @@ class CuRequestData
     private function buildRequestData(): void
     {
 
-        if ($this->ip === null) {
+        if (!$this->requestDataBuild) {
 
-            $this->ip       = $_SERVER['REMOTE_ADDR'] ?? '';
-            $this->host     = gethostbyaddr($this->ip) ?: '';
-            $this->dateTime = new DateTime();
+            if ($this->ip === null) {
 
-            $userDataKeyValueArray = [
-                'HTTP_USER_AGENT' => 'client',
-                'HTTP_REFERER'    => 'referer',
-                'SERVER_NAME'     => 'server',
-                'PHP_SELF'        => 'site',
-                'QUERY_STRING'    => 'query',
-            ];
+                $this->ip       = $_SERVER['REMOTE_ADDR'] ?? '';
+                $this->host     = gethostbyaddr($this->ip) ?: '';
+                $this->dateTime = new DateTime();
 
-            foreach ($userDataKeyValueArray as $key => $val) {
-                $this->$val = $_SERVER[$key] ?? '';
+                $userDataKeyValueArray = [
+                    'HTTP_USER_AGENT' => 'client',
+                    'HTTP_REFERER'    => 'referer',
+                    'SERVER_NAME'     => 'server',
+                    'PHP_SELF'        => 'site',
+                    'QUERY_STRING'    => 'query',
+                ];
+
+                foreach ($userDataKeyValueArray as $key => $val) {
+                    $this->$val = $_SERVER[$key] ?? '';
+                }
             }
         }
+    }
+
+    public function getSimple():array
+    {
+
+        $this->buildRequestData();
+
+        $simpleRequestData = [];
+        $simpleRequestData['dateTime'] = $this->dateTime->format('Y-m-d H:i:s') ?? '';
+        $simpleRequestData['ip'] = $this->ip ?? '';
+        $simpleRequestData['host'] = $this->host ?? '';
+        $simpleRequestData['client'] = $this->client ?? '';
+        $simpleRequestData['server'] = $this->server ?? '';
+        $simpleRequestData['site'] = $this->site ?? '';
+        $simpleRequestData['query'] = $this->query ?? '';
+        $simpleRequestData['referer'] = $this->referer ?? '';
+
+
+        return $simpleRequestData;
+
+
+
     }
 
 }

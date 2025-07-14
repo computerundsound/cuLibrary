@@ -106,6 +106,18 @@ $cuEHP;
         endif;
         ?>
 
+        <?php if ($cuEHP->getRequestData()):
+            foreach ($cuEHP->getRequestData()->getSimple() as $key => $value):
+                ?>
+                <tr>
+                    <th><?php echo htmlentities($key, ENT_COMPAT); ?></th>
+                    <td><?php echo htmlentities($value, ENT_COMPAT) ?></td>
+                </tr>
+            <?php
+            endforeach;
+        endif;
+        ?>
+
     </table>
 
     <div class="cuUnderTable">
